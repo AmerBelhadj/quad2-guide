@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#00d4ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Quad 2">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-152.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+<title>Mares Quad 2 — Guide Moniteur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep:#020d1a; --surface:#0a1f35; --panel:#0d2640; --card:#102c4a;
+  --accent:#00d4ff; --accent2:#00ff88; --warn:#ff6b35; --danger:#ff2d55;
+  --text:#cde8ff; --muted:#4a7a9b;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bot: env(safe-area-inset-bottom, 0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{
+  height:100%; overflow:hidden;
+  background:var(--deep); color:var(--text);
+  font-family:'Barlow Condensed',sans-serif;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* ── SPLASH ── */
+#splash{
+  position:fixed;inset:0;z-index:999;
+  background:var(--deep);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:opacity .5s ease, transform .5s ease;
+}
+#splash.hide{opacity:0;transform:scale(1.05);pointer-events:none;}
+.splash-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:72px;letter-spacing:6px;color:white;line-height:.9;text-align:center;
+  text-shadow:0 0 60px rgba(0,212,255,.5);
+}
+.splash-logo span{color:var(--accent);}
+.splash-sub{
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;
+  color:var(--muted);margin-top:12px;text-align:center;
+}
+.splash-bar{
+  width:160px;height:2px;background:var(--panel);border-radius:2px;
+  margin-top:28px;overflow:hidden;
+}
+.splash-fill{
+  height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:2px;animation:load 1.8s ease forwards;
+}
+@keyframes load{to{width:100%;}}
+.splash-version{
+  position:absolute;bottom:calc(20px + var(--safe-bot));
+  font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);
+  letter-spacing:2px;
+}
+
+/* ── SHELL ── */
+#app{
+  display:flex;flex-direction:column;
+  height:100%;
+  padding-top:var(--safe-top);
+  padding-bottom:var(--safe-bot);
+}
+
+/* ── TOP BAR ── */
+#topbar{
+  flex-shrink:0;
+  background:linear-gradient(180deg,#000 0%,var(--deep) 100%);
+  border-bottom:1px solid rgba(0,212,255,.2);
+  padding:10px 16px 8px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.topbar-title{
+  font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:white;
+}
+.topbar-title span{color:var(--accent);}
+.topbar-badge{
+  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;
+  color:var(--accent);border:1px solid rgba(0,212,255,.3);
+  padding:3px 8px;border-radius:4px;
+}
+#offline-badge{
+  display:none;font-family:'Space Mono',monospace;font-size:8px;
+  color:var(--accent2);border:1px solid var(--accent2);padding:2px 6px;border-radius:3px;
+}
+
+/* ── NAV TABS ── */
+#nav{
+  flex-shrink:0;
+  display:flex;background:var(--panel);
+  border-bottom:1px solid rgba(0,212,255,.15);
+  overflow-x:auto;scrollbar-width:none;
+}
+#nav::-webkit-scrollbar{display:none;}
+.nav-btn{
+  flex-shrink:0;
+  padding:10px 14px;
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;
+  color:var(--muted);border:none;background:transparent;cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;
+}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-btn span{font-size:13px;margin-right:4px;}
+
+/* ── CONTENT ── */
+#content{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:thin;scrollbar-color:var(--panel) transparent;
+  -webkit-overflow-scrolling:touch;
+}
+.page{display:none;padding:14px 12px 20px;animation:fadeIn .3s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── SECTION HEADERS ── */
+.sec-label{
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;
+  color:var(--accent);text-transform:uppercase;margin-bottom:4px;
+}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;
+  color:white;margin-bottom:14px;
+}
+
+/* ── CARDS ── */
+.card{
+  background:var(--card);border-radius:14px;
+  padding:14px;margin-bottom:12px;
+  border-left:3px solid var(--accent2);
+  position:relative;overflow:hidden;
+}
+.card.danger-card{border-left-color:var(--danger);}
+.card.warn-card{border-left-color:var(--warn);}
+.card.accent-card{border-left-color:var(--accent);}
+.card::after{
+  content:'';position:absolute;top:0;right:0;
+  width:60px;height:60px;
+  background:radial-gradient(circle at top right,rgba(0,212,255,.06),transparent);
+  pointer-events:none;
+}
+.card-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+}
+.card-icon{font-size:24px;flex-shrink:0;}
+.card-title-wrap{flex:1;}
+.card-title{
+  font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:white;
+}
+.card-badge{
+  font-family:'Space Mono',monospace;font-size:8px;padding:2px 7px;
+  border-radius:10px;display:inline-block;margin-top:2px;
+}
+.badge-ok{background:rgba(0,255,136,.12);color:var(--accent2);border:1px solid rgba(0,255,136,.25);}
+.badge-warn{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.25);}
+.badge-danger{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.25);}
+.badge-info{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+
+.card-body{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+
+/* Gauges */
+.gauges{display:flex;gap:8px;margin:10px 0;}
+.gauge{
+  flex:1;background:var(--surface);border-radius:8px;
+  padding:8px 6px;text-align:center;border:1px solid rgba(255,255,255,.05);
+}
+.gauge-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;}
+.gauge-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
+.gauge.g-ok .gauge-val{color:var(--accent2);}
+.gauge.g-warn .gauge-val{color:var(--warn);}
+.gauge.g-danger .gauge-val{color:var(--danger);}
+
+/* Algo bars */
+.algo-list{background:var(--surface);border-radius:10px;padding:10px;margin:10px 0;}
+.algo-row{display:flex;align-items:center;gap:8px;margin:5px 0;}
+.algo-name{font-family:'Space Mono',monospace;font-size:10px;width:52px;flex-shrink:0;}
+.algo-bg{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.algo-fill{height:100%;border-radius:3px;}
+.algo-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);width:38px;text-align:right;flex-shrink:0;}
+
+/* Screen */
+.screen{
+  background:#000;border:1px solid #0d2640;border-radius:8px;
+  padding:10px 12px;margin:10px 0;
+  position:relative;overflow:hidden;
+}
+.screen::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.02) 2px,rgba(0,212,255,.02) 4px);
+  pointer-events:none;
+}
+.screen-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:4px 0;border-bottom:1px solid rgba(0,212,255,.07);
+}
+.screen-row:last-child{border-bottom:none;}
+.screen-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);}
+.screen-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);}
+.screen-val.sv-green{color:var(--accent2);}
+.screen-val.sv-orange{color:var(--warn);}
+.screen-val.sv-danger{color:var(--danger);}
+
+/* Tip */
+.tip{
+  background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);
+  border-radius:8px;padding:9px 11px;font-size:12px;color:var(--accent);
+  line-height:1.5;margin-top:8px;
+}
+.tip.tip-danger{
+  background:rgba(255,45,85,.07);border-color:rgba(255,45,85,.25);color:var(--danger);
+}
+.tip::before{content:'⚓ ';}
+
+/* ── MANIP BLOCK ── */
+.manip{margin-top:12px;}
+.manip-hdr{
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;
+  color:var(--accent);text-transform:uppercase;
+  padding:6px 10px;background:rgba(0,212,255,.06);
+  border-radius:6px 6px 0 0;border:1px solid rgba(0,212,255,.12);
+  border-bottom:none;
+}
+.manip-steps{
+  background:rgba(0,0,0,.4);
+  border:1px solid rgba(0,212,255,.1);
+  border-radius:0 0 6px 6px;
+  overflow:hidden;
+}
+.step{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 10px;border-bottom:1px solid rgba(0,212,255,.05);
+  transition:background .15s;
+}
+.step:last-child{border-bottom:none;}
+.step:active{background:rgba(0,212,255,.04);}
+.step-num{
+  width:18px;height:18px;border-radius:50%;
+  background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);
+  color:var(--accent);font-family:'Space Mono',monospace;font-size:9px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.btns{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;}
+.btn-pill{
+  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
+  padding:2px 7px;border-radius:4px;white-space:nowrap;
+}
+.bp-tl{background:rgba(0,212,255,.15);color:var(--accent);border:1px solid rgba(0,212,255,.3);}
+.bp-bl{background:rgba(0,255,136,.12);color:var(--accent2);border:1px solid rgba(0,255,136,.3);}
+.bp-tr{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.3);}
+.bp-br{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.3);}
+.bp-neutral{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid rgba(255,255,255,.1);}
+.step-txt{font-size:12px;color:var(--text);line-height:1.3;flex:1;}
+.result{
+  font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);
+  padding:7px 10px;background:rgba(0,255,136,.05);
+  border-top:1px solid rgba(0,255,136,.12);
+}
+.result::before{content:'✓  ';}
+.result.r-danger{
+  color:var(--danger);background:rgba(255,45,85,.07);
+  border-top-color:rgba(255,45,85,.2);
+}
+
+/* ── BUTTONS PAGE ── */
+.btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.btn-card{
+  background:var(--card);border-radius:12px;padding:14px 12px;
+  border:1px solid rgba(0,212,255,.1);transition:all .2s;
+}
+.btn-card:active{transform:scale(.97);}
+.btn-card.bc-tl{border-left:3px solid var(--accent);}
+.btn-card.bc-bl{border-left:3px solid var(--accent2);}
+.btn-card.bc-tr{border-left:3px solid var(--warn);}
+.btn-card.bc-br{border-left:3px solid var(--danger);}
+.bc-name{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;margin-bottom:6px;}
+.bc-tl .bc-name{color:var(--accent);}
+.bc-bl .bc-name{color:var(--accent2);}
+.bc-tr .bc-name{color:var(--warn);}
+.bc-br .bc-name{color:var(--danger);}
+.bc-actions{font-size:11.5px;color:var(--muted);line-height:1.6;}
+.tag{
+  display:inline-block;font-family:'Space Mono',monospace;font-size:8px;
+  padding:1px 5px;border-radius:3px;margin-right:3px;
+}
+.tag-sp{background:rgba(0,212,255,.15);color:var(--accent);}
+.tag-lp{background:rgba(255,107,53,.15);color:var(--warn);}
+.sp-note{
+  background:var(--surface);border-radius:8px;padding:10px 12px;
+  font-size:12px;color:var(--muted);grid-column:span 2;
+  border:1px solid rgba(0,212,255,.08);line-height:1.6;
+}
+
+/* ── CHECKLIST PAGE ── */
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px 12px;background:var(--card);
+  border-radius:12px;margin-bottom:8px;
+  border:1px solid rgba(0,212,255,.08);
+  transition:all .2s;cursor:pointer;
+  -webkit-user-select:none;user-select:none;
+}
+.check-item:active{transform:scale(.98);}
+.check-item.done{background:rgba(0,255,136,.04);border-color:rgba(0,255,136,.15);}
+.check-item.done .check-text{text-decoration:line-through;color:var(--muted);}
+.check-box{
+  width:22px;height:22px;border-radius:6px;
+  border:2px solid var(--accent);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:all .25s;
+}
+.check-item.done .check-box{
+  background:var(--accent2);border-color:var(--accent2);
+  box-shadow:0 0 10px rgba(0,255,136,.4);
+}
+.check-text{font-size:14px;font-weight:600;line-height:1.3;transition:all .2s;}
+.check-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;}
+.check-prio{
+  margin-left:auto;font-family:'Space Mono',monospace;font-size:8px;
+  padding:2px 7px;border-radius:10px;flex-shrink:0;align-self:flex-start;
+}
+.prio-h{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.25);}
+.prio-m{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.25);}
+.prio-l{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
+.check-progress{
+  background:var(--panel);border-radius:10px;padding:12px 14px;
+  margin-bottom:12px;display:flex;align-items:center;gap:12px;
+}
+.progress-bar-bg{
+  flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
+  border-radius:3px;transition:width .4s ease;width:0%;
+}
+.progress-text{
+  font-family:'Space Mono',monospace;font-size:11px;
+  color:var(--accent2);flex-shrink:0;min-width:36px;text-align:right;
+}
+.reset-btn{
+  width:100%;padding:11px;background:transparent;
+  border:1px solid var(--muted);border-radius:10px;
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--muted);cursor:pointer;transition:all .2s;margin-top:4px;
+}
+.reset-btn:active{border-color:var(--accent);color:var(--accent);}
+
+/* ── PROFILE PAGE ── */
+.profile-card{
+  background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;
+}
+.profile-title{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
+  color:var(--accent);margin-bottom:10px;
+}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.chip{
+  background:var(--surface);border:1px solid rgba(0,212,255,.15);
+  border-radius:16px;padding:5px 11px;font-size:11px;
+  display:flex;align-items:center;gap:6px;
+}
+.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+/* ── INSTALL BANNER ── */
+#install-banner{
+  display:none;
+  background:linear-gradient(135deg,var(--panel),var(--card));
+  border:1px solid rgba(0,255,136,.25);border-radius:12px;
+  padding:12px 14px;margin:0 12px 12px;
+  align-items:center;gap:12px;
+}
+#install-banner.show{display:flex;}
+.install-text{flex:1;font-size:12px;color:var(--text);line-height:1.4;}
+.install-text strong{color:var(--accent2);font-family:'Space Mono',monospace;font-size:10px;}
+.install-btn{
+  background:var(--accent2);color:#000;border:none;
+  border-radius:8px;padding:8px 14px;
+  font-family:'Space Mono',monospace;font-size:10px;font-weight:700;
+  cursor:pointer;flex-shrink:0;
+}
+.install-close{
+  background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;
+  flex-shrink:0;line-height:1;
+}
+
+/* ── iOS INSTALL HINT ── */
+#ios-hint{
+  display:none;
+  background:var(--panel);border:1px solid rgba(0,212,255,.2);
+  border-radius:12px;padding:12px 14px;margin:0 12px 12px;
+  font-size:12px;color:var(--text);line-height:1.6;
+}
+#ios-hint.show{display:block;}
+#ios-hint strong{color:var(--accent);}
+
+/* ── DIVIDER ── */
+.divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),transparent);
+  margin:16px 0;
+}
+
+/* Bubbles deco */
+.bubble-deco{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:0;overflow:hidden;
+}
+.bd{
+  position:absolute;bottom:-10px;
+  background:rgba(0,212,255,.06);
+  border:1px solid rgba(0,212,255,.1);
+  border-radius:50%;animation:rise linear infinite;
+}
+@keyframes rise{to{transform:translateY(-110vh);opacity:0;}}
+#app{position:relative;z-index:1;}
+</style>
+</head>
+<body>
+
+<div class="bubble-deco" id="bubbles"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-logo">MARES<br><span>QUAD 2</span></div>
+  <div class="splash-sub">GUIDE MONITEUR FFESSM / PADI</div>
+  <div class="splash-bar"><div class="splash-fill"></div></div>
+  <div class="splash-version">v1.0 · OFFLINE READY</div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <div>
+      <div class="topbar-title">MARES <span>QUAD 2</span></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div id="offline-badge">✓ OFFLINE</div>
+      <div class="topbar-badge">MONITEUR</div>
+    </div>
+  </div>
+
+  <!-- INSTALL BANNER (Android) -->
+  <div id="install-banner">
+    <div class="install-text">
+      <strong>📲 INSTALLER L'APP</strong><br>
+      Ajouter à l'écran d'accueil pour un accès hors-ligne instantané.
+    </div>
+    <button class="install-btn" id="install-btn">INSTALLER</button>
+    <button class="install-close" id="install-close">×</button>
+  </div>
+
+  <!-- iOS HINT -->
+  <div id="ios-hint">
+    📲 <strong>Installer sur iPhone :</strong> Appuie sur <strong>⎙ Partager</strong> puis <strong>« Sur l'écran d'accueil »</strong> pour installer l'app hors-ligne.
+    <button onclick="document.getElementById('ios-hint').classList.remove('show')"
+      style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;">×</button>
+  </div>
+
+  <!-- TABS -->
+  <div id="nav">
+    <button class="nav-btn active" onclick="showPage('boutons',this)"><span>🔲</span>BOUTONS</button>
+    <button class="nav-btn" onclick="showPage('obligatoires',this)"><span>⚠️</span>OBLIGATOIRES</button>
+    <button class="nav-btn" onclick="showPage('disponibles',this)"><span>⚙️</span>DISPONIBLES</button>
+    <button class="nav-btn" onclick="showPage('profil',this)"><span>📊</span>PROFIL</button>
+    <button class="nav-btn" onclick="showPage('checklist',this)"><span>✅</span>CHECKLIST</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    <!-- PAGE 1: BOUTONS -->
+    <div class="page active" id="page-boutons">
+      <div class="sec-label">SECTION 01</div>
+      <div class="sec-title">LES 4 BOUTONS</div>
+
+      <div class="btn-grid">
+        <div class="btn-card bc-tl">
+          <div class="bc-name">TL — ↖</div>
+          <div class="bc-actions">
+            <span class="tag tag-sp">SP</span>Navigation ↑<br>
+            <span class="tag tag-lp">LP</span>Menu principal
+          </div>
+        </div>
+        <div class="btn-card bc-tr">
+          <div class="bc-name">TR — ↗</div>
+          <div class="bc-actions">
+            <span class="tag tag-sp">SP</span>Champ haut<br>
+            <span class="tag tag-lp">LP</span>Rétroéclairage
+          </div>
+        </div>
+        <div class="btn-card bc-bl">
+          <div class="bc-name">BL — ↙</div>
+          <div class="bc-actions">
+            <span class="tag tag-sp">SP</span>Confirmer / ↓<br>
+            <span class="tag tag-lp">LP</span>Reset chrono
+          </div>
+        </div>
+        <div class="btn-card bc-br">
+          <div class="bc-name">BR — ↘</div>
+          <div class="bc-actions">
+            <span class="tag tag-sp">SP</span>Champ bas<br>
+            <span class="tag tag-lp">LP</span>Quitter / Retour
+          </div>
+        </div>
+        <div class="sp-note">
+          <span class="tag tag-sp" style="font-size:9px">SP</span> appui court &nbsp;·&nbsp;
+          <span class="tag tag-lp" style="font-size:9px">LP</span> appui long &gt;1 sec<br>
+          💡 Mémorise bien SP/LP — la logique est universelle dans tous les menus.
+        </div>
+      </div>
+
+      <!-- SVG ordi stylisé -->
+      <div style="background:var(--card);border-radius:14px;padding:16px;text-align:center;">
+        <div class="sec-label" style="margin-bottom:10px;">REPRÉSENTATION</div>
+        <svg viewBox="0 0 260 300" width="200" style="max-width:100%;">
+          <rect x="90" y="0" width="80" height="24" rx="6" fill="#0a1f35" stroke="#1a4060" stroke-width="1"/>
+          <rect x="15" y="20" width="230" height="260" rx="28" fill="#0a1f35" stroke="#1a4060" stroke-width="1.5"/>
+          <rect x="42" y="46" width="176" height="186" rx="10" fill="#020d1a" stroke="#0d2640" stroke-width="1"/>
+          <!-- écran -->
+          <text x="130" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="1">PROFONDEUR</text>
+          <text x="130" y="108" text-anchor="middle" font-family="monospace" font-size="34" fill="#00d4ff" font-weight="bold">18.4</text>
+          <text x="130" y="124" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a7a9b">m</text>
+          <line x1="52" y1="136" x2="208" y2="136" stroke="#0d2640" stroke-width="1"/>
+          <text x="90" y="154" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
+          <text x="90" y="170" text-anchor="middle" font-family="monospace" font-size="16" fill="#00ff88" font-weight="bold">24:30</text>
+          <text x="170" y="154" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NDL</text>
+          <text x="170" y="170" text-anchor="middle" font-family="monospace" font-size="16" fill="#00d4ff" font-weight="bold">12</text>
+          <line x1="52" y1="180" x2="208" y2="180" stroke="#0d2640" stroke-width="1"/>
+          <text x="90" y="196" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">ppO2</text>
+          <text x="90" y="212" text-anchor="middle" font-family="monospace" font-size="13" fill="#ff6b35" font-weight="bold">1.14</text>
+          <text x="170" y="196" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TTS</text>
+          <text x="170" y="212" text-anchor="middle" font-family="monospace" font-size="13" fill="#00d4ff" font-weight="bold">03:20</text>
+          <!-- boutons TL -->
+          <rect x="16" y="60" width="22" height="34" rx="5" fill="#071525" stroke="#00d4ff" stroke-width="1.5"/>
+          <text x="27" y="76" text-anchor="middle" font-family="monospace" font-size="7" fill="#00d4ff" font-weight="bold">TL</text>
+          <circle cx="27" cy="86" r="2" fill="#00d4ff" opacity=".4"/>
+          <!-- BL -->
+          <rect x="16" y="158" width="22" height="34" rx="5" fill="#071525" stroke="#00ff88" stroke-width="1.5"/>
+          <text x="27" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#00ff88" font-weight="bold">BL</text>
+          <circle cx="27" cy="184" r="2" fill="#00ff88" opacity=".4"/>
+          <!-- TR -->
+          <rect x="222" y="60" width="22" height="34" rx="5" fill="#071525" stroke="#ff6b35" stroke-width="1.5"/>
+          <text x="233" y="76" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff6b35" font-weight="bold">TR</text>
+          <circle cx="233" cy="86" r="2" fill="#ff6b35" opacity=".4"/>
+          <!-- BR -->
+          <rect x="222" y="158" width="22" height="34" rx="5" fill="#071525" stroke="#ff2d55" stroke-width="1.5"/>
+          <text x="233" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff2d55" font-weight="bold">BR</text>
+          <circle cx="233" cy="184" r="2" fill="#ff2d55" opacity=".4"/>
+          <!-- bracelet bas -->
+          <rect x="90" y="278" width="80" height="22" rx="6" fill="#0a1f35" stroke="#1a4060" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- PAGE 2: OBLIGATOIRES -->
+    <div class="page" id="page-obligatoires">
+      <div class="sec-label">SECTION 02</div>
+      <div class="sec-title">PARAMÈTRES OBLIGATOIRES</div>
+
+      <!-- ALGO -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🧮</div>
+          <div class="card-title-wrap">
+            <div class="card-title">Algorithme Bühlmann</div>
+            <span class="card-badge badge-ok">OBLIGATOIRE</span>
+          </div>
+        </div>
+        <div class="card-body">Facteurs de gradient GF Low / GF High. Contrôle le conservatisme de la décompression (ZH-L16C).</div>
+        <div class="algo-list">
+          <div class="algo-row">
+            <span class="algo-name" style="color:#00ff88">R0 85/85</span>
+            <div class="algo-bg"><div class="algo-fill" style="width:85%;background:linear-gradient(90deg,#00ff88,#00d4ff)"></div></div>
+            <span class="algo-val">Récréatif</span>
+          </div>
+          <div class="algo-row">
+            <span class="algo-name" style="color:#00d4ff">R1 75/80</span>
+            <div class="algo-bg"><div class="algo-fill" style="width:75%;background:linear-gradient(90deg,#00d4ff,#0066ff)"></div></div>
+            <span class="algo-val">Enseignt.</span>
+          </div>
+          <div class="algo-row">
+            <span class="algo-name" style="color:#ff6b35">R2 60/70</span>
+            <div class="algo-bg"><div class="algo-fill" style="width:60%;background:linear-gradient(90deg,#ff6b35,#ff9500)"></div></div>
+            <span class="algo-val">Technique</span>
+          </div>
+          <div class="algo-row">
+            <span class="algo-name" style="color:#ff2d55">R3 50/60</span>
+            <div class="algo-bg"><div class="algo-fill" style="width:50%;background:linear-gradient(90deg,#ff2d55,#ff6b35)"></div></div>
+            <span class="algo-val">Conserv.</span>
+          </div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — CHANGER L'ALGORITHME</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers RÉGLER PARAMÈTRES</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer la sélection</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers ALGORITHME</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans le réglage</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Sélectionner R0 · R1 · R2 · R3</div></div>
+            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">Algorithme mis à jour — visible sur l'écran principal</div>
+        </div>
+        <div class="tip">Utilise R0 ou R1 en récréatif. R1 recommandé pour l'enseignement.</div>
+      </div>
+
+      <!-- GAZ -->
+      <div class="card danger-card">
+        <div class="card-header">
+          <div class="card-icon">🧪</div>
+          <div class="card-title-wrap">
+            <div class="card-title">Réglage Gaz (FO2)</div>
+            <span class="card-badge badge-danger">CRITIQUE ⚠️</span>
+          </div>
+        </div>
+        <div class="card-body">Pourcentage O₂ du mélange. Utilisé pour tous les calculs de déco et ppO₂. Jusqu'à 5 mélanges.</div>
+        <div class="gauges">
+          <div class="gauge g-ok"><div class="gauge-val">21%</div><div class="gauge-lbl">AIR</div></div>
+          <div class="gauge g-warn"><div class="gauge-val">32%</div><div class="gauge-lbl">NITROX</div></div>
+          <div class="gauge g-danger"><div class="gauge-val">>40%</div><div class="gauge-lbl">VÉRIFIER</div></div>
+        </div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">ppO2 MAX REC.</span><span class="screen-val sv-orange">1.4 bar</span></div>
+          <div class="screen-row"><span class="screen-key">ppO2 MAX ABS.</span><span class="screen-val sv-danger">1.6 bar</span></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — RÉGLER LE % O₂</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER PARAMÈTRES</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à GAZ 1</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans FO2</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Ajuster le % O₂ (21 → 40%)</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers ppO2 MAX</div></div>
+            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler ppO2 (1.2 → 1.6 bar)</div></div>
+            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">% O₂ enregistré — profondeur MOD recalculée</div>
+        </div>
+        <div class="tip">Vérifie le % O₂ de CHAQUE plongeur avant le saut — erreur = déco fausse.</div>
+      </div>
+
+      <!-- EAU -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">💧</div>
+          <div class="card-title-wrap">
+            <div class="card-title">Eau Douce / Mer</div>
+            <span class="card-badge badge-ok">OBLIGATOIRE</span>
+          </div>
+        </div>
+        <div class="card-body">La densité influe sur le calcul de profondeur. Eau de mer = 1025 kg/m³ · Eau douce = 1000 kg/m³.</div>
+        <div class="gauges">
+          <div class="gauge g-ok"><div class="gauge-val">🌊</div><div class="gauge-lbl">MER</div></div>
+          <div class="gauge g-warn"><div class="gauge-val">🏞️</div><div class="gauge-lbl">LAC</div></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — TYPE D'EAU</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à EAU</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Basculer SEA ↔ FRESH</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">Mode eau actif — densité corrigée</div>
+        </div>
+        <div class="tip">En lac ou carrière → active eau douce. L'ordi affichera ~2.5% de plus.</div>
+      </div>
+
+      <!-- HEURE -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">⏰</div>
+          <div class="card-title-wrap">
+            <div class="card-title">Heure & Date</div>
+            <span class="card-badge badge-ok">OBLIGATOIRE</span>
+          </div>
+        </div>
+        <div class="card-body">Indispensable pour la validité du logbook et le calcul des intervalles de surface.</div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">DATE</span><span class="screen-val sv-green">09/03/2026</span></div>
+          <div class="screen-row"><span class="screen-key">HEURE</span><span class="screen-val">10:42</span></div>
+          <div class="screen-row"><span class="screen-key">INTERVALLE SURFACE</span><span class="screen-val sv-orange">02:15</span></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — HEURE & DATE</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à HEURE</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Modifier les heures (digit clignote)</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span></div><div class="step-txt">Passer au digit suivant (minutes)</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Valider → passer à DATE</div></div>
+            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Répéter pour jour / mois / année</div></div>
+            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">Heure & date sauvegardées — logbook actif</div>
+        </div>
+        <div class="tip">Synchronise via Bluetooth avant chaque sortie.</div>
+      </div>
+    </div>
+
+    <!-- PAGE 3: DISPONIBLES -->
+    <div class="page" id="page-disponibles">
+      <div class="sec-label">SECTION 03</div>
+      <div class="sec-title">PARAMÈTRES DISPONIBLES</div>
+
+      <div class="card warn-card">
+        <div class="card-header"><div class="card-icon">🏔️</div><div class="card-title-wrap"><div class="card-title">Altitude</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
+        <div class="card-body">Adaptation automatique toutes les 20 sec. Confirmer manuellement au-dessus de 300m.</div>
+        <div class="gauges">
+          <div class="gauge g-ok"><div class="gauge-val">0m</div><div class="gauge-lbl">MER</div></div>
+          <div class="gauge g-warn"><div class="gauge-val">300m</div><div class="gauge-lbl">SEUIL</div></div>
+          <div class="gauge g-danger"><div class="gauge-val">3000m</div><div class="gauge-lbl">ALTITUDE</div></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — ALTITUDE</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à ALTITUDE</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Sélectionner la tranche d'altitude</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">Mode altitude actif — pression recalculée</div>
+        </div>
+        <div class="tip">Lac de montagne > 300m → confirme manuellement.</div>
+      </div>
+
+      <div class="card warn-card">
+        <div class="card-header"><div class="card-icon">🚨</div><div class="card-title-wrap"><div class="card-title">Alarmes</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
+        <div class="card-body">Alarme sonore et visuelle à profondeur cible ou durée dépassée.</div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">ALARME PROFONDEUR</span><span class="screen-val sv-orange">18 m</span></div>
+          <div class="screen-row"><span class="screen-key">ALARME TEMPS</span><span class="screen-val sv-orange">40 min</span></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — ALARMES</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER PARAMÈTRES</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à ALARMES</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans ALARME PROFONDEUR</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler la profondeur (ex. 18m)</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span></div><div class="step-txt">Passer à ALARME TEMPS</div></div>
+            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler la durée (ex. 40 min)</div></div>
+            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">Alarmes actives — signal sonore + visuel</div>
+        </div>
+        <div class="tip">Règle à 18m pour les N2 — utile en enseignement.</div>
+      </div>
+
+      <div class="card warn-card">
+        <div class="card-header"><div class="card-icon">🔆</div><div class="card-title-wrap"><div class="card-title">Rétroéclairage</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
+        <div class="card-body">Durée du rétroéclairage (TR LP). Pile CR2450 · ~100 plongées.</div>
+        <div class="gauges">
+          <div class="gauge g-ok"><div class="gauge-val">5s</div><div class="gauge-lbl">ÉCONOMIE</div></div>
+          <div class="gauge g-warn"><div class="gauge-val">15s</div><div class="gauge-lbl">STANDARD</div></div>
+          <div class="gauge g-danger"><div class="gauge-val">∞</div><div class="gauge-lbl">CONSTANT</div></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — RÉTROÉCLAIRAGE</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à RÉTROÉCLAIRAGE</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Choisir 5s / 8s / 15s / ON constant</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+          </div>
+          <div class="result">TR LP active le rétroéclairage en plongée</div>
+        </div>
+        <div class="tip">5-8 sec pour préserver la pile. Constant uniquement en plongée de nuit.</div>
+      </div>
+
+      <div class="card warn-card">
+        <div class="card-header"><div class="card-icon">⚡</div><div class="card-title-wrap"><div class="card-title">Remontée Rapide</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
+        <div class="card-body">Dépassement de 12m/min sur 2/3 de la remontée → blocage en mode profondimètre.</div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">VITESSE MAX</span><span class="screen-val sv-orange">12 m/min</span></div>
+          <div class="screen-row"><span class="screen-key">CODE DÉBLOCAGE</span><span class="screen-val sv-danger">1234</span></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — DÉBLOCAGE</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLAGE DE SÉCURITÉ</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → REMONTÉE RAPIDE</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans le déblocage</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Saisir 1 · 2 · 3 · 4</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Valider — mode plongée restauré</div></div>
+          </div>
+          <div class="result">Mode ordinateur restauré</div>
+        </div>
+        <div class="tip">Active le déblocage en enseignement — remontées assistées.</div>
+      </div>
+
+      <div class="card warn-card">
+        <div class="card-header"><div class="card-icon">📡</div><div class="card-title-wrap"><div class="card-title">Bluetooth & Logbook</div><span class="card-badge badge-info">OPTIONNEL</span></div></div>
+        <div class="card-body">App Mares · 100h de stockage · échantillonnage 5 secondes.</div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — BLUETOOTH</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers BLUETOOTH</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Activer BT ON</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">Ouvrir l'app Mares sur le téléphone</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">Sélectionner Quad 2 dans la liste BT</div></div>
+            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Désactiver BT après synchro</div></div>
+          </div>
+          <div class="result">Profils synchronisés — BT désactivé</div>
+        </div>
+        <div class="tip">Désactive le BT entre plongées pour économiser la pile.</div>
+      </div>
+
+      <div class="card danger-card">
+        <div class="card-header"><div class="card-icon">🧹</div><div class="card-title-wrap"><div class="card-title">Effacement Saturation</div><span class="card-badge badge-danger">ATTENTION ⚠️</span></div></div>
+        <div class="card-body">Remet à zéro la saturation azote. Opération IRRÉVERSIBLE.</div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">SATURATION ACTUELLE</span><span class="screen-val sv-orange">38%</span></div>
+          <div class="screen-row"><span class="screen-key">APRÈS EFFACEMENT</span><span class="screen-val sv-green">0%</span></div>
+        </div>
+        <div class="manip">
+          <div class="manip-hdr">▶ MANIPULATION — EFFACEMENT</div>
+          <div class="manip-steps">
+            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
+            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLAGE DE SÉCURITÉ</div></div>
+            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → EFFACER SATURATION</div></div>
+            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">⚠️ Lire l'avertissement affiché</div></div>
+            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-bl">BL LP</span></div><div class="step-txt">Confirmer l'effacement (appui long)</div></div>
+          </div>
+          <div class="result r-danger">Saturation à 0% — IRRÉVERSIBLE</div>
+        </div>
+        <div class="tip tip-danger">JAMAIS entre 2 plongées ! Uniquement si pas de replongée avant 24h.</div>
+      </div>
+    </div>
+
+    <!-- PAGE 4: PROFIL -->
+    <div class="page" id="page-profil">
+      <div class="sec-label">SECTION 04</div>
+      <div class="sec-title">PROFIL TYPE</div>
+
+      <div class="profile-card">
+        <div class="profile-title">PROFIL DE PLONGÉE TYPIQUE</div>
+        <svg viewBox="0 0 340 150" width="100%" style="max-width:100%;">
+          <defs>
+            <linearGradient id="dg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00d4ff" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#00d4ff" stop-opacity=".03"/>
+            </linearGradient>
+          </defs>
+          <line x1="30" y1="10" x2="30" y2="140" stroke="#0d2640" stroke-width="1"/>
+          <line x1="30" y1="140" x2="330" y2="140" stroke="#0d2640" stroke-width="1"/>
+          <line x1="30" y1="44" x2="330" y2="44" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
+          <line x1="30" y1="78" x2="330" y2="78" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
+          <line x1="30" y1="112" x2="330" y2="112" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
+          <text x="24" y="13" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">0</text>
+          <text x="24" y="47" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">10</text>
+          <text x="24" y="81" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">20</text>
+          <text x="24" y="115" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">30</text>
+          <path d="M30,10 L55,10 L100,112 L200,112 L240,78 L270,78 L295,27 L320,27 L330,10" fill="url(#dg)"/>
+          <path d="M30,10 L55,10 L100,112 L200,112 L240,78 L270,78 L295,27 L320,27" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="286" y="23" width="38" height="8" rx="2" fill="none" stroke="#00ff88" stroke-width="1.2" stroke-dasharray="2,2"/>
+          <text x="305" y="18" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#00ff88">PALIER 5m</text>
+          <circle cx="100" cy="112" r="3.5" fill="#00d4ff"/>
+          <text x="102" y="100" font-family="monospace" font-size="6.5" fill="#00d4ff">PROF MAX</text>
+          <text x="102" y="109" font-family="monospace" font-size="8" fill="white" font-weight="bold">30m</text>
+          <circle cx="200" cy="112" r="3.5" fill="#ff6b35"/>
+          <text x="202" y="100" font-family="monospace" font-size="6.5" fill="#ff6b35">NDL LIMITE</text>
+          <text x="202" y="109" font-family="monospace" font-size="8" fill="white" font-weight="bold">T-10min</text>
+          <text x="180" y="148" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">TEMPS →</text>
+        </svg>
+        <div class="chips">
+          <div class="chip"><div class="chip-dot" style="background:#00d4ff"></div>Profil</div>
+          <div class="chip"><div class="chip-dot" style="background:#00ff88"></div>Palier sécu 3min/5m</div>
+          <div class="chip"><div class="chip-dot" style="background:#ff6b35"></div>Zone NDL limite</div>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-title">AFFICHAGE EN PLONGÉE</div>
+        <div class="screen">
+          <div class="screen-row"><span class="screen-key">PROFONDEUR</span><span class="screen-val" style="font-size:28px">18.4 m</span></div>
+          <div class="screen-row"><span class="screen-key">TEMPS PLONGÉE</span><span class="screen-val sv-green">24:30</span></div>
+          <div class="screen-row"><span class="screen-key">NDL RESTANT</span><span class="screen-val">12 min</span></div>
+          <div class="screen-row"><span class="screen-key">ppO2 ACTUELLE</span><span class="screen-val sv-orange">1.14 bar</span></div>
+          <div class="screen-row"><span class="screen-key">TEMPS SURFACE</span><span class="screen-val">03:20</span></div>
+        </div>
+        <div class="tip">Sous l'eau : TR SP / BR SP changent les champs affichés · TR LP = rétroéclairage · TL SP = reset chrono</div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: CHECKLIST -->
+    <div class="page" id="page-checklist">
+      <div class="sec-label">SECTION 05</div>
+      <div class="sec-title">CHECKLIST MONITEUR</div>
+
+      <div class="check-progress">
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);">AVANT MISE À L'EAU</div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+        <div class="progress-text" id="progress-text">0/8</div>
+      </div>
+
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">% O₂ du gaz respiré</div><div class="check-sub">21% air / % exact Nitrox</div></div>
+        <div class="check-prio prio-h">CRITIQUE</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">ppO₂ max configurée</div><div class="check-sub">1.4 bar formation / 1.6 bar max absolu</div></div>
+        <div class="check-prio prio-h">CRITIQUE</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Eau douce / mer sélectionné</div><div class="check-sub">Densité influe sur la profondeur</div></div>
+        <div class="check-prio prio-h">CRITIQUE</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Algorithme vérifié</div><div class="check-sub">R0/R1 récréatif — T0/T1 technique</div></div>
+        <div class="check-prio prio-m">IMPORTANT</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Saturation résiduelle consultée</div><div class="check-sub">Intervalle surface si plongée répétitive</div></div>
+        <div class="check-prio prio-m">IMPORTANT</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Heure et date synchronisées</div><div class="check-sub">Via Bluetooth ou manuellement</div></div>
+        <div class="check-prio prio-m">IMPORTANT</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Alarmes réglées</div><div class="check-sub">18m pour N2 · 40min récréatif</div></div>
+        <div class="check-prio prio-l">CONSEILLÉ</div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div style="flex:1"><div class="check-text">Pile vérifiée</div><div class="check-sub">CR2450 · remplacer si &lt; 2 barres</div></div>
+        <div class="check-prio prio-l">CONSEILLÉ</div>
+      </div>
+
+      <button class="reset-btn" onclick="resetChecklist()">↺ RÉINITIALISER LA CHECKLIST</button>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /app -->
+
+<script>
+// ── BUBBLES ──────────────────────────────────────────────
+const bc = document.getElementById('bubbles');
+for(let i=0;i<14;i++){
+  const b=document.createElement('div');b.className='bd';
+  const s=Math.random()*16+5;
+  b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;`+
+    `animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*12}s;`+
+    `opacity:${Math.random()*.4+.1};`;
+  bc.appendChild(b);
+}
+
+// ── SPLASH ───────────────────────────────────────────────
+setTimeout(()=>{
+  document.getElementById('splash').classList.add('hide');
+  setTimeout(()=>document.getElementById('splash').remove(),600);
+}, 2000);
+
+// ── PAGES ────────────────────────────────────────────────
+function showPage(name, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── CHECKLIST ────────────────────────────────────────────
+function toggleCheck(item){
+  item.classList.toggle('done');
+  const box=item.querySelector('.check-box');
+  box.textContent=item.classList.contains('done')?'✓':'';
+  updateProgress();
+  // haptic feedback on mobile
+  if(navigator.vibrate) navigator.vibrate(30);
+}
+function updateProgress(){
+  const all=document.querySelectorAll('.check-item');
+  const done=document.querySelectorAll('.check-item.done').length;
+  const pct=Math.round(done/all.length*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-text').textContent=done+'/'+all.length;
+}
+function resetChecklist(){
+  document.querySelectorAll('.check-item').forEach(i=>{
+    i.classList.remove('done');
+    i.querySelector('.check-box').textContent='';
+  });
+  updateProgress();
+}
+
+// ── PWA INSTALL ──────────────────────────────────────────
+let deferredPrompt=null;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.matchMedia('(display-mode:standalone)').matches||
+                   window.navigator.standalone===true;
+
+if(!isStandalone){
+  if(isIOS){
+    setTimeout(()=>document.getElementById('ios-hint').classList.add('show'),2500);
+  } else {
+    window.addEventListener('beforeinstallprompt',e=>{
+      e.preventDefault(); deferredPrompt=e;
+      setTimeout(()=>document.getElementById('install-banner').classList.add('show'),2500);
+    });
+  }
+}
+
+document.getElementById('install-btn')?.addEventListener('click',async()=>{
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  const{outcome}=await deferredPrompt.userChoice;
+  if(outcome==='accepted') document.getElementById('install-banner').classList.remove('show');
+  deferredPrompt=null;
+});
+document.getElementById('install-close')?.addEventListener('click',()=>{
+  document.getElementById('install-banner').classList.remove('show');
+});
+
+// ── SERVICE WORKER ───────────────────────────────────────
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js')
+    .then(()=>{
+      document.getElementById('offline-badge').style.display='block';
+    });
+}
+
+// ── PREVENT BOUNCE (iOS) ─────────────────────────────────
+document.getElementById('content').addEventListener('touchmove',e=>{
+  e.stopPropagation();},{passive:true});
+</script>
+</body>
+</html>
