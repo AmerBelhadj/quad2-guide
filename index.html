@@ -406,6 +406,97 @@ html,body{
   margin:16px 0;
 }
 
+/* ── ÉCRANS ANNOTÉS ── */
+.screen-mode-tabs{
+  display:flex;gap:6px;margin-bottom:14px;
+}
+.smt-btn{
+  flex:1;padding:9px 6px;border:1px solid rgba(0,212,255,.15);
+  background:var(--panel);border-radius:10px;
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;
+  color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;
+}
+.smt-btn.active{
+  background:rgba(0,212,255,.1);border-color:var(--accent);color:var(--accent);
+}
+.screen-view{display:none;}
+.screen-view.active{display:block;}
+
+/* Ordi annoté */
+.ordi-annotated{
+  position:relative;margin:0 auto 16px;
+  background:var(--card);border-radius:16px;padding:16px;
+}
+.ordi-label{
+  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;
+  color:var(--accent);text-align:center;margin-bottom:10px;text-transform:uppercase;
+}
+
+/* Zones cliquables sur l'écran SVG */
+.zone-tooltip{
+  position:absolute;
+  background:var(--deep);border:1px solid var(--accent);
+  border-radius:8px;padding:8px 10px;
+  font-size:11px;color:var(--text);line-height:1.4;
+  width:170px;z-index:20;
+  box-shadow:0 4px 20px rgba(0,0,0,.6);
+  pointer-events:none;
+  opacity:0;transform:scale(.92);
+  transition:all .18s ease;
+}
+.zone-tooltip.show{opacity:1;transform:scale(1);}
+.zone-tooltip strong{color:var(--accent);font-family:'Space Mono',monospace;font-size:9px;}
+.zone-tooltip .zt-val{color:var(--accent2);font-family:'Space Mono',monospace;font-size:13px;font-weight:700;display:block;margin:2px 0;}
+.zone-tooltip .zt-warn{color:var(--warn);}
+.zone-tooltip .zt-danger{color:var(--danger);}
+
+/* Légende des champs */
+.fields-legend{
+  display:flex;flex-direction:column;gap:6px;margin-top:4px;
+}
+.field-row{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--surface);border-radius:8px;padding:8px 10px;
+  border:1px solid rgba(0,212,255,.08);cursor:pointer;transition:all .2s;
+}
+.field-row:active{background:rgba(0,212,255,.06);}
+.field-row.fr-warn{border-left:3px solid var(--warn);}
+.field-row.fr-ok{border-left:3px solid var(--accent2);}
+.field-row.fr-accent{border-left:3px solid var(--accent);}
+.field-row.fr-danger{border-left:3px solid var(--danger);}
+.field-dot{
+  width:28px;height:28px;border-radius:6px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
+}
+.fd-blue{background:rgba(0,212,255,.12);color:var(--accent);}
+.fd-green{background:rgba(0,255,136,.12);color:var(--accent2);}
+.fd-orange{background:rgba(255,107,53,.12);color:var(--warn);}
+.fd-red{background:rgba(255,45,85,.12);color:var(--danger);}
+.fd-white{background:rgba(255,255,255,.08);color:white;}
+.field-info{flex:1;}
+.field-name{font-size:13px;font-weight:600;color:white;line-height:1.2;}
+.field-desc{font-size:11px;color:var(--muted);line-height:1.4;margin-top:2px;}
+.field-val{
+  font-family:'Space Mono',monospace;font-size:11px;flex-shrink:0;
+  align-self:center;padding:3px 7px;border-radius:5px;
+  background:rgba(0,0,0,.3);
+}
+
+/* Alerte states */
+.alert-strip{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 10px;border-radius:8px;margin:8px 0;font-size:12px;
+}
+.alert-strip.as-ok{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);color:var(--accent2);}
+.alert-strip.as-warn{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2);color:var(--warn);}
+.alert-strip.as-danger{background:rgba(255,45,85,.08);border:1px solid rgba(255,45,85,.2);color:var(--danger);}
+
+.sec-sub{
+  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
+  color:var(--accent);margin:16px 0 8px;
+}
+
 /* Bubbles deco */
 .bubble-deco{
   position:fixed;top:0;left:0;width:100%;height:100%;
@@ -469,6 +560,7 @@ html,body{
     <button class="nav-btn active" onclick="showPage('boutons',this)"><span>🔲</span>BOUTONS</button>
     <button class="nav-btn" onclick="showPage('obligatoires',this)"><span>⚠️</span>OBLIGATOIRES</button>
     <button class="nav-btn" onclick="showPage('disponibles',this)"><span>⚙️</span>DISPONIBLES</button>
+    <button class="nav-btn" onclick="showPage('ecrans',this)"><span>🖥️</span>ÉCRANS</button>
     <button class="nav-btn" onclick="showPage('profil',this)"><span>📊</span>PROFIL</button>
     <button class="nav-btn" onclick="showPage('checklist',this)"><span>✅</span>CHECKLIST</button>
   </div>
@@ -845,6 +937,468 @@ html,body{
       </div>
     </div>
 
+    <!-- PAGE ÉCRANS -->
+    <div class="page" id="page-ecrans">
+      <div class="sec-label">SECTION ÉCRANS</div>
+      <div class="sec-title">AFFICHAGES DU QUAD 2</div>
+
+      <!-- MODE TABS -->
+      <div class="screen-mode-tabs">
+        <button class="smt-btn active" onclick="showMode('predive',this)">🔵 PRÉ-PLONGÉE</button>
+        <button class="smt-btn" onclick="showMode('dive',this)">🌊 EN PLONGÉE</button>
+        <button class="smt-btn" onclick="showMode('postdive',this)">🏁 POST-PLONGÉE</button>
+        <button class="smt-btn" onclick="showMode('desat',this)">💨 DÉSAT</button>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           PRÉ-PLONGÉE (HOME / PRE-DIVE)
+      ══════════════════════════════════════ -->
+      <div class="screen-view active" id="mode-predive">
+
+        <div class="ordi-annotated">
+          <div class="ordi-label">ÉCRAN PRÉ-PLONGÉE — AFFICHAGE HOME</div>
+
+          <!-- Schéma SVG fidèle au Quad 2 : 3 lignes + icônes -->
+          <svg viewBox="0 0 300 260" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+            <defs>
+              <pattern id="crt" width="1" height="3" patternUnits="userSpaceOnUse">
+                <rect width="1" height="1" fill="rgba(0,212,255,0.025)"/>
+              </pattern>
+            </defs>
+            <!-- Corps boitier -->
+            <rect x="8" y="4" width="284" height="252" rx="24" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
+            <!-- Ecran LCD -->
+            <rect x="28" y="18" width="244" height="218" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+            <rect x="28" y="18" width="244" height="218" rx="8" fill="url(#crt)"/>
+
+            <!-- ── LIGNE STATUS (tout en haut) ── -->
+            <!-- Icône facteur P -->
+            <text x="36" y="35" font-family="monospace" font-size="10" fill="#4a7a9b">P0</text>
+            <!-- Icône altitude -->
+            <text x="64" y="35" font-family="monospace" font-size="10" fill="#4a7a9b">A0</text>
+            <!-- Heure au centre -->
+            <text x="150" y="35" text-anchor="middle" font-family="monospace" font-size="13" fill="#cde8ff" font-weight="bold">10:42</text>
+            <!-- Icône pile droite -->
+            <rect x="246" y="24" width="20" height="10" rx="2" fill="none" stroke="#4a7a9b" stroke-width="1"/>
+            <rect x="266" y="27" width="3" height="4" rx="1" fill="#4a7a9b"/>
+            <rect x="247" y="25" width="16" height="8" rx="1" fill="#00ff88"/>
+
+            <line x1="32" y1="42" x2="268" y2="42" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- ── LIGNE 1 HAUTE : Intervalle surface + O2% ── -->
+            <!-- Gauche : SI depuis dernière plongée -->
+            <text x="36" y="58" font-family="monospace" font-size="8" fill="#4a7a9b">S.I.</text>
+            <text x="36" y="74" font-family="monospace" font-size="20" fill="#cde8ff" font-weight="bold">2:15</text>
+            <text x="36" y="84" font-family="monospace" font-size="7" fill="#4a7a9b">h depuis plongée</text>
+
+            <!-- Droite : O2% et MOD (si nitrox) -->
+            <text x="200" y="58" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">O2%  MOD</text>
+            <text x="200" y="74" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88" font-weight="bold">21  57m</text>
+            <text x="200" y="84" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">air · ppO2max 1.4</text>
+
+            <line x1="32" y1="92" x2="268" y2="92" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- ── LIGNE 2 CENTRALE (grande) : DÉSAT ── -->
+            <text x="150" y="112" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="2">DÉSAT RESTANTE</text>
+            <text x="150" y="148" text-anchor="middle" font-family="monospace" font-size="48" fill="#00ff88" font-weight="bold">0%</text>
+            <!-- si saturation = 0, affiche "PRÊT" -->
+            <text x="150" y="164" text-anchor="middle" font-family="monospace" font-size="9" fill="#00ff88">✓ PRÊT À PLONGER</text>
+
+            <line x1="32" y1="172" x2="268" y2="172" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- ── LIGNE 3 BASSE : Facteur P + Date ── -->
+            <text x="60" y="188" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">FACTEUR</text>
+            <text x="60" y="204" text-anchor="middle" font-family="monospace" font-size="18" fill="#00d4ff" font-weight="bold">R0</text>
+            <text x="60" y="214" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">85/85</text>
+
+            <text x="200" y="188" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">DATE</text>
+            <text x="200" y="204" text-anchor="middle" font-family="monospace" font-size="14" fill="#cde8ff" font-weight="bold">09/03/26</text>
+
+            <!-- Boutons -->
+            <rect x="10" y="70" width="14" height="28" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
+            <text x="17" y="82" text-anchor="middle" font-family="monospace" font-size="6" fill="#00d4ff">TL</text>
+            <rect x="10" y="160" width="14" height="28" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
+            <text x="17" y="172" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff88">BL</text>
+            <rect x="276" y="70" width="14" height="28" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
+            <text x="283" y="82" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">TR</text>
+            <rect x="276" y="160" width="14" height="28" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
+            <text x="283" y="172" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">BR</text>
+          </svg>
+        </div>
+
+        <div class="sec-sub">ZONES DE L'ÉCRAN — PRÉ-PLONGÉE</div>
+        <div class="fields-legend">
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">🕐</div>
+            <div class="field-info">
+              <div class="field-name">Barre de statut (haut)</div>
+              <div class="field-desc">Affiche en permanence : facteur de personnalisation (P0/P+/P++), niveau d'altitude (A0→A3), heure et état de la pile.</div>
+            </div>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">S.I.</div>
+            <div class="field-info">
+              <div class="field-name">Intervalle de surface (S.I.)</div>
+              <div class="field-desc">Temps écoulé depuis la dernière plongée. L'ordi en tient compte pour calculer les NDL de la prochaine plongée. Si 0 = première plongée du jour.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">2:15h</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">O₂</div>
+            <div class="field-info">
+              <div class="field-name">O2% et MOD (si Nitrox)</div>
+              <div class="field-desc">Affiche le % d'O₂ du gaz actif et la profondeur maximale d'utilisation (MOD) calculée. En mode AIR : 21% · MOD 57m avec ppO₂max=1.4.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">21% · 57m</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">N₂</div>
+            <div class="field-info">
+              <div class="field-name">Désaturation résiduelle (centre)</div>
+              <div class="field-desc">Taux d'azote résiduel dans les tissus. 0% = désaturé, prêt à plonger. Si >0%, les NDL de la prochaine plongée seront réduites en conséquence.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">0%</span>
+          </div>
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">R0</div>
+            <div class="field-info">
+              <div class="field-name">Facteur de gradient (bas gauche)</div>
+              <div class="field-desc">Niveau de conservatisme actif : R0 (85/85) standard, R1 (75/80), R2 (60/70), R3 (50/60). TR SP en pré-plongée donne un accès direct à ce réglage.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent)">R0</span>
+          </div>
+        </div>
+
+        <div class="alert-strip as-ok" style="margin-top:10px;">💡 TR SP depuis l'écran pré-plongée = accès direct au menu ALGORITHME</div>
+        <div class="alert-strip as-warn">⚠️ Si désat > 0% : les NDL affichés en plongée seront réduits automatiquement</div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           EN PLONGÉE (DIVE MODE)
+      ══════════════════════════════════════ -->
+      <div class="screen-view" id="mode-dive">
+
+        <div class="ordi-annotated">
+          <div class="ordi-label">ÉCRAN PLONGÉE — DISPOSITION 3 LIGNES</div>
+          <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+            <rect x="8" y="4" width="284" height="272" rx="24" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
+            <rect x="28" y="18" width="244" height="238" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+            <rect x="28" y="18" width="244" height="238" rx="8" fill="url(#crt)"/>
+
+            <!-- ── LIGNE 1 HAUTE : champ gauche + PROFONDEUR MAX (droite) ── -->
+            <!-- Champ haut gauche : modifiable par TR SP (UP) -->
+            <!-- Défaut = profondeur max -->
+            <text x="36" y="38" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MAX</text>
+            <text x="36" y="60" font-family="monospace" font-size="24" fill="#ff2d55" font-weight="bold">24.1</text>
+            <text x="100" y="60" font-family="monospace" font-size="12" fill="#4a7a9b">m</text>
+
+            <!-- Champ haut droit : modifiable par TR SP -->
+            <text x="165" y="38" font-family="monospace" font-size="8" fill="#4a7a9b">TEMP</text>
+            <text x="165" y="60" font-family="monospace" font-size="24" fill="#00d4ff" font-weight="bold">18°C</text>
+
+            <!-- Indicateur TR SP -->
+            <text x="264" y="44" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff6b35">TR</text>
+            <text x="264" y="54" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">SP▲</text>
+
+            <line x1="32" y1="68" x2="268" y2="68" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- ── LIGNE 2 CENTRALE (très grande) : PROFONDEUR ── -->
+            <text x="150" y="92" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="2">PROFONDEUR</text>
+            <text x="150" y="148" text-anchor="middle" font-family="monospace" font-size="58" fill="#00d4ff" font-weight="bold">18.4</text>
+            <text x="245" y="148" font-family="monospace" font-size="16" fill="#4a7a9b">m</text>
+
+            <!-- Flèche vitesse remontée (droite profondeur) -->
+            <text x="262" y="120" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88">↑</text>
+            <text x="262" y="134" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff88">OK</text>
+
+            <line x1="32" y1="158" x2="268" y2="158" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- ── LIGNE 3 BASSE : TEMPS plongée + NDL (ou ASC si déco) ── -->
+            <text x="70" y="175" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
+            <text x="70" y="197" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ff88" font-weight="bold">24:30</text>
+
+            <!-- Séparateur vertical -->
+            <line x1="148" y1="162" x2="148" y2="210" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- NDL ou temps déco -->
+            <text x="210" y="175" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NDL</text>
+            <text x="210" y="197" text-anchor="middle" font-family="monospace" font-size="28" fill="#00d4ff" font-weight="bold">12</text>
+            <text x="245" y="190" font-family="monospace" font-size="10" fill="#4a7a9b">min</text>
+
+            <!-- Champ bas droite : modifiable par BR SP (DOWN) -->
+            <!-- Défaut = O2% / ppO2 -->
+            <line x1="32" y1="210" x2="268" y2="210" stroke="#0d2640" stroke-width="0.8"/>
+            <text x="70" y="224" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">O2%</text>
+            <text x="70" y="240" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88" font-weight="bold">21%</text>
+
+            <line x1="148" y1="214" x2="148" y2="248" stroke="#0d2640" stroke-width="0.8"/>
+
+            <text x="210" y="224" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">ppO2</text>
+            <text x="210" y="240" text-anchor="middle" font-family="monospace" font-size="18" fill="#ff6b35" font-weight="bold">1.14</text>
+
+            <!-- Indicateur BR SP -->
+            <text x="264" y="228" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff2d55">BR</text>
+            <text x="264" y="238" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">SP▼</text>
+
+            <!-- Boutons -->
+            <rect x="10" y="80" width="14" height="28" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
+            <text x="17" y="92" text-anchor="middle" font-family="monospace" font-size="6" fill="#00d4ff">TL</text>
+            <rect x="10" y="170" width="14" height="28" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
+            <text x="17" y="182" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff88">BL</text>
+            <rect x="276" y="80" width="14" height="28" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
+            <text x="283" y="92" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">TR</text>
+            <rect x="276" y="170" width="14" height="28" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
+            <text x="283" y="182" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">BR</text>
+          </svg>
+        </div>
+
+        <!-- Tableau des champs modifiables -->
+        <div class="sec-sub">CHAMPS MODIFIABLES EN PLONGÉE</div>
+        <div style="background:var(--surface);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,212,255,.07);">
+            <span class="btn-pill bp-tr" style="flex-shrink:0">TR SP</span>
+            <span style="color:var(--muted)">Change le champ <strong style="color:var(--text)">HAUT</strong> :</span>
+          </div>
+          <div style="padding:6px 8px;color:var(--muted);font-size:11px;border-bottom:1px solid rgba(0,212,255,.05);">Prof. Max · Prof. Moy (AVG) · MOD · Palier profond · Temp. · ASC+5</div>
+          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,212,255,.07);margin-top:4px;">
+            <span class="btn-pill bp-br" style="flex-shrink:0">BR SP</span>
+            <span style="color:var(--muted)">Change le champ <strong style="color:var(--text)">BAS DROIT</strong> :</span>
+          </div>
+          <div style="padding:6px 8px;color:var(--muted);font-size:11px;">O2% · ppO2 · CNS% · ASC (TTS) · Temp.</div>
+        </div>
+
+        <div class="sec-sub">ZONES FIXES — TOUJOURS AFFICHÉES</div>
+        <div class="fields-legend">
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">📏</div>
+            <div class="field-info">
+              <div class="field-name">Profondeur actuelle (centre, grande)</div>
+              <div class="field-desc">Toujours au centre, en très grand. Mise à jour chaque seconde. La valeur la plus critique — conçue pour être lisible d'un coup d'œil même sous l'eau.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent)">18.4m</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">⏱</div>
+            <div class="field-info">
+              <div class="field-name">Temps plongée (bas gauche)</div>
+              <div class="field-desc">Chronomètre depuis l'immersion. Fixe — toujours en bas à gauche. TL SP = reset chrono. Format min ou min:sec selon réglage SECONDS.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">24:30</span>
+          </div>
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">NDL</div>
+            <div class="field-info">
+              <div class="field-name">NDL — No Deco Limit (bas droite)</div>
+              <div class="field-desc">Temps sans décompression restant à cette profondeur. Passe en rouge quand &lt;3 min. Remplacé par le temps de palier (ASC) si plongée déco.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent)">12 min</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">↑</div>
+            <div class="field-info">
+              <div class="field-name">Flèche vitesse de remontée</div>
+              <div class="field-desc">Affichée à droite de la profondeur. Verte = OK. Orange = trop rapide (&gt;10m/min). Rouge + alarme = excessive (&gt;12m/min prolongé).</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">↑ OK</span>
+          </div>
+        </div>
+
+        <div class="sec-sub">ALERTES EN PLONGÉE</div>
+        <div class="alert-strip as-ok">✅ NDL &gt; 3 min — plongée normale, remontée directe possible</div>
+        <div class="alert-strip as-warn">⚠️ NDL &lt; 3 min — commencer la remontée vers palier sécu 5m/3min</div>
+        <div class="alert-strip as-danger">🚨 NDL = 0 / DÉCO — palier obligatoire, suivre le plafond affiché</div>
+        <div class="alert-strip as-warn">⚠️ Vitesse &gt; 10m/min — flèche orange, ralentir</div>
+        <div class="alert-strip as-danger">🚨 ppO2 &gt; 1.4 bar — alarme sonore, remonter immédiatement</div>
+        <div class="alert-strip as-danger">🚨 CNS &gt; 75% — avertissement toxicité O₂, changer de gaz ou remonter</div>
+
+        <!-- Écran DÉCO -->
+        <div class="sec-sub">ÉCRAN EN DÉCOMPRESSION</div>
+        <div class="ordi-annotated" style="margin-bottom:0;">
+          <div class="ordi-label">PLONGÉE DÉCO — NDL=0, PALIER OBLIGATOIRE</div>
+          <svg viewBox="0 0 300 200" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+            <rect x="8" y="4" width="284" height="192" rx="20" fill="#0b1e30" stroke="#ff2d55" stroke-width="1.5"/>
+            <rect x="28" y="14" width="244" height="172" rx="8" fill="#030e18" stroke="#1a0008" stroke-width="1"/>
+            <!-- Ligne haut : prof max + palier -->
+            <text x="36" y="34" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MAX</text>
+            <text x="36" y="52" font-family="monospace" font-size="20" fill="#ff2d55" font-weight="bold">32.5m</text>
+            <text x="165" y="34" font-family="monospace" font-size="8" fill="#4a7a9b">PALIER À</text>
+            <text x="165" y="52" font-family="monospace" font-size="20" fill="#ff6b35" font-weight="bold">6m</text>
+            <line x1="32" y1="58" x2="268" y2="58" stroke="#1a0008" stroke-width="0.8"/>
+            <!-- Profondeur centrale -->
+            <text x="150" y="115" text-anchor="middle" font-family="monospace" font-size="50" fill="#00d4ff" font-weight="bold">18.4</text>
+            <text x="243" y="115" font-family="monospace" font-size="14" fill="#4a7a9b">m</text>
+            <text x="32" y="118" font-family="monospace" font-size="16" fill="#ff2d55">↑</text>
+            <line x1="32" y1="128" x2="268" y2="128" stroke="#1a0008" stroke-width="0.8"/>
+            <!-- Ligne bas : temps + ASC -->
+            <text x="70" y="144" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
+            <text x="70" y="162" text-anchor="middle" font-family="monospace" font-size="24" fill="#00ff88" font-weight="bold">38:00</text>
+            <line x1="148" y1="132" x2="148" y2="176" stroke="#1a0008" stroke-width="0.8"/>
+            <text x="210" y="144" text-anchor="middle" font-family="monospace" font-size="8" fill="#ff6b35">ASC (TTS)</text>
+            <text x="210" y="162" text-anchor="middle" font-family="monospace" font-size="24" fill="#ff6b35" font-weight="bold">08:00</text>
+          </svg>
+        </div>
+        <div style="background:rgba(255,45,85,.07);border:1px solid rgba(255,45,85,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--danger);margin-top:8px;line-height:1.5;">
+          🚨 <strong>En déco :</strong> la ligne bas droite affiche <strong>ASC</strong> (temps total de remontée incluant tous les paliers). La flèche remontée devient rouge. Le plafond de palier s'affiche en haut droite.
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           POST-PLONGÉE (minilog)
+      ══════════════════════════════════════ -->
+      <div class="screen-view" id="mode-postdive">
+
+        <div class="ordi-annotated">
+          <div class="ordi-label">MINILOG — ALTERNANCE 4 SECONDES AUTOMATIQUE</div>
+          <svg viewBox="0 0 300 240" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+            <rect x="8" y="4" width="284" height="232" rx="24" fill="#0b1e30" stroke="#00ff88" stroke-width="1.5"/>
+            <rect x="28" y="18" width="244" height="200" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+            <rect x="28" y="18" width="244" height="200" rx="8" fill="url(#crt)"/>
+            <!-- Header FIN -->
+            <rect x="60" y="22" width="180" height="16" rx="4" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".7"/>
+            <text x="150" y="34" text-anchor="middle" font-family="monospace" font-size="9" fill="#00ff88" letter-spacing="1">✓ FIN DE PLONGÉE</text>
+            <line x1="32" y1="42" x2="268" y2="42" stroke="#0d2640" stroke-width="0.8"/>
+            <!-- Ligne 1 : PROF MAX grande -->
+            <text x="150" y="60" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">PROFONDEUR MAX</text>
+            <text x="150" y="92" text-anchor="middle" font-family="monospace" font-size="40" fill="#ff2d55" font-weight="bold">24.1m</text>
+            <line x1="32" y1="100" x2="268" y2="100" stroke="#0d2640" stroke-width="0.8"/>
+            <!-- Ligne 2 : TEMPS + PROF MOY -->
+            <text x="80" y="116" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
+            <text x="80" y="136" text-anchor="middle" font-family="monospace" font-size="22" fill="#00ff88" font-weight="bold">38:00</text>
+            <line x1="150" y1="104" x2="150" y2="148" stroke="#0d2640" stroke-width="0.8"/>
+            <text x="220" y="116" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MOY</text>
+            <text x="220" y="136" text-anchor="middle" font-family="monospace" font-size="22" fill="#00d4ff" font-weight="bold">16.8m</text>
+            <line x1="32" y1="148" x2="268" y2="148" stroke="#0d2640" stroke-width="0.8"/>
+            <!-- Ligne 3 : GAZ utilisé -->
+            <text x="150" y="164" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">GAZ UTILISÉ</text>
+            <text x="150" y="186" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ff88" font-weight="bold">AIR 21%</text>
+            <!-- Indicateur alternance -->
+            <text x="254" y="210" text-anchor="end" font-family="monospace" font-size="8" fill="#4a7a9b">⏱ 4s →</text>
+          </svg>
+        </div>
+
+        <div class="alert-strip as-ok" style="margin-bottom:10px;">🔄 L'écran alterne automatiquement toutes les 4 secondes entre les 4 valeurs du minilog</div>
+
+        <div class="sec-sub">LES 4 VUES DU MINILOG</div>
+        <div class="fields-legend">
+          <div class="field-row fr-danger">
+            <div class="field-dot fd-red">1/4</div>
+            <div class="field-info">
+              <div class="field-name">Profondeur Maximale</div>
+              <div class="field-desc">La valeur la plus profonde atteinte pendant la plongée. Affichée en grand au centre.</div>
+            </div>
+            <span class="field-val" style="color:var(--danger)">24.1m</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">2/4</div>
+            <div class="field-info">
+              <div class="field-name">Profondeur Moyenne + Temps total</div>
+              <div class="field-desc">Durée complète de la plongée et profondeur moyenne calculée depuis le début.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">38:00</span>
+          </div>
+          <div class="field-row fr-ok">
+            <div class="field-dot fd-green">3/4</div>
+            <div class="field-info">
+              <div class="field-name">Gaz Utilisé</div>
+              <div class="field-desc">Mélange respiratoire utilisé pendant la plongée (AIR 21%, ou % Nitrox). Important pour le logbook.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent2)">AIR</span>
+          </div>
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">4/4</div>
+            <div class="field-info">
+              <div class="field-name">Données classiques (désat, no-fly, S.I.)</div>
+              <div class="field-desc">Après le minilog, l'ordi passe en mode post-plongée permanent avec désaturation, no-fly et intervalle surface.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent)">DÉSAT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════════════════════════════
+           DÉSAT (POST-DIVE DISPLAY)
+      ══════════════════════════════════════ -->
+      <div class="screen-view" id="mode-desat">
+
+        <div class="ordi-annotated">
+          <div class="ordi-label">ÉCRAN POST-PLONGÉE PERMANENT — DÉSAT</div>
+          <svg viewBox="0 0 300 260" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+            <rect x="8" y="4" width="284" height="252" rx="24" fill="#0b1e30" stroke="#ff6b35" stroke-width="1.5"/>
+            <rect x="28" y="18" width="244" height="218" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+            <rect x="28" y="18" width="244" height="218" rx="8" fill="url(#crt)"/>
+
+            <!-- Barre statut -->
+            <text x="150" y="34" text-anchor="middle" font-family="monospace" font-size="10" fill="#cde8ff" font-weight="bold">10:42</text>
+            <line x1="32" y1="40" x2="268" y2="40" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- Ligne 1 haut : DESAT TIME -->
+            <text x="150" y="58" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="1">DÉSAT RESTANTE</text>
+            <text x="150" y="94" text-anchor="middle" font-family="monospace" font-size="38" fill="#ff6b35" font-weight="bold">14:23</text>
+            <text x="150" y="108" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">h:min avant désaturation</text>
+
+            <line x1="32" y1="116" x2="268" y2="116" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- Ligne 2 : NO FLY + S.I. -->
+            <text x="80" y="132" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NO FLY</text>
+            <text x="80" y="154" text-anchor="middle" font-family="monospace" font-size="22" fill="#ff2d55" font-weight="bold">18:00</text>
+            <text x="80" y="166" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">h:min avant avion</text>
+
+            <line x1="150" y1="120" x2="150" y2="174" stroke="#0d2640" stroke-width="0.8"/>
+
+            <text x="220" y="132" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">S.I.</text>
+            <text x="220" y="154" text-anchor="middle" font-family="monospace" font-size="22" fill="#00d4ff" font-weight="bold">00:35</text>
+            <text x="220" y="166" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">h:min depuis surface</text>
+
+            <line x1="32" y1="174" x2="268" y2="174" stroke="#0d2640" stroke-width="0.8"/>
+
+            <!-- Ligne 3 : CNS% -->
+            <text x="150" y="192" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">CNS%</text>
+            <text x="150" y="222" text-anchor="middle" font-family="monospace" font-size="34" fill="#ff6b35" font-weight="bold">12%</text>
+          </svg>
+        </div>
+
+        <div class="sec-sub">ZONES DE L'ÉCRAN DÉSAT</div>
+        <div class="fields-legend">
+          <div class="field-row fr-warn">
+            <div class="field-dot fd-orange">⏳</div>
+            <div class="field-info">
+              <div class="field-name">DESAT — Désaturation Restante</div>
+              <div class="field-desc">Compte à rebours jusqu'à désaturation complète des tissus. Affiché en grand au centre. L'ordi calcule cela en continu même en veille.</div>
+            </div>
+            <span class="field-val" style="color:var(--warn)">14:23h</span>
+          </div>
+          <div class="field-row fr-danger">
+            <div class="field-dot fd-red">✈️</div>
+            <div class="field-info">
+              <div class="field-name">NO FLY — Délai avant avion</div>
+              <div class="field-desc">Temps minimum avant de prendre l'avion. La pression en cabine favorise la formation de bulles. FFESSM : 12h min plongée unique, 24h plongées multiples.</div>
+            </div>
+            <span class="field-val" style="color:var(--danger)">18:00h</span>
+          </div>
+          <div class="field-row fr-accent">
+            <div class="field-dot fd-blue">S.I.</div>
+            <div class="field-info">
+              <div class="field-name">S.I. — Intervalle de Surface</div>
+              <div class="field-desc">Temps écoulé depuis la fin de la plongée. Utilisé pour planifier la prochaine plongée répétitive et calculer les NDL réduits.</div>
+            </div>
+            <span class="field-val" style="color:var(--accent)">00:35h</span>
+          </div>
+          <div class="field-row fr-warn">
+            <div class="field-dot fd-orange">CNS</div>
+            <div class="field-info">
+              <div class="field-name">CNS% — Toxicité O₂ Système Nerveux</div>
+              <div class="field-desc">Mesure l'accumulation de toxicité oxygène. &lt;75% normal. 75% = avertissement. 100% = alarme urgente, risque de convulsions.</div>
+            </div>
+            <span class="field-val" style="color:var(--warn)">12%</span>
+          </div>
+        </div>
+
+        <div class="alert-strip as-ok" style="margin-top:8px;">✅ DESAT = 0 + NO FLY = 0 → l'ordi retourne automatiquement en mode pré-plongée</div>
+        <div class="alert-strip as-danger">🚨 Ne jamais replonger avant que le S.I. dépasse l'intervalle minimum calculé</div>
+      </div>
+
+    </div><!-- /page-ecrans -->
+
     <!-- PAGE 4: PROFIL -->
     <div class="page" id="page-profil">
       <div class="sec-label">SECTION 04</div>
@@ -1009,7 +1563,192 @@ function resetChecklist(){
   updateProgress();
 }
 
-// ── PWA INSTALL ──────────────────────────────────────────
+// ── ÉCRANS MODE TABS ─────────────────────────────────────
+function showMode(name, btn){
+  document.querySelectorAll('.screen-view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.smt-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mode-'+name).classList.add('active');
+  btn.classList.add('active');
+  // hide all tooltips
+  document.querySelectorAll('.zone-tooltip').forEach(t=>{t.classList.remove('show');t.textContent='';});
+}
+
+// ── ZONE DATA ────────────────────────────────────────────
+const ZONES = {
+  // AVANT
+  'avant-time': {
+    label:'HEURE & DATE',
+    val:'10:42  —  09/03/2026',
+    color:'#00d4ff',
+    desc:'Heure en temps réel. Vérifier avant chaque plongée pour valider les intervalles de surface et le logbook.'
+  },
+  'avant-env': {
+    label:'TEMP / PRESSION',
+    val:'22°C · 1013 hPa',
+    color:'#00d4ff',
+    desc:'Température de surface et pression atmosphérique. La pression sert de base pour les calculs d\'altitude.'
+  },
+  'avant-desat': {
+    label:'DÉSAT RÉSIDUELLE',
+    val:'0%',
+    color:'#00ff88',
+    desc:'0% = tu es désaturé, prêt à plonger. Si >0%, l\'ordi pénalise les NDL de la prochaine plongée.'
+  },
+  'avant-gaz': {
+    label:'GAZ + ALGORITHME',
+    val:'21% O₂ · R0',
+    color:'#00ff88',
+    desc:'Mélange actif et conservatisme. À VÉRIFIER avant chaque plongée. R0 = standard, R1 = enseignement.'
+  },
+  'avant-mod': {
+    label:'MOD (PROF MAX)',
+    val:'57 m',
+    color:'#ff6b35',
+    desc:'Profondeur Opérationnelle Max calculée selon % O₂ et ppO₂ max. Ne jamais dépasser cette valeur.'
+  },
+  // PENDANT
+  'p-depth': {
+    label:'PROFONDEUR',
+    val:'18.4 m',
+    color:'#00d4ff',
+    desc:'Valeur centrale, lisible d\'un coup d\'œil. Mise à jour chaque seconde. Base de tous les calculs.'
+  },
+  'p-time': {
+    label:'TEMPS PLONGÉE',
+    val:'24:30',
+    color:'#00ff88',
+    desc:'Chrono depuis l\'immersion. TL SP pour remettre à zéro. Enregistré dans le logbook.'
+  },
+  'p-ndl': {
+    label:'NDL RESTANT',
+    val:'12 min',
+    color:'#00d4ff',
+    desc:'Temps avant palier obligatoire. Diminue avec profondeur et temps. Rouge quand < 3 min → commence à remonter.'
+  },
+  'p-ppo2': {
+    label:'ppO2',
+    val:'1.14 bar',
+    color:'#ff6b35',
+    desc:'Pression partielle d\'oxygène. > 1.4 bar = alarme. > 1.6 bar = danger de toxicité O₂ (convulsions sous l\'eau).'
+  },
+  'p-vit': {
+    label:'VITESSE REMONTÉE',
+    val:'9 m/min',
+    color:'#00ff88',
+    desc:'Vert < 10. Orange > 10. Rouge > 12 → l\'ordi enregistre et peut se bloquer en profondimètre.'
+  },
+  'p-tts': {
+    label:'TIME TO SURFACE',
+    val:'03:20',
+    color:'#00d4ff',
+    desc:'Temps minimal pour remonter en sécurité incluant tous les paliers. Planifie ta remontée sur cette valeur.'
+  },
+  'p-maxd': {
+    label:'PROFONDEUR MAX',
+    val:'24.1 m',
+    color:'#ff2d55',
+    desc:'Point le plus profond atteint. Sert au calcul de déco résiduelle et au logbook. Non réinitialisable en plongée.'
+  },
+  // APRES
+  'a-dur': {
+    label:'DURÉE TOTALE',
+    val:'38:00',
+    color:'#00ff88',
+    desc:'Durée complète de la plongée. Enregistrée automatiquement dans le logbook avec heure, date et profondeurs.'
+  },
+  'a-profmax': {
+    label:'PROFONDEUR MAX',
+    val:'24.1 m',
+    color:'#ff2d55',
+    desc:'Profondeur maximale atteinte pendant la plongée. Utilisée pour calculer la saturation résiduelle et le no-fly timer.'
+  },
+  'a-profmoy': {
+    label:'PROFONDEUR MOY',
+    val:'16.8 m',
+    color:'#00d4ff',
+    desc:'Moyenne de toute la plongée. Bon indicateur de la charge azote globale. Plus utile que la profondeur max seule.'
+  },
+  'a-sat': {
+    label:'SATURATION N₂',
+    val:'42%',
+    color:'#ff6b35',
+    desc:'Azote résiduel dans les tissus. Diminue en surface. Pris en compte pour le calcul des NDL de la prochaine plongée.'
+  },
+  'a-interval': {
+    label:'INTERVALLE MIN',
+    val:'02:15 h',
+    color:'#ff6b35',
+    desc:'Temps MINIMUM en surface avant de replonger. Calculé pour toi. Ne jamais replonger avant ce délai.'
+  },
+  'a-temp': {
+    label:'TEMPÉRATURE EAU',
+    val:'19°C',
+    color:'#00d4ff',
+    desc:'Température mesurée pendant la plongée. Enregistrée dans le logbook. Utile pour le choix de la combinaison.'
+  },
+  'a-num': {
+    label:'N° PLONGÉE',
+    val:'#147',
+    color:'#00d4ff',
+    desc:'Numéro de la plongée dans l\'historique de l\'ordi. Incrémenté automatiquement à chaque immersion.'
+  },
+  // DESAT
+  'd-timer': {
+    label:'TIMER DÉSAT',
+    val:'14h 23min',
+    color:'#ff6b35',
+    desc:'Compte à rebours jusqu\'à désaturation complète. Calculé en continu même quand l\'ordi est en veille.'
+  },
+  'd-comp': {
+    label:'COMPARTIMENTS TISSULAIRES',
+    val:'Rapides 76%',
+    color:'#ff6b35',
+    desc:'16 compartiments (Bühlmann). Rapides = cerveau/sang désaturent vite. Lents = os/graisses prennent plus de temps. La barre max gouverne tout.'
+  },
+  'd-vol': {
+    label:'NO-FLY TIMER',
+    val:'18h restantes',
+    color:'#ff2d55',
+    desc:'Délai avant de prendre l\'avion. La pressurisation cabine (0.75 bar) = risque de bulles. FFESSM recommande 24h après plongées multiples.'
+  },
+  'd-sat-total': {
+    label:'DÉSAT GLOBALE',
+    val:'42%',
+    color:'#ff6b35',
+    desc:'Taux global de saturation restant. Non-linéaire dans le temps. 0% = désaturé complet. Gouverne les NDL de la prochaine plongée.'
+  },
+};
+
+function highlightZone(mode, zoneId){
+  const data = ZONES[zoneId];
+  if(!data) return;
+  const tt = document.getElementById('tt-'+mode);
+  if(!tt) return;
+  tt.innerHTML = `<strong>${data.label}</strong><span class="zt-val" style="color:${data.color}">${data.val}</span>${data.desc}`;
+  tt.classList.add('show');
+  if(navigator.vibrate) navigator.vibrate(20);
+  // auto-hide after 4s
+  clearTimeout(tt._timer);
+  tt._timer = setTimeout(()=>tt.classList.remove('show'), 4000);
+}
+
+// attach click on SVG hot zones
+document.querySelectorAll('.hotzone').forEach(el=>{
+  el.style.cursor='pointer';
+  el.addEventListener('click', e=>{
+    const zone = el.dataset.zone;
+    // find parent screen-view
+    let parent = el.closest('.screen-view');
+    if(!parent) return;
+    const modeId = parent.id.replace('mode-','');
+    // flash zone
+    el.style.fill='rgba(0,212,255,0.08)';
+    setTimeout(()=>el.style.fill='rgba(0,212,255,0)',300);
+    highlightZone(modeId, zone);
+  });
+});
+
+
 let deferredPrompt=null;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isStandalone=window.matchMedia('(display-mode:standalone)').matches||
