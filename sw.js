@@ -1,4 +1,4 @@
-const CACHE = 'quad2-v1';
+const CACHE = 'quad2-v2';
 const ASSETS = [
   './index.html',
   './manifest.json',

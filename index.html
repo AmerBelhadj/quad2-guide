@@ -14,1779 +14,782 @@
 <title>Mares Quad 2 — Guide Moniteur</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Barlow+Condensed:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --deep:#020d1a; --surface:#0a1f35; --panel:#0d2640; --card:#102c4a;
-  --accent:#00d4ff; --accent2:#00ff88; --warn:#ff6b35; --danger:#ff2d55;
-  --text:#cde8ff; --muted:#4a7a9b;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bot: env(safe-area-inset-bottom, 0px);
-}
+:root{--deep:#020d1a;--surface:#0a1f35;--panel:#0d2640;--card:#102c4a;--accent:#00d4ff;--accent2:#00ff88;--warn:#ff6b35;--danger:#ff2d55;--text:#cde8ff;--muted:#4a7a9b;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html,body{
-  height:100%; overflow:hidden;
-  background:var(--deep); color:var(--text);
-  font-family:'Barlow Condensed',sans-serif;
-  -webkit-overflow-scrolling:touch;
-}
-
-/* ── SPLASH ── */
-#splash{
-  position:fixed;inset:0;z-index:999;
-  background:var(--deep);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transition:opacity .5s ease, transform .5s ease;
-}
+html,body{height:100%;overflow:hidden;background:var(--deep);color:var(--text);font-family:'Barlow Condensed',sans-serif;-webkit-overflow-scrolling:touch;}
+#splash{position:fixed;inset:0;z-index:999;background:var(--deep);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease,transform .5s ease;}
 #splash.hide{opacity:0;transform:scale(1.05);pointer-events:none;}
-.splash-logo{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:72px;letter-spacing:6px;color:white;line-height:.9;text-align:center;
-  text-shadow:0 0 60px rgba(0,212,255,.5);
-}
+.splash-logo{font-family:'Bebas Neue',sans-serif;font-size:72px;letter-spacing:6px;color:white;line-height:.9;text-align:center;text-shadow:0 0 60px rgba(0,212,255,.5);}
 .splash-logo span{color:var(--accent);}
-.splash-sub{
-  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;
-  color:var(--muted);margin-top:12px;text-align:center;
-}
-.splash-bar{
-  width:160px;height:2px;background:var(--panel);border-radius:2px;
-  margin-top:28px;overflow:hidden;
-}
-.splash-fill{
-  height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border-radius:2px;animation:load 1.8s ease forwards;
-}
+.splash-sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);margin-top:12px;text-align:center;}
+.splash-bar{width:160px;height:2px;background:var(--panel);border-radius:2px;margin-top:28px;overflow:hidden;}
+.splash-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;animation:load 1.8s ease forwards;}
 @keyframes load{to{width:100%;}}
-.splash-version{
-  position:absolute;bottom:calc(20px + var(--safe-bot));
-  font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);
-  letter-spacing:2px;
-}
-
-/* ── SHELL ── */
-#app{
-  display:flex;flex-direction:column;
-  height:100%;
-  padding-top:var(--safe-top);
-  padding-bottom:var(--safe-bot);
-}
-
-/* ── TOP BAR ── */
-#topbar{
-  flex-shrink:0;
-  background:linear-gradient(180deg,#000 0%,var(--deep) 100%);
-  border-bottom:1px solid rgba(0,212,255,.2);
-  padding:10px 16px 8px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.topbar-title{
-  font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:white;
-}
+.splash-version{position:absolute;bottom:calc(20px + var(--safe-bot));font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;}
+#app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top);padding-bottom:var(--safe-bot);position:relative;z-index:1;}
+#topbar{flex-shrink:0;background:linear-gradient(180deg,#000 0%,var(--deep) 100%);border-bottom:1px solid rgba(0,212,255,.2);padding:10px 16px 8px;display:flex;align-items:center;justify-content:space-between;}
+.topbar-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:white;}
 .topbar-title span{color:var(--accent);}
-.topbar-badge{
-  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;
-  color:var(--accent);border:1px solid rgba(0,212,255,.3);
-  padding:3px 8px;border-radius:4px;
-}
-#offline-badge{
-  display:none;font-family:'Space Mono',monospace;font-size:8px;
-  color:var(--accent2);border:1px solid var(--accent2);padding:2px 6px;border-radius:3px;
-}
-
-/* ── NAV TABS ── */
-#nav{
-  flex-shrink:0;
-  display:flex;background:var(--panel);
-  border-bottom:1px solid rgba(0,212,255,.15);
-  overflow-x:auto;scrollbar-width:none;
-}
+.topbar-badge{font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;color:var(--accent);border:1px solid rgba(0,212,255,.3);padding:3px 8px;border-radius:4px;}
+#offline-badge{display:none;font-family:'Space Mono',monospace;font-size:8px;color:var(--accent2);border:1px solid var(--accent2);padding:2px 6px;border-radius:3px;}
+#install-banner{display:none;background:linear-gradient(135deg,var(--panel),var(--card));border:1px solid rgba(0,255,136,.25);border-radius:12px;padding:12px 14px;margin:0 12px 8px;align-items:center;gap:12px;}
+#install-banner.show{display:flex;}
+.install-text{flex:1;font-size:12px;color:var(--text);line-height:1.4;}
+.install-text strong{color:var(--accent2);font-family:'Space Mono',monospace;font-size:10px;}
+.install-btn{background:var(--accent2);color:#000;border:none;border-radius:8px;padding:8px 14px;font-family:'Space Mono',monospace;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0;}
+.install-close{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;flex-shrink:0;line-height:1;}
+#ios-hint{display:none;background:var(--panel);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:12px 14px;margin:0 12px 8px;font-size:12px;color:var(--text);line-height:1.6;}
+#ios-hint.show{display:block;}
+#ios-hint strong{color:var(--accent);}
+#nav{flex-shrink:0;display:flex;background:var(--panel);border-bottom:1px solid rgba(0,212,255,.15);overflow-x:auto;scrollbar-width:none;}
 #nav::-webkit-scrollbar{display:none;}
-.nav-btn{
-  flex-shrink:0;
-  padding:10px 14px;
-  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;
-  color:var(--muted);border:none;background:transparent;cursor:pointer;
-  border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;
-}
+.nav-btn{flex-shrink:0;padding:10px 12px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);border:none;background:transparent;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;}
 .nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
-.nav-btn span{font-size:13px;margin-right:4px;}
-
-/* ── CONTENT ── */
-#content{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  scrollbar-width:thin;scrollbar-color:var(--panel) transparent;
-  -webkit-overflow-scrolling:touch;
-}
-.page{display:none;padding:14px 12px 20px;animation:fadeIn .3s ease;}
+.nav-btn span{font-size:13px;margin-right:3px;}
+#content{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--panel) transparent;-webkit-overflow-scrolling:touch;}
+.page{display:none;padding:14px 12px 24px;animation:fadeIn .3s ease;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-
-/* ── SECTION HEADERS ── */
-.sec-label{
-  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;
-  color:var(--accent);text-transform:uppercase;margin-bottom:4px;
-}
-.sec-title{
-  font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;
-  color:white;margin-bottom:14px;
-}
-
-/* ── CARDS ── */
-.card{
-  background:var(--card);border-radius:14px;
-  padding:14px;margin-bottom:12px;
-  border-left:3px solid var(--accent2);
-  position:relative;overflow:hidden;
-}
+.sec-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:white;margin-bottom:14px;}
+.sec-sub{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--accent);margin:16px 0 8px;}
+.card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;border-left:3px solid var(--accent2);position:relative;overflow:hidden;}
 .card.danger-card{border-left-color:var(--danger);}
 .card.warn-card{border-left-color:var(--warn);}
 .card.accent-card{border-left-color:var(--accent);}
-.card::after{
-  content:'';position:absolute;top:0;right:0;
-  width:60px;height:60px;
-  background:radial-gradient(circle at top right,rgba(0,212,255,.06),transparent);
-  pointer-events:none;
-}
-.card-header{
-  display:flex;align-items:center;gap:10px;margin-bottom:8px;
-}
-.card-icon{font-size:24px;flex-shrink:0;}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.card-icon{font-size:22px;flex-shrink:0;}
 .card-title-wrap{flex:1;}
-.card-title{
-  font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:white;
-}
-.card-badge{
-  font-family:'Space Mono',monospace;font-size:8px;padding:2px 7px;
-  border-radius:10px;display:inline-block;margin-top:2px;
-}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px;color:white;}
+.card-badge{font-family:'Space Mono',monospace;font-size:8px;padding:2px 7px;border-radius:10px;display:inline-block;margin-top:2px;}
 .badge-ok{background:rgba(0,255,136,.12);color:var(--accent2);border:1px solid rgba(0,255,136,.25);}
 .badge-warn{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.25);}
 .badge-danger{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.25);}
 .badge-info{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
-
 .card-body{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
-
-/* Gauges */
 .gauges{display:flex;gap:8px;margin:10px 0;}
-.gauge{
-  flex:1;background:var(--surface);border-radius:8px;
-  padding:8px 6px;text-align:center;border:1px solid rgba(255,255,255,.05);
-}
-.gauge-val{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;}
+.gauge{flex:1;background:var(--surface);border-radius:8px;padding:8px 6px;text-align:center;border:1px solid rgba(255,255,255,.05);}
+.gauge-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;}
 .gauge-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:2px;}
 .gauge.g-ok .gauge-val{color:var(--accent2);}
 .gauge.g-warn .gauge-val{color:var(--warn);}
 .gauge.g-danger .gauge-val{color:var(--danger);}
-
-/* Algo bars */
+.gauge.g-blue .gauge-val{color:var(--accent);}
 .algo-list{background:var(--surface);border-radius:10px;padding:10px;margin:10px 0;}
 .algo-row{display:flex;align-items:center;gap:8px;margin:5px 0;}
-.algo-name{font-family:'Space Mono',monospace;font-size:10px;width:52px;flex-shrink:0;}
+.algo-name{font-family:'Space Mono',monospace;font-size:10px;width:60px;flex-shrink:0;}
 .algo-bg{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
 .algo-fill{height:100%;border-radius:3px;}
-.algo-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);width:38px;text-align:right;flex-shrink:0;}
-
-/* Screen */
-.screen{
-  background:#000;border:1px solid #0d2640;border-radius:8px;
-  padding:10px 12px;margin:10px 0;
-  position:relative;overflow:hidden;
-}
-.screen::before{
-  content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.02) 2px,rgba(0,212,255,.02) 4px);
-  pointer-events:none;
-}
-.screen-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:4px 0;border-bottom:1px solid rgba(0,212,255,.07);
-}
-.screen-row:last-child{border-bottom:none;}
-.screen-key{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);}
-.screen-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);}
-.screen-val.sv-green{color:var(--accent2);}
-.screen-val.sv-orange{color:var(--warn);}
-.screen-val.sv-danger{color:var(--danger);}
-
-/* Tip */
-.tip{
-  background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);
-  border-radius:8px;padding:9px 11px;font-size:12px;color:var(--accent);
-  line-height:1.5;margin-top:8px;
-}
-.tip.tip-danger{
-  background:rgba(255,45,85,.07);border-color:rgba(255,45,85,.25);color:var(--danger);
-}
-.tip::before{content:'⚓ ';}
-
-/* ── MANIP BLOCK ── */
+.algo-val{font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);width:70px;text-align:right;flex-shrink:0;}
+.lcd{background:#030e18;border:1px solid #0d2640;border-radius:8px;padding:0;margin:10px 0;overflow:hidden;position:relative;}
+.lcd::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,.025) 2px,rgba(0,212,255,.025) 4px);pointer-events:none;z-index:1;}
+.lcd-row{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;border-bottom:1px solid rgba(0,212,255,.07);position:relative;z-index:2;}
+.lcd-row:last-child{border-bottom:none;}
+.lcd-key{font-family:'Space Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;}
+.lcd-val{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;color:var(--accent);}
+.lcd-val.lv-green{color:var(--accent2);}
+.lcd-val.lv-orange{color:var(--warn);}
+.lcd-val.lv-red{color:var(--danger);}
+.tip{background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.15);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--accent);line-height:1.5;margin-top:8px;}
+.tip.tip-danger{background:rgba(255,45,85,.07);border-color:rgba(255,45,85,.25);color:var(--danger);}
+.tip.tip-warn{background:rgba(255,107,53,.07);border-color:rgba(255,107,53,.25);color:var(--warn);}
 .manip{margin-top:12px;}
-.manip-hdr{
-  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;
-  color:var(--accent);text-transform:uppercase;
-  padding:6px 10px;background:rgba(0,212,255,.06);
-  border-radius:6px 6px 0 0;border:1px solid rgba(0,212,255,.12);
-  border-bottom:none;
-}
-.manip-steps{
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(0,212,255,.1);
-  border-radius:0 0 6px 6px;
-  overflow:hidden;
-}
-.step{
-  display:flex;align-items:center;gap:8px;
-  padding:7px 10px;border-bottom:1px solid rgba(0,212,255,.05);
-  transition:background .15s;
-}
+.manip-hdr{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;padding:6px 10px;background:rgba(0,212,255,.06);border-radius:6px 6px 0 0;border:1px solid rgba(0,212,255,.12);border-bottom:none;}
+.manip-steps{background:rgba(0,0,0,.4);border:1px solid rgba(0,212,255,.1);border-radius:0 0 6px 6px;overflow:hidden;}
+.step{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-bottom:1px solid rgba(0,212,255,.05);}
 .step:last-child{border-bottom:none;}
-.step:active{background:rgba(0,212,255,.04);}
-.step-num{
-  width:18px;height:18px;border-radius:50%;
-  background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);
-  color:var(--accent);font-family:'Space Mono',monospace;font-size:9px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.btns{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;}
-.btn-pill{
-  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
-  padding:2px 7px;border-radius:4px;white-space:nowrap;
-}
+.step-num{width:18px;height:18px;border-radius:50%;background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.25);color:var(--accent);font-family:'Space Mono',monospace;font-size:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.btns{display:flex;gap:4px;flex-shrink:0;flex-wrap:wrap;min-width:62px;}
+.btn-pill{font-family:'Space Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;}
 .bp-tl{background:rgba(0,212,255,.15);color:var(--accent);border:1px solid rgba(0,212,255,.3);}
 .bp-bl{background:rgba(0,255,136,.12);color:var(--accent2);border:1px solid rgba(0,255,136,.3);}
 .bp-tr{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.3);}
 .bp-br{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.3);}
 .bp-neutral{background:rgba(255,255,255,.06);color:var(--muted);border:1px solid rgba(255,255,255,.1);}
-.step-txt{font-size:12px;color:var(--text);line-height:1.3;flex:1;}
-.result{
-  font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);
-  padding:7px 10px;background:rgba(0,255,136,.05);
-  border-top:1px solid rgba(0,255,136,.12);
-}
+.step-txt{font-size:12px;color:var(--text);line-height:1.4;flex:1;}
+.result{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);padding:7px 10px;background:rgba(0,255,136,.05);border-top:1px solid rgba(0,255,136,.12);}
 .result::before{content:'✓  ';}
-.result.r-danger{
-  color:var(--danger);background:rgba(255,45,85,.07);
-  border-top-color:rgba(255,45,85,.2);
-}
-
-/* ── BUTTONS PAGE ── */
+.result.r-danger{color:var(--danger);background:rgba(255,45,85,.07);border-top-color:rgba(255,45,85,.2);}
 .btn-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.btn-card{
-  background:var(--card);border-radius:12px;padding:14px 12px;
-  border:1px solid rgba(0,212,255,.1);transition:all .2s;
-}
+.btn-card{background:var(--card);border-radius:12px;padding:14px 12px;border:1px solid rgba(0,212,255,.1);}
 .btn-card:active{transform:scale(.97);}
 .btn-card.bc-tl{border-left:3px solid var(--accent);}
 .btn-card.bc-bl{border-left:3px solid var(--accent2);}
 .btn-card.bc-tr{border-left:3px solid var(--warn);}
 .btn-card.bc-br{border-left:3px solid var(--danger);}
-.bc-name{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;margin-bottom:6px;}
+.bc-name{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;margin-bottom:6px;}
 .bc-tl .bc-name{color:var(--accent);}
 .bc-bl .bc-name{color:var(--accent2);}
 .bc-tr .bc-name{color:var(--warn);}
 .bc-br .bc-name{color:var(--danger);}
 .bc-actions{font-size:11.5px;color:var(--muted);line-height:1.6;}
-.tag{
-  display:inline-block;font-family:'Space Mono',monospace;font-size:8px;
-  padding:1px 5px;border-radius:3px;margin-right:3px;
-}
+.tag{display:inline-block;font-family:'Space Mono',monospace;font-size:8px;padding:1px 5px;border-radius:3px;margin-right:3px;}
 .tag-sp{background:rgba(0,212,255,.15);color:var(--accent);}
 .tag-lp{background:rgba(255,107,53,.15);color:var(--warn);}
-.sp-note{
-  background:var(--surface);border-radius:8px;padding:10px 12px;
-  font-size:12px;color:var(--muted);grid-column:span 2;
-  border:1px solid rgba(0,212,255,.08);line-height:1.6;
-}
-
-/* ── CHECKLIST PAGE ── */
-.check-item{
-  display:flex;align-items:flex-start;gap:12px;
-  padding:13px 12px;background:var(--card);
-  border-radius:12px;margin-bottom:8px;
-  border:1px solid rgba(0,212,255,.08);
-  transition:all .2s;cursor:pointer;
-  -webkit-user-select:none;user-select:none;
-}
+.sp-note{background:var(--surface);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--muted);grid-column:span 2;border:1px solid rgba(0,212,255,.08);line-height:1.6;}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:13px 12px;background:var(--card);border-radius:12px;margin-bottom:8px;border:1px solid rgba(0,212,255,.08);transition:all .2s;cursor:pointer;-webkit-user-select:none;user-select:none;}
 .check-item:active{transform:scale(.98);}
 .check-item.done{background:rgba(0,255,136,.04);border-color:rgba(0,255,136,.15);}
 .check-item.done .check-text{text-decoration:line-through;color:var(--muted);}
-.check-box{
-  width:22px;height:22px;border-radius:6px;
-  border:2px solid var(--accent);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;transition:all .25s;
-}
-.check-item.done .check-box{
-  background:var(--accent2);border-color:var(--accent2);
-  box-shadow:0 0 10px rgba(0,255,136,.4);
-}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--accent);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .25s;}
+.check-item.done .check-box{background:var(--accent2);border-color:var(--accent2);box-shadow:0 0 10px rgba(0,255,136,.4);}
 .check-text{font-size:14px;font-weight:600;line-height:1.3;transition:all .2s;}
 .check-sub{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4;}
-.check-prio{
-  margin-left:auto;font-family:'Space Mono',monospace;font-size:8px;
-  padding:2px 7px;border-radius:10px;flex-shrink:0;align-self:flex-start;
-}
+.check-prio{margin-left:auto;font-family:'Space Mono',monospace;font-size:8px;padding:2px 7px;border-radius:10px;flex-shrink:0;align-self:flex-start;}
 .prio-h{background:rgba(255,45,85,.12);color:var(--danger);border:1px solid rgba(255,45,85,.25);}
 .prio-m{background:rgba(255,107,53,.12);color:var(--warn);border:1px solid rgba(255,107,53,.25);}
 .prio-l{background:rgba(0,212,255,.1);color:var(--accent);border:1px solid rgba(0,212,255,.2);}
-.check-progress{
-  background:var(--panel);border-radius:10px;padding:12px 14px;
-  margin-bottom:12px;display:flex;align-items:center;gap:12px;
-}
-.progress-bar-bg{
-  flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;
-}
-.progress-bar-fill{
-  height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));
-  border-radius:3px;transition:width .4s ease;width:0%;
-}
-.progress-text{
-  font-family:'Space Mono',monospace;font-size:11px;
-  color:var(--accent2);flex-shrink:0;min-width:36px;text-align:right;
-}
-.reset-btn{
-  width:100%;padding:11px;background:transparent;
-  border:1px solid var(--muted);border-radius:10px;
-  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;
-  color:var(--muted);cursor:pointer;transition:all .2s;margin-top:4px;
-}
+.check-progress{background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.progress-bar-bg{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width .4s ease;width:0%;}
+.progress-text{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent2);flex-shrink:0;min-width:36px;text-align:right;}
+.reset-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--muted);border-radius:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);cursor:pointer;transition:all .2s;margin-top:4px;}
 .reset-btn:active{border-color:var(--accent);color:var(--accent);}
-
-/* ── PROFILE PAGE ── */
-.profile-card{
-  background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;
-}
-.profile-title{
-  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
-  color:var(--accent);margin-bottom:10px;
-}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-.chip{
-  background:var(--surface);border:1px solid rgba(0,212,255,.15);
-  border-radius:16px;padding:5px 11px;font-size:11px;
-  display:flex;align-items:center;gap:6px;
-}
-.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-
-/* ── INSTALL BANNER ── */
-#install-banner{
-  display:none;
-  background:linear-gradient(135deg,var(--panel),var(--card));
-  border:1px solid rgba(0,255,136,.25);border-radius:12px;
-  padding:12px 14px;margin:0 12px 12px;
-  align-items:center;gap:12px;
-}
-#install-banner.show{display:flex;}
-.install-text{flex:1;font-size:12px;color:var(--text);line-height:1.4;}
-.install-text strong{color:var(--accent2);font-family:'Space Mono',monospace;font-size:10px;}
-.install-btn{
-  background:var(--accent2);color:#000;border:none;
-  border-radius:8px;padding:8px 14px;
-  font-family:'Space Mono',monospace;font-size:10px;font-weight:700;
-  cursor:pointer;flex-shrink:0;
-}
-.install-close{
-  background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;
-  flex-shrink:0;line-height:1;
-}
-
-/* ── iOS INSTALL HINT ── */
-#ios-hint{
-  display:none;
-  background:var(--panel);border:1px solid rgba(0,212,255,.2);
-  border-radius:12px;padding:12px 14px;margin:0 12px 12px;
-  font-size:12px;color:var(--text);line-height:1.6;
-}
-#ios-hint.show{display:block;}
-#ios-hint strong{color:var(--accent);}
-
-/* ── DIVIDER ── */
-.divider{
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),transparent);
-  margin:16px 0;
-}
-
-/* ── ÉCRANS ANNOTÉS ── */
-.screen-mode-tabs{
-  display:flex;gap:6px;margin-bottom:14px;
-}
-.smt-btn{
-  flex:1;padding:9px 6px;border:1px solid rgba(0,212,255,.15);
-  background:var(--panel);border-radius:10px;
-  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;
-  color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;
-}
-.smt-btn.active{
-  background:rgba(0,212,255,.1);border-color:var(--accent);color:var(--accent);
-}
+.alert-strip{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:8px;margin:5px 0;font-size:12px;line-height:1.4;}
+.alert-strip.as-ok{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);color:var(--accent2);}
+.alert-strip.as-warn{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2);color:var(--warn);}
+.alert-strip.as-danger{background:rgba(255,45,85,.08);border:1px solid rgba(255,45,85,.2);color:var(--danger);}
+.screen-mode-tabs{display:flex;gap:6px;margin-bottom:14px;}
+.smt-btn{flex:1;padding:9px 6px;border:1px solid rgba(0,212,255,.15);background:var(--panel);border-radius:10px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);cursor:pointer;transition:all .2s;text-align:center;}
+.smt-btn.active{background:rgba(0,212,255,.1);border-color:var(--accent);color:var(--accent);}
 .screen-view{display:none;}
 .screen-view.active{display:block;}
-
-/* Ordi annoté */
-.ordi-annotated{
-  position:relative;margin:0 auto 16px;
-  background:var(--card);border-radius:16px;padding:16px;
-}
-.ordi-label{
-  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;
-  color:var(--accent);text-align:center;margin-bottom:10px;text-transform:uppercase;
-}
-
-/* Zones cliquables sur l'écran SVG */
-.zone-tooltip{
-  position:absolute;
-  background:var(--deep);border:1px solid var(--accent);
-  border-radius:8px;padding:8px 10px;
-  font-size:11px;color:var(--text);line-height:1.4;
-  width:170px;z-index:20;
-  box-shadow:0 4px 20px rgba(0,0,0,.6);
-  pointer-events:none;
-  opacity:0;transform:scale(.92);
-  transition:all .18s ease;
-}
-.zone-tooltip.show{opacity:1;transform:scale(1);}
-.zone-tooltip strong{color:var(--accent);font-family:'Space Mono',monospace;font-size:9px;}
-.zone-tooltip .zt-val{color:var(--accent2);font-family:'Space Mono',monospace;font-size:13px;font-weight:700;display:block;margin:2px 0;}
-.zone-tooltip .zt-warn{color:var(--warn);}
-.zone-tooltip .zt-danger{color:var(--danger);}
-
-/* Légende des champs */
-.fields-legend{
-  display:flex;flex-direction:column;gap:6px;margin-top:4px;
-}
-.field-row{
-  display:flex;align-items:flex-start;gap:10px;
-  background:var(--surface);border-radius:8px;padding:8px 10px;
-  border:1px solid rgba(0,212,255,.08);cursor:pointer;transition:all .2s;
-}
-.field-row:active{background:rgba(0,212,255,.06);}
-.field-row.fr-warn{border-left:3px solid var(--warn);}
-.field-row.fr-ok{border-left:3px solid var(--accent2);}
-.field-row.fr-accent{border-left:3px solid var(--accent);}
-.field-row.fr-danger{border-left:3px solid var(--danger);}
-.field-dot{
-  width:28px;height:28px;border-radius:6px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Space Mono',monospace;font-size:9px;font-weight:700;
-}
+.fields-legend{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+.field-row{display:flex;align-items:flex-start;gap:10px;background:var(--surface);border-radius:8px;padding:8px 10px;border-left:3px solid var(--accent);}
+.field-row.fr-warn{border-left-color:var(--warn);}
+.field-row.fr-ok{border-left-color:var(--accent2);}
+.field-row.fr-danger{border-left-color:var(--danger);}
+.field-dot{width:28px;height:28px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;}
 .fd-blue{background:rgba(0,212,255,.12);color:var(--accent);}
 .fd-green{background:rgba(0,255,136,.12);color:var(--accent2);}
 .fd-orange{background:rgba(255,107,53,.12);color:var(--warn);}
 .fd-red{background:rgba(255,45,85,.12);color:var(--danger);}
-.fd-white{background:rgba(255,255,255,.08);color:white;}
 .field-info{flex:1;}
 .field-name{font-size:13px;font-weight:600;color:white;line-height:1.2;}
 .field-desc{font-size:11px;color:var(--muted);line-height:1.4;margin-top:2px;}
-.field-val{
-  font-family:'Space Mono',monospace;font-size:11px;flex-shrink:0;
-  align-self:center;padding:3px 7px;border-radius:5px;
-  background:rgba(0,0,0,.3);
-}
-
-/* Alerte states */
-.alert-strip{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 10px;border-radius:8px;margin:8px 0;font-size:12px;
-}
-.alert-strip.as-ok{background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.2);color:var(--accent2);}
-.alert-strip.as-warn{background:rgba(255,107,53,.08);border:1px solid rgba(255,107,53,.2);color:var(--warn);}
-.alert-strip.as-danger{background:rgba(255,45,85,.08);border:1px solid rgba(255,45,85,.2);color:var(--danger);}
-
-.sec-sub{
-  font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;
-  color:var(--accent);margin:16px 0 8px;
-}
-
-/* Bubbles deco */
-.bubble-deco{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:0;overflow:hidden;
-}
-.bd{
-  position:absolute;bottom:-10px;
-  background:rgba(0,212,255,.06);
-  border:1px solid rgba(0,212,255,.1);
-  border-radius:50%;animation:rise linear infinite;
-}
+.field-val{font-family:'Space Mono',monospace;font-size:11px;flex-shrink:0;align-self:center;padding:3px 7px;border-radius:5px;background:rgba(0,0,0,.3);}
+.bubble-deco{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden;}
+.bd{position:absolute;bottom:-10px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);border-radius:50%;animation:rise linear infinite;}
 @keyframes rise{to{transform:translateY(-110vh);opacity:0;}}
-#app{position:relative;z-index:1;}
 </style>
 </head>
 <body>
-
 <div class="bubble-deco" id="bubbles"></div>
-
-<!-- SPLASH -->
 <div id="splash">
   <div class="splash-logo">MARES<br><span>QUAD 2</span></div>
-  <div class="splash-sub">GUIDE MONITEUR FFESSM / PADI</div>
+  <div class="splash-sub">GUIDE MONITEUR — MANUEL OFFICIEL</div>
   <div class="splash-bar"><div class="splash-fill"></div></div>
-  <div class="splash-version">v1.0 · OFFLINE READY</div>
+  <div class="splash-version">v2.0 · OFFLINE READY</div>
 </div>
-
-<!-- APP SHELL -->
 <div id="app">
-
-  <!-- TOP BAR -->
   <div id="topbar">
-    <div>
-      <div class="topbar-title">MARES <span>QUAD 2</span></div>
-    </div>
+    <div><div class="topbar-title">MARES <span>QUAD 2</span></div></div>
     <div style="display:flex;gap:8px;align-items:center;">
       <div id="offline-badge">✓ OFFLINE</div>
       <div class="topbar-badge">MONITEUR</div>
     </div>
   </div>
-
-  <!-- INSTALL BANNER (Android) -->
   <div id="install-banner">
-    <div class="install-text">
-      <strong>📲 INSTALLER L'APP</strong><br>
-      Ajouter à l'écran d'accueil pour un accès hors-ligne instantané.
-    </div>
+    <div class="install-text"><strong>📲 INSTALLER L'APP</strong><br>Accès hors-ligne au bord de l'eau.</div>
     <button class="install-btn" id="install-btn">INSTALLER</button>
     <button class="install-close" id="install-close">×</button>
   </div>
-
-  <!-- iOS HINT -->
-  <div id="ios-hint">
-    📲 <strong>Installer sur iPhone :</strong> Appuie sur <strong>⎙ Partager</strong> puis <strong>« Sur l'écran d'accueil »</strong> pour installer l'app hors-ligne.
-    <button onclick="document.getElementById('ios-hint').classList.remove('show')"
-      style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;">×</button>
-  </div>
-
-  <!-- TABS -->
+  <div id="ios-hint">📲 <strong>iPhone :</strong> bouton <strong>⎙ Partager</strong> → <strong>« Sur l'écran d'accueil »</strong><button onclick="document.getElementById('ios-hint').classList.remove('show')" style="float:right;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;">×</button></div>
   <div id="nav">
     <button class="nav-btn active" onclick="showPage('boutons',this)"><span>🔲</span>BOUTONS</button>
-    <button class="nav-btn" onclick="showPage('obligatoires',this)"><span>⚠️</span>OBLIGATOIRES</button>
-    <button class="nav-btn" onclick="showPage('disponibles',this)"><span>⚙️</span>DISPONIBLES</button>
+    <button class="nav-btn" onclick="showPage('reglages',this)"><span>⚙️</span>RÉGLAGES</button>
     <button class="nav-btn" onclick="showPage('ecrans',this)"><span>🖥️</span>ÉCRANS</button>
-    <button class="nav-btn" onclick="showPage('profil',this)"><span>📊</span>PROFIL</button>
+    <button class="nav-btn" onclick="showPage('alarmes',this)"><span>🚨</span>ALARMES</button>
     <button class="nav-btn" onclick="showPage('checklist',this)"><span>✅</span>CHECKLIST</button>
   </div>
-
-  <!-- CONTENT -->
   <div id="content">
 
-    <!-- PAGE 1: BOUTONS -->
-    <div class="page active" id="page-boutons">
-      <div class="sec-label">SECTION 01</div>
-      <div class="sec-title">LES 4 BOUTONS</div>
-
-      <div class="btn-grid">
-        <div class="btn-card bc-tl">
-          <div class="bc-name">TL — ↖</div>
-          <div class="bc-actions">
-            <span class="tag tag-sp">SP</span>Navigation ↑<br>
-            <span class="tag tag-lp">LP</span>Menu principal
-          </div>
-        </div>
-        <div class="btn-card bc-tr">
-          <div class="bc-name">TR — ↗</div>
-          <div class="bc-actions">
-            <span class="tag tag-sp">SP</span>Champ haut<br>
-            <span class="tag tag-lp">LP</span>Rétroéclairage
-          </div>
-        </div>
-        <div class="btn-card bc-bl">
-          <div class="bc-name">BL — ↙</div>
-          <div class="bc-actions">
-            <span class="tag tag-sp">SP</span>Confirmer / ↓<br>
-            <span class="tag tag-lp">LP</span>Reset chrono
-          </div>
-        </div>
-        <div class="btn-card bc-br">
-          <div class="bc-name">BR — ↘</div>
-          <div class="bc-actions">
-            <span class="tag tag-sp">SP</span>Champ bas<br>
-            <span class="tag tag-lp">LP</span>Quitter / Retour
-          </div>
-        </div>
-        <div class="sp-note">
-          <span class="tag tag-sp" style="font-size:9px">SP</span> appui court &nbsp;·&nbsp;
-          <span class="tag tag-lp" style="font-size:9px">LP</span> appui long &gt;1 sec<br>
-          💡 Mémorise bien SP/LP — la logique est universelle dans tous les menus.
-        </div>
-      </div>
-
-      <!-- SVG ordi stylisé -->
-      <div style="background:var(--card);border-radius:14px;padding:16px;text-align:center;">
-        <div class="sec-label" style="margin-bottom:10px;">REPRÉSENTATION</div>
-        <svg viewBox="0 0 260 300" width="200" style="max-width:100%;">
-          <rect x="90" y="0" width="80" height="24" rx="6" fill="#0a1f35" stroke="#1a4060" stroke-width="1"/>
-          <rect x="15" y="20" width="230" height="260" rx="28" fill="#0a1f35" stroke="#1a4060" stroke-width="1.5"/>
-          <rect x="42" y="46" width="176" height="186" rx="10" fill="#020d1a" stroke="#0d2640" stroke-width="1"/>
-          <!-- écran -->
-          <text x="130" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="1">PROFONDEUR</text>
-          <text x="130" y="108" text-anchor="middle" font-family="monospace" font-size="34" fill="#00d4ff" font-weight="bold">18.4</text>
-          <text x="130" y="124" text-anchor="middle" font-family="monospace" font-size="10" fill="#4a7a9b">m</text>
-          <line x1="52" y1="136" x2="208" y2="136" stroke="#0d2640" stroke-width="1"/>
-          <text x="90" y="154" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
-          <text x="90" y="170" text-anchor="middle" font-family="monospace" font-size="16" fill="#00ff88" font-weight="bold">24:30</text>
-          <text x="170" y="154" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NDL</text>
-          <text x="170" y="170" text-anchor="middle" font-family="monospace" font-size="16" fill="#00d4ff" font-weight="bold">12</text>
-          <line x1="52" y1="180" x2="208" y2="180" stroke="#0d2640" stroke-width="1"/>
-          <text x="90" y="196" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">ppO2</text>
-          <text x="90" y="212" text-anchor="middle" font-family="monospace" font-size="13" fill="#ff6b35" font-weight="bold">1.14</text>
-          <text x="170" y="196" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TTS</text>
-          <text x="170" y="212" text-anchor="middle" font-family="monospace" font-size="13" fill="#00d4ff" font-weight="bold">03:20</text>
-          <!-- boutons TL -->
-          <rect x="16" y="60" width="22" height="34" rx="5" fill="#071525" stroke="#00d4ff" stroke-width="1.5"/>
-          <text x="27" y="76" text-anchor="middle" font-family="monospace" font-size="7" fill="#00d4ff" font-weight="bold">TL</text>
-          <circle cx="27" cy="86" r="2" fill="#00d4ff" opacity=".4"/>
-          <!-- BL -->
-          <rect x="16" y="158" width="22" height="34" rx="5" fill="#071525" stroke="#00ff88" stroke-width="1.5"/>
-          <text x="27" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#00ff88" font-weight="bold">BL</text>
-          <circle cx="27" cy="184" r="2" fill="#00ff88" opacity=".4"/>
-          <!-- TR -->
-          <rect x="222" y="60" width="22" height="34" rx="5" fill="#071525" stroke="#ff6b35" stroke-width="1.5"/>
-          <text x="233" y="76" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff6b35" font-weight="bold">TR</text>
-          <circle cx="233" cy="86" r="2" fill="#ff6b35" opacity=".4"/>
-          <!-- BR -->
-          <rect x="222" y="158" width="22" height="34" rx="5" fill="#071525" stroke="#ff2d55" stroke-width="1.5"/>
-          <text x="233" y="174" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff2d55" font-weight="bold">BR</text>
-          <circle cx="233" cy="184" r="2" fill="#ff2d55" opacity=".4"/>
-          <!-- bracelet bas -->
-          <rect x="90" y="278" width="80" height="22" rx="6" fill="#0a1f35" stroke="#1a4060" stroke-width="1"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- PAGE 2: OBLIGATOIRES -->
-    <div class="page" id="page-obligatoires">
-      <div class="sec-label">SECTION 02</div>
-      <div class="sec-title">PARAMÈTRES OBLIGATOIRES</div>
-
-      <!-- ALGO -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon">🧮</div>
-          <div class="card-title-wrap">
-            <div class="card-title">Algorithme Bühlmann</div>
-            <span class="card-badge badge-ok">OBLIGATOIRE</span>
-          </div>
-        </div>
-        <div class="card-body">Facteurs de gradient GF Low / GF High. Contrôle le conservatisme de la décompression (ZH-L16C).</div>
-        <div class="algo-list">
-          <div class="algo-row">
-            <span class="algo-name" style="color:#00ff88">R0 85/85</span>
-            <div class="algo-bg"><div class="algo-fill" style="width:85%;background:linear-gradient(90deg,#00ff88,#00d4ff)"></div></div>
-            <span class="algo-val">Récréatif</span>
-          </div>
-          <div class="algo-row">
-            <span class="algo-name" style="color:#00d4ff">R1 75/80</span>
-            <div class="algo-bg"><div class="algo-fill" style="width:75%;background:linear-gradient(90deg,#00d4ff,#0066ff)"></div></div>
-            <span class="algo-val">Enseignt.</span>
-          </div>
-          <div class="algo-row">
-            <span class="algo-name" style="color:#ff6b35">R2 60/70</span>
-            <div class="algo-bg"><div class="algo-fill" style="width:60%;background:linear-gradient(90deg,#ff6b35,#ff9500)"></div></div>
-            <span class="algo-val">Technique</span>
-          </div>
-          <div class="algo-row">
-            <span class="algo-name" style="color:#ff2d55">R3 50/60</span>
-            <div class="algo-bg"><div class="algo-fill" style="width:50%;background:linear-gradient(90deg,#ff2d55,#ff6b35)"></div></div>
-            <span class="algo-val">Conserv.</span>
-          </div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — CHANGER L'ALGORITHME</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers RÉGLER PARAMÈTRES</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer la sélection</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers ALGORITHME</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans le réglage</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Sélectionner R0 · R1 · R2 · R3</div></div>
-            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">Algorithme mis à jour — visible sur l'écran principal</div>
-        </div>
-        <div class="tip">Utilise R0 ou R1 en récréatif. R1 recommandé pour l'enseignement.</div>
-      </div>
-
-      <!-- GAZ -->
-      <div class="card danger-card">
-        <div class="card-header">
-          <div class="card-icon">🧪</div>
-          <div class="card-title-wrap">
-            <div class="card-title">Réglage Gaz (FO2)</div>
-            <span class="card-badge badge-danger">CRITIQUE ⚠️</span>
-          </div>
-        </div>
-        <div class="card-body">Pourcentage O₂ du mélange. Utilisé pour tous les calculs de déco et ppO₂. Jusqu'à 5 mélanges.</div>
-        <div class="gauges">
-          <div class="gauge g-ok"><div class="gauge-val">21%</div><div class="gauge-lbl">AIR</div></div>
-          <div class="gauge g-warn"><div class="gauge-val">32%</div><div class="gauge-lbl">NITROX</div></div>
-          <div class="gauge g-danger"><div class="gauge-val">>40%</div><div class="gauge-lbl">VÉRIFIER</div></div>
-        </div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">ppO2 MAX REC.</span><span class="screen-val sv-orange">1.4 bar</span></div>
-          <div class="screen-row"><span class="screen-key">ppO2 MAX ABS.</span><span class="screen-val sv-danger">1.6 bar</span></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — RÉGLER LE % O₂</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER PARAMÈTRES</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à GAZ 1</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans FO2</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Ajuster le % O₂ (21 → 40%)</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span></div><div class="step-txt">↑ Naviguer vers ppO2 MAX</div></div>
-            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler ppO2 (1.2 → 1.6 bar)</div></div>
-            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">% O₂ enregistré — profondeur MOD recalculée</div>
-        </div>
-        <div class="tip">Vérifie le % O₂ de CHAQUE plongeur avant le saut — erreur = déco fausse.</div>
-      </div>
-
-      <!-- EAU -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon">💧</div>
-          <div class="card-title-wrap">
-            <div class="card-title">Eau Douce / Mer</div>
-            <span class="card-badge badge-ok">OBLIGATOIRE</span>
-          </div>
-        </div>
-        <div class="card-body">La densité influe sur le calcul de profondeur. Eau de mer = 1025 kg/m³ · Eau douce = 1000 kg/m³.</div>
-        <div class="gauges">
-          <div class="gauge g-ok"><div class="gauge-val">🌊</div><div class="gauge-lbl">MER</div></div>
-          <div class="gauge g-warn"><div class="gauge-val">🏞️</div><div class="gauge-lbl">LAC</div></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — TYPE D'EAU</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à EAU</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Basculer SEA ↔ FRESH</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">Mode eau actif — densité corrigée</div>
-        </div>
-        <div class="tip">En lac ou carrière → active eau douce. L'ordi affichera ~2.5% de plus.</div>
-      </div>
-
-      <!-- HEURE -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon">⏰</div>
-          <div class="card-title-wrap">
-            <div class="card-title">Heure & Date</div>
-            <span class="card-badge badge-ok">OBLIGATOIRE</span>
-          </div>
-        </div>
-        <div class="card-body">Indispensable pour la validité du logbook et le calcul des intervalles de surface.</div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">DATE</span><span class="screen-val sv-green">09/03/2026</span></div>
-          <div class="screen-row"><span class="screen-key">HEURE</span><span class="screen-val">10:42</span></div>
-          <div class="screen-row"><span class="screen-key">INTERVALLE SURFACE</span><span class="screen-val sv-orange">02:15</span></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — HEURE & DATE</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à HEURE</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Modifier les heures (digit clignote)</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span></div><div class="step-txt">Passer au digit suivant (minutes)</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Valider → passer à DATE</div></div>
-            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Répéter pour jour / mois / année</div></div>
-            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">Heure & date sauvegardées — logbook actif</div>
-        </div>
-        <div class="tip">Synchronise via Bluetooth avant chaque sortie.</div>
-      </div>
-    </div>
-
-    <!-- PAGE 3: DISPONIBLES -->
-    <div class="page" id="page-disponibles">
-      <div class="sec-label">SECTION 03</div>
-      <div class="sec-title">PARAMÈTRES DISPONIBLES</div>
-
-      <div class="card warn-card">
-        <div class="card-header"><div class="card-icon">🏔️</div><div class="card-title-wrap"><div class="card-title">Altitude</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
-        <div class="card-body">Adaptation automatique toutes les 20 sec. Confirmer manuellement au-dessus de 300m.</div>
-        <div class="gauges">
-          <div class="gauge g-ok"><div class="gauge-val">0m</div><div class="gauge-lbl">MER</div></div>
-          <div class="gauge g-warn"><div class="gauge-val">300m</div><div class="gauge-lbl">SEUIL</div></div>
-          <div class="gauge g-danger"><div class="gauge-val">3000m</div><div class="gauge-lbl">ALTITUDE</div></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — ALTITUDE</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à ALTITUDE</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Sélectionner la tranche d'altitude</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">Mode altitude actif — pression recalculée</div>
-        </div>
-        <div class="tip">Lac de montagne > 300m → confirme manuellement.</div>
-      </div>
-
-      <div class="card warn-card">
-        <div class="card-header"><div class="card-icon">🚨</div><div class="card-title-wrap"><div class="card-title">Alarmes</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
-        <div class="card-body">Alarme sonore et visuelle à profondeur cible ou durée dépassée.</div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">ALARME PROFONDEUR</span><span class="screen-val sv-orange">18 m</span></div>
-          <div class="screen-row"><span class="screen-key">ALARME TEMPS</span><span class="screen-val sv-orange">40 min</span></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — ALARMES</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER PARAMÈTRES</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à ALARMES</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans ALARME PROFONDEUR</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler la profondeur (ex. 18m)</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span></div><div class="step-txt">Passer à ALARME TEMPS</div></div>
-            <div class="step"><div class="step-num">7</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Régler la durée (ex. 40 min)</div></div>
-            <div class="step"><div class="step-num">8</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">Alarmes actives — signal sonore + visuel</div>
-        </div>
-        <div class="tip">Règle à 18m pour les N2 — utile en enseignement.</div>
-      </div>
-
-      <div class="card warn-card">
-        <div class="card-header"><div class="card-icon">🔆</div><div class="card-title-wrap"><div class="card-title">Rétroéclairage</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
-        <div class="card-body">Durée du rétroéclairage (TR LP). Pile CR2450 · ~100 plongées.</div>
-        <div class="gauges">
-          <div class="gauge g-ok"><div class="gauge-val">5s</div><div class="gauge-lbl">ÉCONOMIE</div></div>
-          <div class="gauge g-warn"><div class="gauge-val">15s</div><div class="gauge-lbl">STANDARD</div></div>
-          <div class="gauge g-danger"><div class="gauge-val">∞</div><div class="gauge-lbl">CONSTANT</div></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — RÉTROÉCLAIRAGE</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLER L'ORDINATEUR</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → aller à RÉTROÉCLAIRAGE</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Choisir 5s / 8s / 15s / ON constant</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
-          </div>
-          <div class="result">TR LP active le rétroéclairage en plongée</div>
-        </div>
-        <div class="tip">5-8 sec pour préserver la pile. Constant uniquement en plongée de nuit.</div>
-      </div>
-
-      <div class="card warn-card">
-        <div class="card-header"><div class="card-icon">⚡</div><div class="card-title-wrap"><div class="card-title">Remontée Rapide</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
-        <div class="card-body">Dépassement de 12m/min sur 2/3 de la remontée → blocage en mode profondimètre.</div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">VITESSE MAX</span><span class="screen-val sv-orange">12 m/min</span></div>
-          <div class="screen-row"><span class="screen-key">CODE DÉBLOCAGE</span><span class="screen-val sv-danger">1234</span></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — DÉBLOCAGE</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLAGE DE SÉCURITÉ</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → REMONTÉE RAPIDE</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Entrer dans le déblocage</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Saisir 1 · 2 · 3 · 4</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Valider — mode plongée restauré</div></div>
-          </div>
-          <div class="result">Mode ordinateur restauré</div>
-        </div>
-        <div class="tip">Active le déblocage en enseignement — remontées assistées.</div>
-      </div>
-
-      <div class="card warn-card">
-        <div class="card-header"><div class="card-icon">📡</div><div class="card-title-wrap"><div class="card-title">Bluetooth & Logbook</div><span class="card-badge badge-info">OPTIONNEL</span></div></div>
-        <div class="card-body">App Mares · 100h de stockage · échantillonnage 5 secondes.</div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — BLUETOOTH</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers BLUETOOTH</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Activer BT ON</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">Ouvrir l'app Mares sur le téléphone</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">Sélectionner Quad 2 dans la liste BT</div></div>
-            <div class="step"><div class="step-num">6</div><div class="btns"><span class="btn-pill bp-br">BR LP</span></div><div class="step-txt">Désactiver BT après synchro</div></div>
-          </div>
-          <div class="result">Profils synchronisés — BT désactivé</div>
-        </div>
-        <div class="tip">Désactive le BT entre plongées pour économiser la pile.</div>
-      </div>
-
-      <div class="card danger-card">
-        <div class="card-header"><div class="card-icon">🧹</div><div class="card-title-wrap"><div class="card-title">Effacement Saturation</div><span class="card-badge badge-danger">ATTENTION ⚠️</span></div></div>
-        <div class="card-body">Remet à zéro la saturation azote. Opération IRRÉVERSIBLE.</div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">SATURATION ACTUELLE</span><span class="screen-val sv-orange">38%</span></div>
-          <div class="screen-row"><span class="screen-key">APRÈS EFFACEMENT</span><span class="screen-val sv-green">0%</span></div>
-        </div>
-        <div class="manip">
-          <div class="manip-hdr">▶ MANIPULATION — EFFACEMENT</div>
-          <div class="manip-steps">
-            <div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tl">TL LP</span></div><div class="step-txt">Ouvrir le menu principal</div></div>
-            <div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">↓ Naviguer vers RÉGLAGE DE SÉCURITÉ</div></div>
-            <div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">Confirmer → EFFACER SATURATION</div></div>
-            <div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-neutral">—</span></div><div class="step-txt">⚠️ Lire l'avertissement affiché</div></div>
-            <div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-bl">BL LP</span></div><div class="step-txt">Confirmer l'effacement (appui long)</div></div>
-          </div>
-          <div class="result r-danger">Saturation à 0% — IRRÉVERSIBLE</div>
-        </div>
-        <div class="tip tip-danger">JAMAIS entre 2 plongées ! Uniquement si pas de replongée avant 24h.</div>
-      </div>
-    </div>
-
-    <!-- PAGE ÉCRANS -->
-    <div class="page" id="page-ecrans">
-      <div class="sec-label">SECTION ÉCRANS</div>
-      <div class="sec-title">AFFICHAGES DU QUAD 2</div>
-
-      <!-- MODE TABS -->
-      <div class="screen-mode-tabs">
-        <button class="smt-btn active" onclick="showMode('predive',this)">🔵 PRÉ-PLONGÉE</button>
-        <button class="smt-btn" onclick="showMode('dive',this)">🌊 EN PLONGÉE</button>
-        <button class="smt-btn" onclick="showMode('postdive',this)">🏁 POST-PLONGÉE</button>
-        <button class="smt-btn" onclick="showMode('desat',this)">💨 DÉSAT</button>
-      </div>
-
-      <!-- ══════════════════════════════════════
-           PRÉ-PLONGÉE (HOME / PRE-DIVE)
-      ══════════════════════════════════════ -->
-      <div class="screen-view active" id="mode-predive">
-
-        <div class="ordi-annotated">
-          <div class="ordi-label">ÉCRAN PRÉ-PLONGÉE — AFFICHAGE HOME</div>
-
-          <!-- Schéma SVG fidèle au Quad 2 : 3 lignes + icônes -->
-          <svg viewBox="0 0 300 260" width="100%" style="max-width:300px;display:block;margin:0 auto;">
-            <defs>
-              <pattern id="crt" width="1" height="3" patternUnits="userSpaceOnUse">
-                <rect width="1" height="1" fill="rgba(0,212,255,0.025)"/>
-              </pattern>
-            </defs>
-            <!-- Corps boitier -->
-            <rect x="8" y="4" width="284" height="252" rx="24" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
-            <!-- Ecran LCD -->
-            <rect x="28" y="18" width="244" height="218" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
-            <rect x="28" y="18" width="244" height="218" rx="8" fill="url(#crt)"/>
-
-            <!-- ── LIGNE STATUS (tout en haut) ── -->
-            <!-- Icône facteur P -->
-            <text x="36" y="35" font-family="monospace" font-size="10" fill="#4a7a9b">P0</text>
-            <!-- Icône altitude -->
-            <text x="64" y="35" font-family="monospace" font-size="10" fill="#4a7a9b">A0</text>
-            <!-- Heure au centre -->
-            <text x="150" y="35" text-anchor="middle" font-family="monospace" font-size="13" fill="#cde8ff" font-weight="bold">10:42</text>
-            <!-- Icône pile droite -->
-            <rect x="246" y="24" width="20" height="10" rx="2" fill="none" stroke="#4a7a9b" stroke-width="1"/>
-            <rect x="266" y="27" width="3" height="4" rx="1" fill="#4a7a9b"/>
-            <rect x="247" y="25" width="16" height="8" rx="1" fill="#00ff88"/>
-
-            <line x1="32" y1="42" x2="268" y2="42" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- ── LIGNE 1 HAUTE : Intervalle surface + O2% ── -->
-            <!-- Gauche : SI depuis dernière plongée -->
-            <text x="36" y="58" font-family="monospace" font-size="8" fill="#4a7a9b">S.I.</text>
-            <text x="36" y="74" font-family="monospace" font-size="20" fill="#cde8ff" font-weight="bold">2:15</text>
-            <text x="36" y="84" font-family="monospace" font-size="7" fill="#4a7a9b">h depuis plongée</text>
-
-            <!-- Droite : O2% et MOD (si nitrox) -->
-            <text x="200" y="58" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">O2%  MOD</text>
-            <text x="200" y="74" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88" font-weight="bold">21  57m</text>
-            <text x="200" y="84" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">air · ppO2max 1.4</text>
-
-            <line x1="32" y1="92" x2="268" y2="92" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- ── LIGNE 2 CENTRALE (grande) : DÉSAT ── -->
-            <text x="150" y="112" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="2">DÉSAT RESTANTE</text>
-            <text x="150" y="148" text-anchor="middle" font-family="monospace" font-size="48" fill="#00ff88" font-weight="bold">0%</text>
-            <!-- si saturation = 0, affiche "PRÊT" -->
-            <text x="150" y="164" text-anchor="middle" font-family="monospace" font-size="9" fill="#00ff88">✓ PRÊT À PLONGER</text>
-
-            <line x1="32" y1="172" x2="268" y2="172" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- ── LIGNE 3 BASSE : Facteur P + Date ── -->
-            <text x="60" y="188" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">FACTEUR</text>
-            <text x="60" y="204" text-anchor="middle" font-family="monospace" font-size="18" fill="#00d4ff" font-weight="bold">R0</text>
-            <text x="60" y="214" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">85/85</text>
-
-            <text x="200" y="188" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">DATE</text>
-            <text x="200" y="204" text-anchor="middle" font-family="monospace" font-size="14" fill="#cde8ff" font-weight="bold">09/03/26</text>
-
-            <!-- Boutons -->
-            <rect x="10" y="70" width="14" height="28" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
-            <text x="17" y="82" text-anchor="middle" font-family="monospace" font-size="6" fill="#00d4ff">TL</text>
-            <rect x="10" y="160" width="14" height="28" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
-            <text x="17" y="172" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff88">BL</text>
-            <rect x="276" y="70" width="14" height="28" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
-            <text x="283" y="82" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">TR</text>
-            <rect x="276" y="160" width="14" height="28" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
-            <text x="283" y="172" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">BR</text>
-          </svg>
-        </div>
-
-        <div class="sec-sub">ZONES DE L'ÉCRAN — PRÉ-PLONGÉE</div>
-        <div class="fields-legend">
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">🕐</div>
-            <div class="field-info">
-              <div class="field-name">Barre de statut (haut)</div>
-              <div class="field-desc">Affiche en permanence : facteur de personnalisation (P0/P+/P++), niveau d'altitude (A0→A3), heure et état de la pile.</div>
-            </div>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">S.I.</div>
-            <div class="field-info">
-              <div class="field-name">Intervalle de surface (S.I.)</div>
-              <div class="field-desc">Temps écoulé depuis la dernière plongée. L'ordi en tient compte pour calculer les NDL de la prochaine plongée. Si 0 = première plongée du jour.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">2:15h</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">O₂</div>
-            <div class="field-info">
-              <div class="field-name">O2% et MOD (si Nitrox)</div>
-              <div class="field-desc">Affiche le % d'O₂ du gaz actif et la profondeur maximale d'utilisation (MOD) calculée. En mode AIR : 21% · MOD 57m avec ppO₂max=1.4.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">21% · 57m</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">N₂</div>
-            <div class="field-info">
-              <div class="field-name">Désaturation résiduelle (centre)</div>
-              <div class="field-desc">Taux d'azote résiduel dans les tissus. 0% = désaturé, prêt à plonger. Si >0%, les NDL de la prochaine plongée seront réduites en conséquence.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">0%</span>
-          </div>
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">R0</div>
-            <div class="field-info">
-              <div class="field-name">Facteur de gradient (bas gauche)</div>
-              <div class="field-desc">Niveau de conservatisme actif : R0 (85/85) standard, R1 (75/80), R2 (60/70), R3 (50/60). TR SP en pré-plongée donne un accès direct à ce réglage.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent)">R0</span>
-          </div>
-        </div>
-
-        <div class="alert-strip as-ok" style="margin-top:10px;">💡 TR SP depuis l'écran pré-plongée = accès direct au menu ALGORITHME</div>
-        <div class="alert-strip as-warn">⚠️ Si désat > 0% : les NDL affichés en plongée seront réduits automatiquement</div>
-      </div>
-
-      <!-- ══════════════════════════════════════
-           EN PLONGÉE (DIVE MODE)
-      ══════════════════════════════════════ -->
-      <div class="screen-view" id="mode-dive">
-
-        <div class="ordi-annotated">
-          <div class="ordi-label">ÉCRAN PLONGÉE — DISPOSITION 3 LIGNES</div>
-          <svg viewBox="0 0 300 280" width="100%" style="max-width:300px;display:block;margin:0 auto;">
-            <rect x="8" y="4" width="284" height="272" rx="24" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
-            <rect x="28" y="18" width="244" height="238" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
-            <rect x="28" y="18" width="244" height="238" rx="8" fill="url(#crt)"/>
-
-            <!-- ── LIGNE 1 HAUTE : champ gauche + PROFONDEUR MAX (droite) ── -->
-            <!-- Champ haut gauche : modifiable par TR SP (UP) -->
-            <!-- Défaut = profondeur max -->
-            <text x="36" y="38" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MAX</text>
-            <text x="36" y="60" font-family="monospace" font-size="24" fill="#ff2d55" font-weight="bold">24.1</text>
-            <text x="100" y="60" font-family="monospace" font-size="12" fill="#4a7a9b">m</text>
-
-            <!-- Champ haut droit : modifiable par TR SP -->
-            <text x="165" y="38" font-family="monospace" font-size="8" fill="#4a7a9b">TEMP</text>
-            <text x="165" y="60" font-family="monospace" font-size="24" fill="#00d4ff" font-weight="bold">18°C</text>
-
-            <!-- Indicateur TR SP -->
-            <text x="264" y="44" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff6b35">TR</text>
-            <text x="264" y="54" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">SP▲</text>
-
-            <line x1="32" y1="68" x2="268" y2="68" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- ── LIGNE 2 CENTRALE (très grande) : PROFONDEUR ── -->
-            <text x="150" y="92" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="2">PROFONDEUR</text>
-            <text x="150" y="148" text-anchor="middle" font-family="monospace" font-size="58" fill="#00d4ff" font-weight="bold">18.4</text>
-            <text x="245" y="148" font-family="monospace" font-size="16" fill="#4a7a9b">m</text>
-
-            <!-- Flèche vitesse remontée (droite profondeur) -->
-            <text x="262" y="120" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88">↑</text>
-            <text x="262" y="134" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff88">OK</text>
-
-            <line x1="32" y1="158" x2="268" y2="158" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- ── LIGNE 3 BASSE : TEMPS plongée + NDL (ou ASC si déco) ── -->
-            <text x="70" y="175" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
-            <text x="70" y="197" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ff88" font-weight="bold">24:30</text>
-
-            <!-- Séparateur vertical -->
-            <line x1="148" y1="162" x2="148" y2="210" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- NDL ou temps déco -->
-            <text x="210" y="175" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NDL</text>
-            <text x="210" y="197" text-anchor="middle" font-family="monospace" font-size="28" fill="#00d4ff" font-weight="bold">12</text>
-            <text x="245" y="190" font-family="monospace" font-size="10" fill="#4a7a9b">min</text>
-
-            <!-- Champ bas droite : modifiable par BR SP (DOWN) -->
-            <!-- Défaut = O2% / ppO2 -->
-            <line x1="32" y1="210" x2="268" y2="210" stroke="#0d2640" stroke-width="0.8"/>
-            <text x="70" y="224" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">O2%</text>
-            <text x="70" y="240" text-anchor="middle" font-family="monospace" font-size="18" fill="#00ff88" font-weight="bold">21%</text>
-
-            <line x1="148" y1="214" x2="148" y2="248" stroke="#0d2640" stroke-width="0.8"/>
-
-            <text x="210" y="224" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">ppO2</text>
-            <text x="210" y="240" text-anchor="middle" font-family="monospace" font-size="18" fill="#ff6b35" font-weight="bold">1.14</text>
-
-            <!-- Indicateur BR SP -->
-            <text x="264" y="228" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff2d55">BR</text>
-            <text x="264" y="238" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">SP▼</text>
-
-            <!-- Boutons -->
-            <rect x="10" y="80" width="14" height="28" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
-            <text x="17" y="92" text-anchor="middle" font-family="monospace" font-size="6" fill="#00d4ff">TL</text>
-            <rect x="10" y="170" width="14" height="28" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
-            <text x="17" y="182" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff88">BL</text>
-            <rect x="276" y="80" width="14" height="28" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
-            <text x="283" y="92" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35">TR</text>
-            <rect x="276" y="170" width="14" height="28" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
-            <text x="283" y="182" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55">BR</text>
-          </svg>
-        </div>
-
-        <!-- Tableau des champs modifiables -->
-        <div class="sec-sub">CHAMPS MODIFIABLES EN PLONGÉE</div>
-        <div style="background:var(--surface);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;">
-          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,212,255,.07);">
-            <span class="btn-pill bp-tr" style="flex-shrink:0">TR SP</span>
-            <span style="color:var(--muted)">Change le champ <strong style="color:var(--text)">HAUT</strong> :</span>
-          </div>
-          <div style="padding:6px 8px;color:var(--muted);font-size:11px;border-bottom:1px solid rgba(0,212,255,.05);">Prof. Max · Prof. Moy (AVG) · MOD · Palier profond · Temp. · ASC+5</div>
-          <div style="display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid rgba(0,212,255,.07);margin-top:4px;">
-            <span class="btn-pill bp-br" style="flex-shrink:0">BR SP</span>
-            <span style="color:var(--muted)">Change le champ <strong style="color:var(--text)">BAS DROIT</strong> :</span>
-          </div>
-          <div style="padding:6px 8px;color:var(--muted);font-size:11px;">O2% · ppO2 · CNS% · ASC (TTS) · Temp.</div>
-        </div>
-
-        <div class="sec-sub">ZONES FIXES — TOUJOURS AFFICHÉES</div>
-        <div class="fields-legend">
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">📏</div>
-            <div class="field-info">
-              <div class="field-name">Profondeur actuelle (centre, grande)</div>
-              <div class="field-desc">Toujours au centre, en très grand. Mise à jour chaque seconde. La valeur la plus critique — conçue pour être lisible d'un coup d'œil même sous l'eau.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent)">18.4m</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">⏱</div>
-            <div class="field-info">
-              <div class="field-name">Temps plongée (bas gauche)</div>
-              <div class="field-desc">Chronomètre depuis l'immersion. Fixe — toujours en bas à gauche. TL SP = reset chrono. Format min ou min:sec selon réglage SECONDS.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">24:30</span>
-          </div>
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">NDL</div>
-            <div class="field-info">
-              <div class="field-name">NDL — No Deco Limit (bas droite)</div>
-              <div class="field-desc">Temps sans décompression restant à cette profondeur. Passe en rouge quand &lt;3 min. Remplacé par le temps de palier (ASC) si plongée déco.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent)">12 min</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">↑</div>
-            <div class="field-info">
-              <div class="field-name">Flèche vitesse de remontée</div>
-              <div class="field-desc">Affichée à droite de la profondeur. Verte = OK. Orange = trop rapide (&gt;10m/min). Rouge + alarme = excessive (&gt;12m/min prolongé).</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">↑ OK</span>
-          </div>
-        </div>
-
-        <div class="sec-sub">ALERTES EN PLONGÉE</div>
-        <div class="alert-strip as-ok">✅ NDL &gt; 3 min — plongée normale, remontée directe possible</div>
-        <div class="alert-strip as-warn">⚠️ NDL &lt; 3 min — commencer la remontée vers palier sécu 5m/3min</div>
-        <div class="alert-strip as-danger">🚨 NDL = 0 / DÉCO — palier obligatoire, suivre le plafond affiché</div>
-        <div class="alert-strip as-warn">⚠️ Vitesse &gt; 10m/min — flèche orange, ralentir</div>
-        <div class="alert-strip as-danger">🚨 ppO2 &gt; 1.4 bar — alarme sonore, remonter immédiatement</div>
-        <div class="alert-strip as-danger">🚨 CNS &gt; 75% — avertissement toxicité O₂, changer de gaz ou remonter</div>
-
-        <!-- Écran DÉCO -->
-        <div class="sec-sub">ÉCRAN EN DÉCOMPRESSION</div>
-        <div class="ordi-annotated" style="margin-bottom:0;">
-          <div class="ordi-label">PLONGÉE DÉCO — NDL=0, PALIER OBLIGATOIRE</div>
-          <svg viewBox="0 0 300 200" width="100%" style="max-width:300px;display:block;margin:0 auto;">
-            <rect x="8" y="4" width="284" height="192" rx="20" fill="#0b1e30" stroke="#ff2d55" stroke-width="1.5"/>
-            <rect x="28" y="14" width="244" height="172" rx="8" fill="#030e18" stroke="#1a0008" stroke-width="1"/>
-            <!-- Ligne haut : prof max + palier -->
-            <text x="36" y="34" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MAX</text>
-            <text x="36" y="52" font-family="monospace" font-size="20" fill="#ff2d55" font-weight="bold">32.5m</text>
-            <text x="165" y="34" font-family="monospace" font-size="8" fill="#4a7a9b">PALIER À</text>
-            <text x="165" y="52" font-family="monospace" font-size="20" fill="#ff6b35" font-weight="bold">6m</text>
-            <line x1="32" y1="58" x2="268" y2="58" stroke="#1a0008" stroke-width="0.8"/>
-            <!-- Profondeur centrale -->
-            <text x="150" y="115" text-anchor="middle" font-family="monospace" font-size="50" fill="#00d4ff" font-weight="bold">18.4</text>
-            <text x="243" y="115" font-family="monospace" font-size="14" fill="#4a7a9b">m</text>
-            <text x="32" y="118" font-family="monospace" font-size="16" fill="#ff2d55">↑</text>
-            <line x1="32" y1="128" x2="268" y2="128" stroke="#1a0008" stroke-width="0.8"/>
-            <!-- Ligne bas : temps + ASC -->
-            <text x="70" y="144" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
-            <text x="70" y="162" text-anchor="middle" font-family="monospace" font-size="24" fill="#00ff88" font-weight="bold">38:00</text>
-            <line x1="148" y1="132" x2="148" y2="176" stroke="#1a0008" stroke-width="0.8"/>
-            <text x="210" y="144" text-anchor="middle" font-family="monospace" font-size="8" fill="#ff6b35">ASC (TTS)</text>
-            <text x="210" y="162" text-anchor="middle" font-family="monospace" font-size="24" fill="#ff6b35" font-weight="bold">08:00</text>
-          </svg>
-        </div>
-        <div style="background:rgba(255,45,85,.07);border:1px solid rgba(255,45,85,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--danger);margin-top:8px;line-height:1.5;">
-          🚨 <strong>En déco :</strong> la ligne bas droite affiche <strong>ASC</strong> (temps total de remontée incluant tous les paliers). La flèche remontée devient rouge. Le plafond de palier s'affiche en haut droite.
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════
-           POST-PLONGÉE (minilog)
-      ══════════════════════════════════════ -->
-      <div class="screen-view" id="mode-postdive">
-
-        <div class="ordi-annotated">
-          <div class="ordi-label">MINILOG — ALTERNANCE 4 SECONDES AUTOMATIQUE</div>
-          <svg viewBox="0 0 300 240" width="100%" style="max-width:300px;display:block;margin:0 auto;">
-            <rect x="8" y="4" width="284" height="232" rx="24" fill="#0b1e30" stroke="#00ff88" stroke-width="1.5"/>
-            <rect x="28" y="18" width="244" height="200" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
-            <rect x="28" y="18" width="244" height="200" rx="8" fill="url(#crt)"/>
-            <!-- Header FIN -->
-            <rect x="60" y="22" width="180" height="16" rx="4" fill="rgba(0,255,136,.08)" stroke="rgba(0,255,136,.2)" stroke-width=".7"/>
-            <text x="150" y="34" text-anchor="middle" font-family="monospace" font-size="9" fill="#00ff88" letter-spacing="1">✓ FIN DE PLONGÉE</text>
-            <line x1="32" y1="42" x2="268" y2="42" stroke="#0d2640" stroke-width="0.8"/>
-            <!-- Ligne 1 : PROF MAX grande -->
-            <text x="150" y="60" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">PROFONDEUR MAX</text>
-            <text x="150" y="92" text-anchor="middle" font-family="monospace" font-size="40" fill="#ff2d55" font-weight="bold">24.1m</text>
-            <line x1="32" y1="100" x2="268" y2="100" stroke="#0d2640" stroke-width="0.8"/>
-            <!-- Ligne 2 : TEMPS + PROF MOY -->
-            <text x="80" y="116" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">TEMPS</text>
-            <text x="80" y="136" text-anchor="middle" font-family="monospace" font-size="22" fill="#00ff88" font-weight="bold">38:00</text>
-            <line x1="150" y1="104" x2="150" y2="148" stroke="#0d2640" stroke-width="0.8"/>
-            <text x="220" y="116" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">PROF MOY</text>
-            <text x="220" y="136" text-anchor="middle" font-family="monospace" font-size="22" fill="#00d4ff" font-weight="bold">16.8m</text>
-            <line x1="32" y1="148" x2="268" y2="148" stroke="#0d2640" stroke-width="0.8"/>
-            <!-- Ligne 3 : GAZ utilisé -->
-            <text x="150" y="164" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">GAZ UTILISÉ</text>
-            <text x="150" y="186" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ff88" font-weight="bold">AIR 21%</text>
-            <!-- Indicateur alternance -->
-            <text x="254" y="210" text-anchor="end" font-family="monospace" font-size="8" fill="#4a7a9b">⏱ 4s →</text>
-          </svg>
-        </div>
-
-        <div class="alert-strip as-ok" style="margin-bottom:10px;">🔄 L'écran alterne automatiquement toutes les 4 secondes entre les 4 valeurs du minilog</div>
-
-        <div class="sec-sub">LES 4 VUES DU MINILOG</div>
-        <div class="fields-legend">
-          <div class="field-row fr-danger">
-            <div class="field-dot fd-red">1/4</div>
-            <div class="field-info">
-              <div class="field-name">Profondeur Maximale</div>
-              <div class="field-desc">La valeur la plus profonde atteinte pendant la plongée. Affichée en grand au centre.</div>
-            </div>
-            <span class="field-val" style="color:var(--danger)">24.1m</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">2/4</div>
-            <div class="field-info">
-              <div class="field-name">Profondeur Moyenne + Temps total</div>
-              <div class="field-desc">Durée complète de la plongée et profondeur moyenne calculée depuis le début.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">38:00</span>
-          </div>
-          <div class="field-row fr-ok">
-            <div class="field-dot fd-green">3/4</div>
-            <div class="field-info">
-              <div class="field-name">Gaz Utilisé</div>
-              <div class="field-desc">Mélange respiratoire utilisé pendant la plongée (AIR 21%, ou % Nitrox). Important pour le logbook.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent2)">AIR</span>
-          </div>
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">4/4</div>
-            <div class="field-info">
-              <div class="field-name">Données classiques (désat, no-fly, S.I.)</div>
-              <div class="field-desc">Après le minilog, l'ordi passe en mode post-plongée permanent avec désaturation, no-fly et intervalle surface.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent)">DÉSAT</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- ══════════════════════════════════════
-           DÉSAT (POST-DIVE DISPLAY)
-      ══════════════════════════════════════ -->
-      <div class="screen-view" id="mode-desat">
-
-        <div class="ordi-annotated">
-          <div class="ordi-label">ÉCRAN POST-PLONGÉE PERMANENT — DÉSAT</div>
-          <svg viewBox="0 0 300 260" width="100%" style="max-width:300px;display:block;margin:0 auto;">
-            <rect x="8" y="4" width="284" height="252" rx="24" fill="#0b1e30" stroke="#ff6b35" stroke-width="1.5"/>
-            <rect x="28" y="18" width="244" height="218" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
-            <rect x="28" y="18" width="244" height="218" rx="8" fill="url(#crt)"/>
-
-            <!-- Barre statut -->
-            <text x="150" y="34" text-anchor="middle" font-family="monospace" font-size="10" fill="#cde8ff" font-weight="bold">10:42</text>
-            <line x1="32" y1="40" x2="268" y2="40" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- Ligne 1 haut : DESAT TIME -->
-            <text x="150" y="58" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b" letter-spacing="1">DÉSAT RESTANTE</text>
-            <text x="150" y="94" text-anchor="middle" font-family="monospace" font-size="38" fill="#ff6b35" font-weight="bold">14:23</text>
-            <text x="150" y="108" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">h:min avant désaturation</text>
-
-            <line x1="32" y1="116" x2="268" y2="116" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- Ligne 2 : NO FLY + S.I. -->
-            <text x="80" y="132" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">NO FLY</text>
-            <text x="80" y="154" text-anchor="middle" font-family="monospace" font-size="22" fill="#ff2d55" font-weight="bold">18:00</text>
-            <text x="80" y="166" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">h:min avant avion</text>
-
-            <line x1="150" y1="120" x2="150" y2="174" stroke="#0d2640" stroke-width="0.8"/>
-
-            <text x="220" y="132" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">S.I.</text>
-            <text x="220" y="154" text-anchor="middle" font-family="monospace" font-size="22" fill="#00d4ff" font-weight="bold">00:35</text>
-            <text x="220" y="166" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">h:min depuis surface</text>
-
-            <line x1="32" y1="174" x2="268" y2="174" stroke="#0d2640" stroke-width="0.8"/>
-
-            <!-- Ligne 3 : CNS% -->
-            <text x="150" y="192" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a7a9b">CNS%</text>
-            <text x="150" y="222" text-anchor="middle" font-family="monospace" font-size="34" fill="#ff6b35" font-weight="bold">12%</text>
-          </svg>
-        </div>
-
-        <div class="sec-sub">ZONES DE L'ÉCRAN DÉSAT</div>
-        <div class="fields-legend">
-          <div class="field-row fr-warn">
-            <div class="field-dot fd-orange">⏳</div>
-            <div class="field-info">
-              <div class="field-name">DESAT — Désaturation Restante</div>
-              <div class="field-desc">Compte à rebours jusqu'à désaturation complète des tissus. Affiché en grand au centre. L'ordi calcule cela en continu même en veille.</div>
-            </div>
-            <span class="field-val" style="color:var(--warn)">14:23h</span>
-          </div>
-          <div class="field-row fr-danger">
-            <div class="field-dot fd-red">✈️</div>
-            <div class="field-info">
-              <div class="field-name">NO FLY — Délai avant avion</div>
-              <div class="field-desc">Temps minimum avant de prendre l'avion. La pression en cabine favorise la formation de bulles. FFESSM : 12h min plongée unique, 24h plongées multiples.</div>
-            </div>
-            <span class="field-val" style="color:var(--danger)">18:00h</span>
-          </div>
-          <div class="field-row fr-accent">
-            <div class="field-dot fd-blue">S.I.</div>
-            <div class="field-info">
-              <div class="field-name">S.I. — Intervalle de Surface</div>
-              <div class="field-desc">Temps écoulé depuis la fin de la plongée. Utilisé pour planifier la prochaine plongée répétitive et calculer les NDL réduits.</div>
-            </div>
-            <span class="field-val" style="color:var(--accent)">00:35h</span>
-          </div>
-          <div class="field-row fr-warn">
-            <div class="field-dot fd-orange">CNS</div>
-            <div class="field-info">
-              <div class="field-name">CNS% — Toxicité O₂ Système Nerveux</div>
-              <div class="field-desc">Mesure l'accumulation de toxicité oxygène. &lt;75% normal. 75% = avertissement. 100% = alarme urgente, risque de convulsions.</div>
-            </div>
-            <span class="field-val" style="color:var(--warn)">12%</span>
-          </div>
-        </div>
-
-        <div class="alert-strip as-ok" style="margin-top:8px;">✅ DESAT = 0 + NO FLY = 0 → l'ordi retourne automatiquement en mode pré-plongée</div>
-        <div class="alert-strip as-danger">🚨 Ne jamais replonger avant que le S.I. dépasse l'intervalle minimum calculé</div>
-      </div>
-
-    </div><!-- /page-ecrans -->
-
-    <!-- PAGE 4: PROFIL -->
-    <div class="page" id="page-profil">
-      <div class="sec-label">SECTION 04</div>
-      <div class="sec-title">PROFIL TYPE</div>
-
-      <div class="profile-card">
-        <div class="profile-title">PROFIL DE PLONGÉE TYPIQUE</div>
-        <svg viewBox="0 0 340 150" width="100%" style="max-width:100%;">
-          <defs>
-            <linearGradient id="dg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#00d4ff" stop-opacity=".35"/>
-              <stop offset="100%" stop-color="#00d4ff" stop-opacity=".03"/>
-            </linearGradient>
-          </defs>
-          <line x1="30" y1="10" x2="30" y2="140" stroke="#0d2640" stroke-width="1"/>
-          <line x1="30" y1="140" x2="330" y2="140" stroke="#0d2640" stroke-width="1"/>
-          <line x1="30" y1="44" x2="330" y2="44" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
-          <line x1="30" y1="78" x2="330" y2="78" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
-          <line x1="30" y1="112" x2="330" y2="112" stroke="#0d2640" stroke-width=".5" stroke-dasharray="3,4"/>
-          <text x="24" y="13" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">0</text>
-          <text x="24" y="47" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">10</text>
-          <text x="24" y="81" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">20</text>
-          <text x="24" y="115" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">30</text>
-          <path d="M30,10 L55,10 L100,112 L200,112 L240,78 L270,78 L295,27 L320,27 L330,10" fill="url(#dg)"/>
-          <path d="M30,10 L55,10 L100,112 L200,112 L240,78 L270,78 L295,27 L320,27" fill="none" stroke="#00d4ff" stroke-width="2" stroke-linejoin="round"/>
-          <rect x="286" y="23" width="38" height="8" rx="2" fill="none" stroke="#00ff88" stroke-width="1.2" stroke-dasharray="2,2"/>
-          <text x="305" y="18" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#00ff88">PALIER 5m</text>
-          <circle cx="100" cy="112" r="3.5" fill="#00d4ff"/>
-          <text x="102" y="100" font-family="monospace" font-size="6.5" fill="#00d4ff">PROF MAX</text>
-          <text x="102" y="109" font-family="monospace" font-size="8" fill="white" font-weight="bold">30m</text>
-          <circle cx="200" cy="112" r="3.5" fill="#ff6b35"/>
-          <text x="202" y="100" font-family="monospace" font-size="6.5" fill="#ff6b35">NDL LIMITE</text>
-          <text x="202" y="109" font-family="monospace" font-size="8" fill="white" font-weight="bold">T-10min</text>
-          <text x="180" y="148" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">TEMPS →</text>
-        </svg>
-        <div class="chips">
-          <div class="chip"><div class="chip-dot" style="background:#00d4ff"></div>Profil</div>
-          <div class="chip"><div class="chip-dot" style="background:#00ff88"></div>Palier sécu 3min/5m</div>
-          <div class="chip"><div class="chip-dot" style="background:#ff6b35"></div>Zone NDL limite</div>
-        </div>
-      </div>
-
-      <div class="profile-card">
-        <div class="profile-title">AFFICHAGE EN PLONGÉE</div>
-        <div class="screen">
-          <div class="screen-row"><span class="screen-key">PROFONDEUR</span><span class="screen-val" style="font-size:28px">18.4 m</span></div>
-          <div class="screen-row"><span class="screen-key">TEMPS PLONGÉE</span><span class="screen-val sv-green">24:30</span></div>
-          <div class="screen-row"><span class="screen-key">NDL RESTANT</span><span class="screen-val">12 min</span></div>
-          <div class="screen-row"><span class="screen-key">ppO2 ACTUELLE</span><span class="screen-val sv-orange">1.14 bar</span></div>
-          <div class="screen-row"><span class="screen-key">TEMPS SURFACE</span><span class="screen-val">03:20</span></div>
-        </div>
-        <div class="tip">Sous l'eau : TR SP / BR SP changent les champs affichés · TR LP = rétroéclairage · TL SP = reset chrono</div>
-      </div>
-    </div>
-
-    <!-- PAGE 5: CHECKLIST -->
-    <div class="page" id="page-checklist">
-      <div class="sec-label">SECTION 05</div>
-      <div class="sec-title">CHECKLIST MONITEUR</div>
-
-      <div class="check-progress">
-        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);">AVANT MISE À L'EAU</div>
-        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
-        <div class="progress-text" id="progress-text">0/8</div>
-      </div>
-
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">% O₂ du gaz respiré</div><div class="check-sub">21% air / % exact Nitrox</div></div>
-        <div class="check-prio prio-h">CRITIQUE</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">ppO₂ max configurée</div><div class="check-sub">1.4 bar formation / 1.6 bar max absolu</div></div>
-        <div class="check-prio prio-h">CRITIQUE</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Eau douce / mer sélectionné</div><div class="check-sub">Densité influe sur la profondeur</div></div>
-        <div class="check-prio prio-h">CRITIQUE</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Algorithme vérifié</div><div class="check-sub">R0/R1 récréatif — T0/T1 technique</div></div>
-        <div class="check-prio prio-m">IMPORTANT</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Saturation résiduelle consultée</div><div class="check-sub">Intervalle surface si plongée répétitive</div></div>
-        <div class="check-prio prio-m">IMPORTANT</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Heure et date synchronisées</div><div class="check-sub">Via Bluetooth ou manuellement</div></div>
-        <div class="check-prio prio-m">IMPORTANT</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Alarmes réglées</div><div class="check-sub">18m pour N2 · 40min récréatif</div></div>
-        <div class="check-prio prio-l">CONSEILLÉ</div>
-      </div>
-      <div class="check-item" onclick="toggleCheck(this)">
-        <div class="check-box"></div>
-        <div style="flex:1"><div class="check-text">Pile vérifiée</div><div class="check-sub">CR2450 · remplacer si &lt; 2 barres</div></div>
-        <div class="check-prio prio-l">CONSEILLÉ</div>
-      </div>
-
-      <button class="reset-btn" onclick="resetChecklist()">↺ RÉINITIALISER LA CHECKLIST</button>
-    </div>
-
-  </div><!-- /content -->
-</div><!-- /app -->
+<!-- PAGE BOUTONS -->
+<div class="page active" id="page-boutons">
+<div class="sec-label">SECTION 01 — MANUEL §1.5</div>
+<div class="sec-title">LES 4 BOUTONS</div>
+<div style="background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;text-align:center;">
+<div class="sec-label" style="margin-bottom:8px;">POSITION SUR L'ORDINATEUR</div>
+<svg viewBox="0 0 280 230" width="100%" style="max-width:280px;display:block;margin:0 auto;">
+<defs><pattern id="crt0" width="1" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="rgba(0,212,255,0.025)"/></pattern></defs>
+<rect x="8" y="6" width="264" height="218" rx="26" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
+<rect x="26" y="18" width="228" height="186" rx="10" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+<rect x="26" y="18" width="228" height="186" rx="10" fill="url(#crt0)"/>
+<!-- bargraphe gauche -->
+<rect x="28" y="20" width="10" height="182" rx="3" fill="#030e18" stroke="#0d2640" stroke-width=".5"/>
+<rect x="29" y="152" width="8" height="10" rx="1" fill="#00ff88" opacity=".4"/>
+<rect x="29" y="140" width="8" height="10" rx="1" fill="#00ff88" opacity=".4"/>
+<!-- écran -->
+<text x="158" y="48" text-anchor="middle" font-family="monospace" font-size="8" fill="#4a7a9b">MOD</text>
+<text x="215" y="64" text-anchor="end" font-family="monospace" font-size="22" fill="#ff6b35" font-weight="bold">34.1m</text>
+<text x="52" y="64" font-family="monospace" font-size="22" fill="#4a7a9b" font-weight="bold">--.-m</text>
+<line x1="42" y1="70" x2="242" y2="70" stroke="#0d2640" stroke-width=".8"/>
+<text x="140" y="120" text-anchor="middle" font-family="monospace" font-size="38" fill="#cde8ff" font-weight="bold">12:45</text>
+<line x1="42" y1="130" x2="242" y2="130" stroke="#0d2640" stroke-width=".8"/>
+<text x="68" y="160" text-anchor="middle" font-family="monospace" font-size="26" fill="#00d4ff" font-weight="bold">32</text>
+<text x="62" y="172" font-family="monospace" font-size="7" fill="#4a7a9b">O2%</text>
+<text x="193" y="160" text-anchor="middle" font-family="monospace" font-size="26" fill="#00d4ff" font-weight="bold">R0</text>
+<text x="188" y="172" font-family="monospace" font-size="7" fill="#4a7a9b">GF</text>
+<!-- boutons -->
+<rect x="10" y="58" width="13" height="28" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.3"/>
+<text x="16" y="70" text-anchor="middle" font-family="monospace" font-size="6" fill="#00d4ff" font-weight="bold">TL</text>
+<text x="16" y="79" text-anchor="middle" font-family="monospace" font-size="5" fill="#4a7a9b">SP</text>
+<rect x="10" y="148" width="13" height="28" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.3"/>
+<text x="16" y="160" text-anchor="middle" font-family="monospace" font-size="6" fill="#00ff88" font-weight="bold">BL</text>
+<text x="16" y="169" text-anchor="middle" font-family="monospace" font-size="5" fill="#4a7a9b">SP</text>
+<rect x="257" y="58" width="13" height="28" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.3"/>
+<text x="263" y="70" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff6b35" font-weight="bold">TR</text>
+<text x="263" y="79" text-anchor="middle" font-family="monospace" font-size="5" fill="#4a7a9b">SP</text>
+<rect x="257" y="148" width="13" height="28" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.3"/>
+<text x="263" y="160" text-anchor="middle" font-family="monospace" font-size="6" fill="#ff2d55" font-weight="bold">BR</text>
+<text x="263" y="169" text-anchor="middle" font-family="monospace" font-size="5" fill="#4a7a9b">SP</text>
+</svg>
+</div>
+<div class="btn-grid">
+<div class="btn-card bc-tl">
+<div class="bc-name">TL — Haut Gauche</div>
+<div class="bc-actions">
+<span class="tag tag-sp">SP</span>Confirmer / passer option suivante<br>
+<span class="tag tag-lp">LP</span>Confirmer / option suivante<br>
+<span style="font-size:10px;color:var(--accent)">🤿 Plongée : reset chrono</span>
+</div>
+</div>
+<div class="btn-card bc-tr">
+<div class="bc-name">TR — Haut Droit</div>
+<div class="bc-actions">
+<span class="tag tag-sp">SP</span>Naviguer / changer champ haut<br>
+<span class="tag tag-lp">LP</span>Confirmer / rétroéclairage<br>
+<span style="font-size:10px;color:var(--warn)">⚡ PRE-DIVE : accès direct GF</span>
+</div>
+</div>
+<div class="btn-card bc-bl">
+<div class="bc-name">BL — Bas Gauche</div>
+<div class="bc-actions">
+<span class="tag tag-sp">SP</span>Alterner PRE-DIVE ↔ MENU<br>
+<span class="tag tag-lp">LP</span>Remonter sans enregistrer<br>
+<span style="font-size:10px;color:var(--accent2)">🤿 Plongée : masquer/voir secondes</span>
+</div>
+</div>
+<div class="btn-card bc-br">
+<div class="bc-name">BR — Bas Droit</div>
+<div class="bc-actions">
+<span class="tag tag-sp">SP</span>Naviguer / changer champ bas<br>
+<span class="tag tag-lp">LP</span>Confirmer / POST DIVE→BT<br>
+<span style="font-size:10px;color:var(--danger)">⚡ PRE-DIVE : accès direct gaz</span>
+</div>
+</div>
+<div class="sp-note">
+<span class="tag tag-sp">SP</span> appui court · <span class="tag tag-lp">LP</span> appui long ≥ 1 sec<br><br>
+Dans les menus : TR-SP et BR-SP font défiler ou changent une valeur. TL-SP, TR-LP et BR-LP confirment et passent à l'option suivante. BL-SP remonte d'un niveau sans enregistrer.
+</div>
+</div>
+<div class="sec-sub">RACCOURCIS RAPIDES (manuel §1.5)</div>
+<div class="fields-legend">
+<div class="field-row fr-ok"><div class="field-dot fd-green">PRE</div><div class="field-info"><div class="field-name">PRE-DIVE → TR-SP</div><div class="field-desc">Accès direct au menu de réglage des Gradient Factors (GF). Raccourci essentiel avant la plongée.</div></div></div>
+<div class="field-row fr-ok"><div class="field-dot fd-green">PRE</div><div class="field-info"><div class="field-name">PRE-DIVE → BR-SP</div><div class="field-desc">Accès direct au menu de réglage des gaz (AIR, Nitrox mono-gaz, multigaz Nitrox ou Trimix).</div></div></div>
+<div class="field-row fr-warn"><div class="field-dot fd-orange">POST</div><div class="field-info"><div class="field-name">POST DIVE → TR-SP</div><div class="field-desc">Accès direct au carnet (logbook) de la dernière plongée.</div></div></div>
+<div class="field-row fr-warn"><div class="field-dot fd-orange">POST</div><div class="field-info"><div class="field-name">POST DIVE → BR-SP / BR-LP</div><div class="field-desc">BR-SP = planificateur de plongée. BR-LP = connexion Bluetooth.</div></div></div>
+</div>
+</div>
+
+<!-- PAGE RÉGLAGES -->
+<div class="page" id="page-reglages">
+<div class="sec-label">SECTION 02 — MANUEL §2</div>
+<div class="sec-title">RÉGLAGES (SET)</div>
+
+<div class="card">
+<div class="card-header"><div class="card-icon">🧮</div><div class="card-title-wrap"><div class="card-title">ALGORITHME — Gradient Factors</div><span class="card-badge badge-ok">OBLIGATOIRE</span></div></div>
+<div class="card-body">Bühlmann ZH-L16C avec 16 tissus. GF LOW = profondeur du 1er palier en déco. GF HIGH = azote résiduel toléré en surface. 4 niveaux loisir (R0→R3), 4 niveaux technique (T0→T3) et mode CUSTOM.</div>
+<div class="algo-list">
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--accent2);margin-bottom:6px;">LOISIR — RÉGLAGE PAR DÉFAUT : R0 (85/85)</div>
+<div class="algo-row"><span class="algo-name" style="color:#00ff88">R0</span><div class="algo-bg"><div class="algo-fill" style="width:85%;background:linear-gradient(90deg,#00ff88,#00d4ff)"></div></div><span class="algo-val">85/85 — défaut</span></div>
+<div class="algo-row"><span class="algo-name" style="color:#00d4ff">R1</span><div class="algo-bg"><div class="algo-fill" style="width:75%;background:linear-gradient(90deg,#00d4ff,#0066ff)"></div></div><span class="algo-val">80/85</span></div>
+<div class="algo-row"><span class="algo-name" style="color:#ff6b35">R2</span><div class="algo-bg"><div class="algo-fill" style="width:65%;background:linear-gradient(90deg,#ff6b35,#ff9500)"></div></div><span class="algo-val">70/85</span></div>
+<div class="algo-row"><span class="algo-name" style="color:#ff2d55">R3</span><div class="algo-bg"><div class="algo-fill" style="width:50%;background:linear-gradient(90deg,#ff2d55,#ff6b35)"></div></div><span class="algo-val">50/60</span></div>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin:8px 0 4px;">TECHNIQUE : T0 (30/85) → T3 (25/40) · CUSTOM = saisie libre</div>
+</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — RÉGLER L'ALGORITHME (raccourci)</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span></div><div class="step-txt">Depuis PRE-DIVE → accès direct menu GF</div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Sélectionner R0, R1, R2, R3, T0→T3 ou CUSTOM</div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer → retour PRE-DIVE</div></div>
+</div>
+<div class="result">GF actif affiché en bas à droite de PRE-DIVE</div>
+</div>
+<div class="tip">Réglage par défaut : R0 (85/85). GF ALTERNATIF (ALT GF) = ensemble de secours en cas d'urgence déco — ne peut pas être plus prudent que MAIN GF.</div>
+</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">🧪</div><div class="card-title-wrap"><div class="card-title">MODE — Réglage du Gaz</div><span class="card-badge badge-danger">CRITIQUE ⚠️</span></div></div>
+<div class="card-body">Choisir le type de gaz : AIR (21% · ppO₂max 1.4 bar), NITROX mono-gaz ou multigaz (G1/G2/G3, jusqu'à 5 mélanges avec Trimix), ou PROFONDIMÈTRE (BT — aucun calcul déco).</div>
+<div class="gauges">
+<div class="gauge g-ok"><div class="gauge-val">AIR</div><div class="gauge-lbl">21% · 1.4 défaut</div></div>
+<div class="gauge g-warn"><div class="gauge-val">NX</div><div class="gauge-lbl">22→99% O₂</div></div>
+<div class="gauge g-blue"><div class="gauge-val">TX</div><div class="gauge-lbl">Trimix/Heliox</div></div>
+</div>
+<div class="lcd">
+<div class="lcd-row"><span class="lcd-key">ppO₂MAX RÉGLABLE</span><span class="lcd-val lv-orange">1.2 → 1.6 bar</span></div>
+<div class="lcd-row"><span class="lcd-key">EX. NITROX 32% · 1.4 BAR → MOD</span><span class="lcd-val lv-orange">33.1 m</span></div>
+<div class="lcd-row"><span class="lcd-key">ppO₂ DANGER ABSOLU</span><span class="lcd-val lv-red">&gt; 1.6 bar</span></div>
+</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — RÉGLER LE GAZ (raccourci)</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Depuis PRE-DIVE → accès direct menu GAZ</div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Sélectionner AIR / NX / TX / BT</div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Activer → si Nitrox : ajuster O₂% (TR/BR SP)</div></div>
+<div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Passer à ppO₂max → ajuster (1.2→1.6 bar)</div></div>
+<div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Enregistrer → retour PRE-DIVE</div></div>
+</div>
+<div class="result">O₂% et MOD calculée affichés sur PRE-DIVE</div>
+</div>
+<div class="tip tip-danger">AVANT CHAQUE PLONGÉE : vérifier que l'O₂% dans l'ordi = O₂% analysé dans la bouteille. Erreur = risque mortel.</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="card-icon">💧</div><div class="card-title-wrap"><div class="card-title">EAU (WATR)</div><span class="card-badge badge-ok">OBLIGATOIRE</span></div></div>
+<div class="card-body">Calibre la mesure de profondeur selon la densité de l'eau. Erreur = ±3% sur la profondeur affichée (ex : 30m affichera 29m en eau douce si réglé sur sel). N'affecte pas les calculs (basés sur la pression).</div>
+<div class="gauges">
+<div class="gauge g-ok"><div class="gauge-val">SALT</div><div class="gauge-lbl">Mer · 1.025</div></div>
+<div class="gauge g-warn"><div class="gauge-val">FRSH</div><div class="gauge-lbl">Lac · 1.000</div></div>
+<div class="gauge g-blue"><div class="gauge-val">EN13319</div><div class="gauge-lbl">1.0197 kg/l</div></div>
+</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — TYPE D'EAU</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">PRE-DIVE → MENU</div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Défiler jusqu'à SET → entrer → naviguer vers <strong>WATR</strong></div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Choisir SALT / FRSH / EN13319</div></div>
+<div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+</div>
+<div class="result">Type d'eau enregistré — profondeur recalculée</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header"><div class="card-icon">⏰</div><div class="card-title-wrap"><div class="card-title">HEURE & DATE (CLOCK)</div><span class="card-badge badge-ok">OBLIGATOIRE</span></div></div>
+<div class="card-body">Menu CLOCK (CLO). Réglage du format 24h ou AM/PM, puis heures, minutes et date. Indispensable pour le logbook et les intervalles de surface.</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — HEURE & DATE</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">PRE-DIVE → MENU → SET</div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Naviguer jusqu'à <strong>CLOCK</strong></div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Entrer → <strong>24H</strong> ou <strong>AMPM</strong> clignote</div></div>
+<div class="step"><div class="step-num">4</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Choisir format → confirmer → régler heures, min, date</div></div>
+<div class="step"><div class="step-num">5</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer chaque valeur → retour PRE-DIVE</div></div>
+</div>
+<div class="result">Heure et date enregistrées — logbook actif</div>
+</div>
+<div class="tip">Alternative : synchronisation automatique via Bluetooth (app Mares ou MySSI).</div>
+</div>
+
+<div class="card warn-card">
+<div class="card-header"><div class="card-icon">🔆</div><div class="card-title-wrap"><div class="card-title">ÉCLAIRAGE (BACKLGHT)</div><span class="card-badge badge-warn">OPTIONNEL</span></div></div>
+<div class="card-body">Durée : 2 à 12 secondes (défaut 6s). Intensité : LOW ou HIGH. Activation : TR-LP en surface ou en plongée. Batterie CR2450 : environ 200 à 300 plongées.</div>
+<div class="gauges">
+<div class="gauge g-ok"><div class="gauge-val">2→12s</div><div class="gauge-lbl">DURÉE</div></div>
+<div class="gauge g-blue"><div class="gauge-val">6s</div><div class="gauge-lbl">DÉFAUT</div></div>
+<div class="gauge g-warn"><div class="gauge-val">LOW/HIGH</div><div class="gauge-lbl">INTENSITÉ</div></div>
+</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — ÉCLAIRAGE</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">PRE-DIVE → MENU → SET → <strong>BACKLGHT</strong></div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Régler durée (2→12s) puis intensité LOW/HIGH</div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+</div>
+<div class="result">TR-LP active le rétroéclairage en surface et en plongée</div>
+</div>
+<div class="tip">HIGH consomme plus la batterie. Utilise LOW en plongée de jour pour préserver la CR2450.</div>
+</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">⚡</div><div class="card-title-wrap"><div class="card-title">ERR-REMONTÉE (ASCNT VIOL)</div><span class="card-badge badge-danger">INSTRUCTEURS</span></div></div>
+<div class="card-body">Si vitesse de remontée dépasse 120% de la limite autorisée sur une variation &gt;20m → blocage 48h en mode profondimètre. Ce menu permet de désactiver ce verrouillage. Code de sécurité : 1234.</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — DÉSACTIVER LE BLOCAGE</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">PRE-DIVE → MENU → SET → <strong>ASCNT VIOL</strong></div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tr">TR SP</span><span class="btn-pill bp-br">BR SP</span></div><div class="step-txt">Sélectionner ON (désactivation du blocage)</div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer et quitter</div></div>
+</div>
+<div class="result r-danger">Blocage désactivé — l'ordi reste opérationnel après remontée rapide</div>
+</div>
+<div class="tip tip-danger">Exclusivement pour instructeurs. Prendre l'entière responsabilité des conséquences. Remontée rapide = risque DCS.</div>
+</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">🧹</div><div class="card-title-wrap"><div class="card-title">EFFACER DESAT (ERASE DESAT)</div><span class="card-badge badge-danger">DANGER</span></div></div>
+<div class="card-body">Remet à zéro toute la saturation en gaz inertes. L'ordi traite la plongée suivante comme non-répétitive. Pour prêter l'ordi à quelqu'un qui n'a pas plongé depuis 24h. Code : 1234.</div>
+<div class="manip">
+<div class="manip-hdr">▶ MANIPULATION — EFFACER DESAT</div>
+<div class="manip-steps">
+<div class="step"><div class="step-num">1</div><div class="btns"><span class="btn-pill bp-bl">BL SP</span></div><div class="step-txt">PRE-DIVE → MENU → SET → <strong>ERASE DESAT</strong></div></div>
+<div class="step"><div class="step-num">2</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Entrer → saisir code de sécurité <strong>1234</strong></div></div>
+<div class="step"><div class="step-num">3</div><div class="btns"><span class="btn-pill bp-tl">TL SP</span><span class="btn-pill bp-tr">TR LP</span></div><div class="step-txt">Confirmer → confirmation à l'écran</div></div>
+</div>
+<div class="result r-danger">Saturation remise à 0% — irréversible</div>
+</div>
+<div class="tip tip-danger">Plonger après effacement est extrêmement dangereux et peut provoquer des blessures graves ou la mort.</div>
+</div>
+</div>
+
+<!-- PAGE ÉCRANS -->
+<div class="page" id="page-ecrans">
+<div class="sec-label">SECTION 03 — MANUEL §8 &amp; §9</div>
+<div class="sec-title">AFFICHAGES DU QUAD 2</div>
+<div class="screen-mode-tabs">
+<button class="smt-btn active" onclick="showMode('predive',this)">🔵 PRÉ-DIVE</button>
+<button class="smt-btn" onclick="showMode('dive',this)">🌊 PLONGÉE</button>
+<button class="smt-btn" onclick="showMode('postdive',this)">🏁 POST DIVE</button>
+</div>
+
+<!-- PRE-DIVE -->
+<div class="screen-view active" id="mode-predive">
+<div style="background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;">
+<div class="sec-label" style="margin-bottom:6px;">ÉCRAN PRE-DIVE (§8 — AFFICHAGE OFFICIEL)</div>
+<svg viewBox="0 0 300 195" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+<defs><pattern id="crt1" width="1" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="rgba(0,212,255,0.025)"/></pattern></defs>
+<rect x="5" y="3" width="290" height="189" rx="20" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
+<rect x="22" y="13" width="256" height="165" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+<rect x="22" y="13" width="256" height="165" rx="8" fill="url(#crt1)"/>
+<!-- bargraphe N2 gauche (10 segments) -->
+<rect x="24" y="15" width="9" height="161" rx="3" fill="#030e18" stroke="#0d2640" stroke-width=".5"/>
+<rect x="25" y="142" width="7" height="11" rx="1" fill="#00ff88" opacity=".4"/>
+<rect x="25" y="129" width="7" height="11" rx="1" fill="#00ff88" opacity=".4"/>
+<text x="28" y="184" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#4a7a9b">N₂</text>
+<!-- LIGNE 1 : profondeur = tirets (surface) + haut droite = MOD -->
+<text x="38" y="27" font-family="monospace" font-size="6.5" fill="#4a7a9b">DESAT  CEILING  MAX  DEEP  AVG</text>
+<text x="262" y="27" text-anchor="end" font-family="monospace" font-size="6.5" fill="#4a7a9b">MOD</text>
+<text x="105" y="53" text-anchor="middle" font-family="monospace" font-size="30" fill="#cde8ff" font-weight="bold">--.-</text>
+<text x="107" y="37" font-family="monospace" font-size="8" fill="#4a7a9b">m</text>
+<text x="260" y="52" text-anchor="end" font-family="monospace" font-size="26" fill="#ff6b35" font-weight="bold">34.1</text>
+<text x="263" y="38" font-family="monospace" font-size="8" fill="#4a7a9b">m</text>
+<line x1="36" y1="59" x2="268" y2="59" stroke="#0d2640" stroke-width=".8"/>
+<!-- LIGNE 2 : heure centrale (grande) -->
+<text x="38" y="64" font-family="monospace" font-size="6.5" fill="#4a7a9b">NO DECO  BT SAFE               TIME  in/out  TTS</text>
+<text x="152" y="108" text-anchor="middle" font-family="monospace" font-size="40" fill="#cde8ff" font-weight="bold">12:45</text>
+<text x="261" y="80" text-anchor="end" font-family="monospace" font-size="7" fill="#4a7a9b">PM</text>
+<line x1="36" y1="116" x2="268" y2="116" stroke="#0d2640" stroke-width=".8"/>
+<!-- LIGNE 3 : O2% gauche + GF droite -->
+<text x="38" y="121" font-family="monospace" font-size="6.5" fill="#4a7a9b">SWITCH  ALT  GF  NOW @SURF  O₂%  CNS%</text>
+<text x="75" y="155" text-anchor="middle" font-family="monospace" font-size="30" fill="#00d4ff" font-weight="bold">32</text>
+<text x="65" y="166" font-family="monospace" font-size="6.5" fill="#4a7a9b">O₂%</text>
+<text x="220" y="155" text-anchor="middle" font-family="monospace" font-size="30" fill="#00d4ff" font-weight="bold">R0</text>
+<text x="212" y="166" font-family="monospace" font-size="6.5" fill="#4a7a9b">GF</text>
+<!-- boutons -->
+<rect x="7" y="52" width="12" height="24" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
+<text x="13" y="62" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#00d4ff">TL</text>
+<rect x="7" y="136" width="12" height="24" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
+<text x="13" y="146" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#00ff88">BL</text>
+<rect x="281" y="52" width="12" height="24" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
+<text x="287" y="62" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#ff6b35">TR</text>
+<rect x="281" y="136" width="12" height="24" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
+<text x="287" y="146" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#ff2d55">BR</text>
+</svg>
+</div>
+<div class="sec-sub">ZONES PRE-DIVE</div>
+<div class="fields-legend">
+<div class="field-row fr-danger"><div class="field-dot fd-orange">MOD</div><div class="field-info"><div class="field-name">Ligne haute droite — MOD du gaz actif</div><div class="field-desc">Profondeur Opérationnelle Max selon O₂% et ppO₂max. Les tirets (--.-) indiquent que l'ordi est en surface. TR-SP change le champ affiché à droite de la profondeur.</div></div><span class="field-val" style="color:var(--warn)">34.1m</span></div>
+<div class="field-row"><div class="field-dot fd-blue">⏰</div><div class="field-info"><div class="field-name">Ligne centrale — Heure</div><div class="field-desc">Heure en temps réel, très grande, au centre. Format 24h ou AM/PM selon réglage. La durée de plongée (TIME) prend sa place lors de l'immersion.</div></div></div>
+<div class="field-row fr-ok"><div class="field-dot fd-green">O₂%</div><div class="field-info"><div class="field-name">Ligne basse gauche — O₂% du gaz G1</div><div class="field-desc">Concentration O₂ du gaz actif G1. À VÉRIFIER avant chaque plongée. Accès direct : BR-SP depuis PRE-DIVE.</div></div><span class="field-val" style="color:var(--accent2)">32%</span></div>
+<div class="field-row fr-ok"><div class="field-dot fd-blue">GF</div><div class="field-info"><div class="field-name">Ligne basse droite — Gradient Factor actif</div><div class="field-desc">Niveau de conservatisme actif (R0 par défaut). Accès direct : TR-SP depuis PRE-DIVE. P+ ou P++ si REP activé, symbole montagne si altitude A1→A3.</div></div><span class="field-val" style="color:var(--accent)">R0</span></div>
+<div class="field-row"><div class="field-dot fd-blue">N₂</div><div class="field-info"><div class="field-name">Bargraphe azote — côté gauche (10 segments)</div><div class="field-desc">Saturation du tissu le plus rapide. S'éclaire du bas vers le haut. Tous allumés = déco obligatoire. Présent en PRE-DIVE, plongée et POST DIVE.</div></div></div>
+</div>
+<div class="alert-strip as-ok" style="margin-top:8px;">💡 BL-SP alterne PRE-DIVE ↔ MENU. Si DESAT &gt; 0, l'écran POST DIVE est inclus dans la boucle BL-SP.</div>
+<div class="alert-strip as-warn">⚠️ Rester en PRE-DIVE sans appuyer pendant 10 min = extinction automatique.</div>
+</div>
+
+<!-- PLONGÉE -->
+<div class="screen-view" id="mode-dive">
+<div style="background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;">
+<div class="sec-label" style="margin-bottom:6px;">ÉCRAN PLONGÉE — DISPOSITION OFFICIELLE (§8)</div>
+<svg viewBox="0 0 300 220" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+<defs><pattern id="crt2" width="1" height="3" patternUnits="userSpaceOnUse"><rect width="1" height="1" fill="rgba(0,212,255,0.025)"/></pattern></defs>
+<rect x="5" y="3" width="290" height="214" rx="20" fill="#0b1e30" stroke="#1a4060" stroke-width="1.5"/>
+<rect x="22" y="13" width="256" height="192" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+<rect x="22" y="13" width="256" height="192" rx="8" fill="url(#crt2)"/>
+<!-- bargraphe + vitesse remontée -->
+<rect x="24" y="15" width="9" height="188" rx="3" fill="#030e18" stroke="#0d2640" stroke-width=".5"/>
+<rect x="25" y="156" width="7" height="10" rx="1" fill="#00ff88" opacity=".5"/>
+<rect x="25" y="144" width="7" height="10" rx="1" fill="#00ff88" opacity=".5"/>
+<rect x="25" y="132" width="7" height="10" rx="1" fill="#ff6b35" opacity=".5"/>
+<!-- vitesse remontée à gauche de la ligne milieu -->
+<text x="45" y="114" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">m/min</text>
+<text x="45" y="128" text-anchor="middle" font-family="monospace" font-size="14" fill="#00ff88" font-weight="bold">9↑</text>
+<!-- LIGNE 1 : profondeur actuelle + champ haut droite -->
+<text x="36" y="26" font-family="monospace" font-size="6" fill="#4a7a9b">DESAT  CEILING  MAX  DEEP  AVG  MOD</text>
+<text x="155" y="70" text-anchor="middle" font-family="monospace" font-size="50" fill="#00d4ff" font-weight="bold">25.6</text>
+<text x="188" y="70" font-family="monospace" font-size="13" fill="#4a7a9b">m</text>
+<!-- champ haut droite (TR-SP) = temp -->
+<text x="262" y="26" text-anchor="end" font-family="monospace" font-size="6.5" fill="#4a7a9b">°C</text>
+<text x="262" y="56" text-anchor="end" font-family="monospace" font-size="26" fill="#cde8ff" font-weight="bold">25</text>
+<line x1="36" y1="76" x2="268" y2="76" stroke="#0d2640" stroke-width=".8"/>
+<!-- LIGNE 2 : NO DECO + TIME (ou deco + TTS) -->
+<text x="36" y="81" font-family="monospace" font-size="6" fill="#4a7a9b">NO DECO  BT SAFE                    TIME  in/out  TTS</text>
+<text x="88" y="118" text-anchor="middle" font-family="monospace" font-size="32" fill="#cde8ff" font-weight="bold">27</text>
+<text x="72" y="105" font-family="monospace" font-size="7" fill="#4a7a9b">NO DECO</text>
+<text x="205" y="118" text-anchor="middle" font-family="monospace" font-size="32" fill="#cde8ff" font-weight="bold">17:34</text>
+<text x="200" y="105" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">TIME</text>
+<line x1="36" y1="126" x2="268" y2="126" stroke="#0d2640" stroke-width=".8"/>
+<!-- LIGNE 3 : DTIME + champ bas droite (BR-SP) -->
+<text x="36" y="131" font-family="monospace" font-size="6" fill="#4a7a9b">SWITCH  ALT  GF  NOW @SURF  O₂%  CNS%  ppO₂</text>
+<text x="90" y="165" text-anchor="middle" font-family="monospace" font-size="30" fill="#cde8ff" font-weight="bold">17:34</text>
+<text x="84" y="176" font-family="monospace" font-size="6.5" fill="#4a7a9b">DTIME</text>
+<text x="220" y="165" text-anchor="middle" font-family="monospace" font-size="30" fill="#00d4ff" font-weight="bold">32</text>
+<text x="215" y="176" font-family="monospace" font-size="6.5" fill="#4a7a9b">O₂%</text>
+<!-- boutons -->
+<rect x="7" y="52" width="12" height="24" rx="4" fill="#071525" stroke="#00d4ff" stroke-width="1.2"/>
+<text x="13" y="62" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#00d4ff">TL</text>
+<rect x="7" y="148" width="12" height="24" rx="4" fill="#071525" stroke="#00ff88" stroke-width="1.2"/>
+<text x="13" y="158" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#00ff88">BL</text>
+<rect x="281" y="52" width="12" height="24" rx="4" fill="#071525" stroke="#ff6b35" stroke-width="1.2"/>
+<text x="287" y="62" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#ff6b35">TR</text>
+<rect x="281" y="148" width="12" height="24" rx="4" fill="#071525" stroke="#ff2d55" stroke-width="1.2"/>
+<text x="287" y="158" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#ff2d55">BR</text>
+</svg>
+</div>
+<div class="sec-sub">CHAMPS FIXES</div>
+<div class="fields-legend">
+<div class="field-row"><div class="field-dot fd-blue">📏</div><div class="field-info"><div class="field-name">Ligne haute gauche — Profondeur actuelle</div><div class="field-desc">Toujours affichée en très grand. Valeur centrale de l'écran en plongée. Constamment mise à jour.</div></div><span class="field-val" style="color:var(--accent)">25.6m</span></div>
+<div class="field-row fr-ok"><div class="field-dot fd-green">NDL</div><div class="field-info"><div class="field-name">Ligne centrale gauche — NO DECO</div><div class="field-desc">Temps sans décompression restant. En plongée DÉCO : remplacé par la profondeur du palier le plus profond.</div></div><span class="field-val" style="color:var(--accent2)">27 min</span></div>
+<div class="field-row fr-ok"><div class="field-dot fd-green">TIME</div><div class="field-info"><div class="field-name">Ligne centrale droite — Temps plongée (TIME)</div><div class="field-desc">Chronomètre depuis l'immersion à 1.2m. En plongée DÉCO : remplacé par TTS (temps total de remontée). TL-SP = reset chrono (crée aussi un signet logbook).</div></div><span class="field-val" style="color:var(--accent2)">17:34</span></div>
+<div class="field-row fr-ok"><div class="field-dot fd-green">DTIME</div><div class="field-info"><div class="field-name">Ligne basse gauche — DTIME (durée plongée)</div><div class="field-desc">Temps total en plongée depuis le début. Affiché en bas à gauche. BL-LP affiche/cache les secondes.</div></div></div>
+<div class="field-row"><div class="field-dot fd-blue">N₂↑</div><div class="field-info"><div class="field-name">Gauche — Bargraphe N₂ + vitesse remontée</div><div class="field-desc">10 segments azote à gauche. En remontée : vitesse en m/min s'affiche à gauche de la ligne centrale (valeur numérique + graphique en segments).</div></div></div>
+</div>
+<div class="sec-sub">CHAMPS MODIFIABLES — TR-SP (haut droite)</div>
+<div style="background:var(--surface);border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px;line-height:1.9;color:var(--muted);">
+Chaque <span class="btn-pill bp-tr">TR SP</span> fait défiler :<br>
+<strong style="color:white">Prof. max.</strong> → <strong style="color:white">Prof. moyenne (AVG)</strong> → <strong style="color:white">MOD du gaz actif</strong> → <strong style="color:white">Palier profond</strong> (si activé et calculé) → <strong style="color:white">TTS @+5</strong> → <strong style="color:white">Plafond (Ceiling)</strong>
+</div>
+<div class="sec-sub">CHAMPS MODIFIABLES — BR-SP (bas droite)</div>
+<div style="background:var(--surface);border-radius:10px;padding:10px;margin-bottom:10px;font-size:12px;line-height:1.9;color:var(--muted);">
+Chaque <span class="btn-pill bp-br">BR SP</span> fait défiler :<br>
+<strong style="color:white">MAIN GF</strong> → <strong style="color:white">GF NOW</strong> → <strong style="color:white">GF @SURF</strong> → <strong style="color:white">GF @SURF (2s) / GF RATE (4s) alternés</strong> → <strong style="color:white">CNS%</strong> → <strong style="color:white">OTU</strong> → <strong style="color:white">ppO₂</strong> → <strong style="color:white">Heure</strong> → <strong style="color:white">Chronomètre</strong>
+</div>
+<div class="alert-strip as-ok">💡 En mode AIR : MOD, CNS et ppO₂ ne sont pas affichés pour simplifier l'écran. Les alarmes restent actives. Pour les voir : passer en Nitrox 21%.</div>
+
+<div class="sec-sub">ÉCRAN EN DÉCOMPRESSION OBLIGATOIRE</div>
+<div style="background:var(--card);border-radius:12px;padding:12px;margin-bottom:10px;">
+<svg viewBox="0 0 300 185" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+<rect x="5" y="3" width="290" height="179" rx="18" fill="#0b1e30" stroke="#ff2d55" stroke-width="1.5"/>
+<rect x="22" y="12" width="256" height="162" rx="8" fill="#030e18" stroke="#1a0008" stroke-width="1"/>
+<rect x="22" y="12" width="256" height="162" rx="8" fill="url(#crt2)"/>
+<!-- L1 : profondeur + profondeur du palier DECO -->
+<text x="260" y="26" text-anchor="end" font-family="monospace" font-size="7" fill="#ff6b35">DECO</text>
+<text x="260" y="52" text-anchor="end" font-family="monospace" font-size="26" fill="#ff6b35" font-weight="bold">9m</text>
+<text x="150" y="52" text-anchor="middle" font-family="monospace" font-size="36" fill="#00d4ff" font-weight="bold">37.4</text>
+<text x="180" y="52" font-family="monospace" font-size="12" fill="#4a7a9b">m</text>
+<line x1="36" y1="58" x2="268" y2="58" stroke="#1a0008" stroke-width=".8"/>
+<!-- L2 : temps au palier (DECO) + TTS -->
+<text x="70" y="70" text-anchor="middle" font-family="monospace" font-size="7" fill="#ff6b35">DECO</text>
+<text x="70" y="96" text-anchor="middle" font-family="monospace" font-size="26" fill="#ff6b35" font-weight="bold">2:31</text>
+<text x="213" y="70" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">TTS</text>
+<text x="213" y="96" text-anchor="middle" font-family="monospace" font-size="26" fill="#ff6b35" font-weight="bold">5:17</text>
+<line x1="36" y1="102" x2="268" y2="102" stroke="#1a0008" stroke-width=".8"/>
+<!-- L3 : DTIME + O2% -->
+<text x="90" y="134" text-anchor="middle" font-family="monospace" font-size="26" fill="#cde8ff" font-weight="bold">25:41</text>
+<text x="218" y="134" text-anchor="middle" font-family="monospace" font-size="26" fill="#00d4ff" font-weight="bold">21%</text>
+</svg>
+<div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;">
+<span style="color:var(--danger)">Ligne haute droite</span> = profondeur du palier DECO ·
+<span style="color:var(--danger)">Ligne centrale gauche</span> = temps restant au palier (min) ·
+<span style="color:var(--danger)">TTS</span> = temps total de remontée incl. tous les paliers
+</div>
+</div>
+
+<div class="sec-sub">PALIER DE SÉCURITÉ (SAFETY)</div>
+<div style="background:var(--card);border-radius:12px;padding:12px;margin-bottom:10px;">
+<svg viewBox="0 0 300 148" width="100%" style="max-width:300px;display:block;margin:0 auto;">
+<rect x="5" y="3" width="290" height="142" rx="18" fill="#0b1e30" stroke="#00ff88" stroke-width="1.5"/>
+<rect x="22" y="12" width="256" height="122" rx="8" fill="#030e18" stroke="#0d2640" stroke-width="1"/>
+<rect x="22" y="12" width="256" height="122" rx="8" fill="url(#crt2)"/>
+<text x="145" y="46" text-anchor="middle" font-family="monospace" font-size="30" fill="#00d4ff" font-weight="bold">3.4m</text>
+<text x="262" y="32" text-anchor="end" font-family="monospace" font-size="8" fill="#cde8ff">23°C</text>
+<line x1="36" y1="54" x2="268" y2="54" stroke="#0d2640" stroke-width=".8"/>
+<!-- SAFE + compte à rebours -->
+<text x="130" y="68" text-anchor="middle" font-family="monospace" font-size="8" fill="#00ff88">SAFE  ✓</text>
+<text x="130" y="94" text-anchor="middle" font-family="monospace" font-size="28" fill="#00ff88" font-weight="bold">0:01</text>
+<line x1="36" y1="102" x2="268" y2="102" stroke="#0d2640" stroke-width=".8"/>
+<text x="88" y="124" text-anchor="middle" font-family="monospace" font-size="20" fill="#cde8ff" font-weight="bold">51:58</text>
+<text x="224" y="116" text-anchor="middle" font-family="monospace" font-size="7" fill="#4a7a9b">GF @SURF</text>
+<text x="224" y="128" text-anchor="middle" font-family="monospace" font-size="16" fill="#00d4ff" font-weight="bold">69</text>
+</svg>
+<div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;">
+Conseillé dès que la plongée dépasse 10m. 3 minutes entre 6m et 3m. Non obligatoire mais fortement recommandé. ✓ = palier effectué. GF @+3 s'affiche avec GF @SURF pendant le palier.
+</div>
+</div>
+</div>
+
+<!-- POST DIVE -->
+<div class="screen-view" id="mode-postdive">
+<div style="background:var(--card);border-radius:14px;padding:14px;margin-bottom:12px;">
+<div class="sec-label" style="margin-bottom:6px;">ÉCRAN POST DIVE — 2 VUES · 5 SECONDES (§9)</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+<div>
+<div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--warn);text-align:center;margin-bottom:4px;">VUE 1 — DESAT</div>
+<svg viewBox="0 0 148 152" width="100%">
+<rect x="3" y="3" width="142" height="146" rx="14" fill="#0b1e30" stroke="#ff6b35" stroke-width="1.2"/>
+<rect x="13" y="11" width="122" height="128" rx="6" fill="#030e18" stroke="#0d2640" stroke-width=".8"/>
+<!-- L1 : h DESAT (gauche) + × NO-FLY (droite) -->
+<text x="26" y="24" font-family="monospace" font-size="5.5" fill="#4a7a9b">h  DESAT</text>
+<text x="26" y="42" font-family="monospace" font-size="18" fill="#ff6b35" font-weight="bold">13</text>
+<text x="118" y="24" text-anchor="end" font-family="monospace" font-size="5.5" fill="#4a7a9b">× NO-FLY h</text>
+<text x="118" y="42" text-anchor="end" font-family="monospace" font-size="18" fill="#4a7a9b" font-weight="bold">11</text>
+<line x1="17" y1="48" x2="131" y2="48" stroke="#0d2640" stroke-width=".6"/>
+<!-- L2 : TIME heure -->
+<text x="74" y="60" text-anchor="middle" font-family="monospace" font-size="6" fill="#4a7a9b">TIME</text>
+<text x="74" y="80" text-anchor="middle" font-family="monospace" font-size="22" fill="#cde8ff" font-weight="bold">12:45</text>
+<line x1="17" y1="88" x2="131" y2="88" stroke="#0d2640" stroke-width=".6"/>
+<!-- L3 : S.I. + GF NOW -->
+<text x="34" y="100" text-anchor="middle" font-family="monospace" font-size="6" fill="#4a7a9b">S.I.</text>
+<text x="34" y="118" text-anchor="middle" font-family="monospace" font-size="16" fill="#cde8ff" font-weight="bold">1:44</text>
+<text x="108" y="100" text-anchor="middle" font-family="monospace" font-size="6" fill="#4a7a9b">GF NOW</text>
+<text x="108" y="118" text-anchor="middle" font-family="monospace" font-size="18" fill="#00d4ff" font-weight="bold">12</text>
+</svg>
+</div>
+<div>
+<div style="font-family:'Space Mono',monospace;font-size:8px;color:var(--accent);text-align:center;margin-bottom:4px;">VUE 2 — RÉSUMÉ</div>
+<svg viewBox="0 0 148 152" width="100%">
+<rect x="3" y="3" width="142" height="146" rx="14" fill="#0b1e30" stroke="#00d4ff" stroke-width="1.2"/>
+<rect x="13" y="11" width="122" height="128" rx="6" fill="#030e18" stroke="#0d2640" stroke-width=".8"/>
+<!-- L1 : prof max + temp -->
+<text x="26" y="24" font-family="monospace" font-size="5.5" fill="#4a7a9b">CEILING MAX DEEP AVG MOD</text>
+<text x="26" y="42" font-family="monospace" font-size="18" fill="#ff2d55" font-weight="bold">37.4</text>
+<text x="118" y="24" text-anchor="end" font-family="monospace" font-size="5.5" fill="#4a7a9b">°C</text>
+<text x="118" y="42" text-anchor="end" font-family="monospace" font-size="16" fill="#cde8ff" font-weight="bold">19</text>
+<line x1="17" y1="48" x2="131" y2="48" stroke="#0d2640" stroke-width=".6"/>
+<!-- L2 : NO DECO + TIME -->
+<text x="48" y="60" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#4a7a9b">NO DECO</text>
+<text x="48" y="80" text-anchor="middle" font-family="monospace" font-size="18" fill="#cde8ff" font-weight="bold">01</text>
+<text x="108" y="60" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#4a7a9b">TIME in</text>
+<text x="108" y="80" text-anchor="middle" font-family="monospace" font-size="16" fill="#cde8ff" font-weight="bold">31:12</text>
+<line x1="17" y1="88" x2="131" y2="88" stroke="#0d2640" stroke-width=".6"/>
+<!-- L3 : S.I. + GF @SURF -->
+<text x="36" y="100" text-anchor="middle" font-family="monospace" font-size="6" fill="#4a7a9b">S.I.</text>
+<text x="36" y="118" text-anchor="middle" font-family="monospace" font-size="16" fill="#cde8ff" font-weight="bold">5:34</text>
+<text x="108" y="100" text-anchor="middle" font-family="monospace" font-size="6" fill="#4a7a9b">GF @SURF</text>
+<text x="108" y="118" text-anchor="middle" font-family="monospace" font-size="18" fill="#00d4ff" font-weight="bold">83</text>
+</svg>
+</div>
+</div>
+</div>
+<div class="sec-sub">ZONES POST DIVE</div>
+<div class="fields-legend">
+<div class="field-row fr-warn"><div class="field-dot fd-orange">DESAT</div><div class="field-info"><div class="field-name">Vue 1 — Temps de désaturation restant</div><div class="field-desc">Calculé par le modèle Bühlmann. Toute plongée pendant ce temps = plongée successive (NDL réduits). Peut être plus court que NO-FLY.</div></div><span class="field-val" style="color:var(--warn)">13h</span></div>
+<div class="field-row fr-danger"><div class="field-dot fd-red">NO FLY</div><div class="field-info"><div class="field-name">Vue 1 — Interdiction de vol (×)</div><div class="field-desc">Standard NOAA/DAN : 12h pour plongée simple sans déco, 24h pour plongée avec déco OU plongées successives. Peut être &gt; DESAT.</div></div><span class="field-val" style="color:var(--danger)">× 11h</span></div>
+<div class="field-row"><div class="field-dot fd-blue">S.I.</div><div class="field-info"><div class="field-name">Vues 1 &amp; 2 — Intervalle de surface</div><div class="field-desc">Temps écoulé depuis la fin de la plongée. Affiché tant qu'il reste du DESAT ou du NO-FLY sur l'ordi.</div></div></div>
+<div class="field-row"><div class="field-dot fd-blue">GF</div><div class="field-info"><div class="field-name">Vue 1 — GF NOW · Vue 2 — GF @SURF final</div><div class="field-desc">GF NOW = gaz inerte en excès par rapport à la pression ambiante. GF @SURF = valeur au moment de la sortie de l'eau (indicateur de rigueur de la plongée).</div></div></div>
+<div class="field-row fr-danger"><div class="field-dot fd-red">MAX</div><div class="field-info"><div class="field-name">Vue 2 — Profondeur max + température la plus basse</div><div class="field-desc">Avec NO DECO restant (min) et temps total de plongée. Données enregistrées dans le logbook.</div></div><span class="field-val" style="color:var(--danger)">37.4m</span></div>
+</div>
+<div class="alert-strip as-ok" style="margin-top:8px;">💡 TR-SP depuis POST DIVE → logbook · BR-SP → planificateur · BR-LP → Bluetooth</div>
+<div class="alert-strip as-danger">✈️ Ne jamais prendre l'avion tant que le symbole NO-FLY (×) est affiché. Risque d'accident de décompression.</div>
+</div>
+</div>
+
+<!-- PAGE ALARMES -->
+<div class="page" id="page-alarmes">
+<div class="sec-label">SECTION 04 — MANUEL §7.3</div>
+<div class="sec-title">ALARMES (5 TYPES)</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">⬆️</div><div class="card-title-wrap"><div class="card-title">Vitesse de Remontée — SLOW</div><span class="card-badge badge-danger">PRIORITAIRE</span></div></div>
+<div class="card-body">L'alarme vitesse de remontée est prioritaire sur toutes les autres alarmes simultanées. Message SLOW clignote + alarme sonore jusqu'à retour sous la limite.</div>
+<div style="background:var(--surface);border-radius:8px;padding:10px;margin:8px 0;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-family:'Space Mono',monospace;font-size:10px;text-align:center;">
+<div style="color:var(--muted);">Profondeur</div><div style="color:var(--muted);">Vitesse max</div>
+<div style="color:var(--accent2);">&gt; 50 m</div><div style="color:var(--accent2);">20 m/min</div>
+<div style="color:var(--accent2);">30 – 50 m</div><div style="color:var(--accent2);">15 m/min</div>
+<div style="color:var(--warn);">10 – 30 m</div><div style="color:var(--warn);">10 m/min</div>
+<div style="color:var(--danger);">&lt; 10 m</div><div style="color:var(--danger);">5 m/min</div>
+</div>
+</div>
+<div class="tip tip-danger">Si 120% de la limite sur variation &gt;20m → BLOCAGE 48h en profondimètre. Désactivable dans ASCNT VIOL (instructeurs uniquement).</div>
+</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">☠️</div><div class="card-title-wrap"><div class="card-title">MOD / ppO₂ Dépassée</div><span class="card-badge badge-danger">DANGER MORTEL</span></div></div>
+<div class="card-body">Alarme sonore + profondeur actuelle clignote + MOD s'affiche à côté. Continue jusqu'à correction de la situation.</div>
+<div class="lcd">
+<div class="lcd-row"><span class="lcd-key">ppO₂max RECOMMANDÉE (la plupart agences)</span><span class="lcd-val lv-orange">≤ 1.4 bar</span></div>
+<div class="lcd-row"><span class="lcd-key">ppO₂max ABSOLUE</span><span class="lcd-val lv-red">1.6 bar</span></div>
+<div class="lcd-row"><span class="lcd-key">AU-DELÀ → CONVULSIONS</span><span class="lcd-val lv-red">MORTEL</span></div>
+</div>
+<div class="tip tip-danger">Remonter IMMÉDIATEMENT jusqu'à l'arrêt de l'alarme. En mode AIR : ppO₂ calculée en arrière-plan, alarme active même sans affichage.</div>
+</div>
+
+<div class="card warn-card">
+<div class="card-header"><div class="card-icon">🫁</div><div class="card-title-wrap"><div class="card-title">CNS = 75% — Toxicité O₂</div><span class="card-badge badge-warn">AVERTISSEMENT</span></div></div>
+<div class="card-body">CNS% mesure l'exposition à l'oxygène sur le système nerveux central. À 75% : CNS clignote et devient le champ par défaut en bas à droite. À 100% : alarme urgente.</div>
+<div class="lcd">
+<div class="lcd-row"><span class="lcd-key">CNS 75% → clignote + champ par défaut</span><span class="lcd-val lv-orange">AVERTISSEMENT</span></div>
+<div class="lcd-row"><span class="lcd-key">CNS 100% → alarme urgente</span><span class="lcd-val lv-red">DANGER</span></div>
+</div>
+<div class="tip tip-warn">BR-SP pour voir une autre valeur (pendant 4s puis CNS revient). Remonter à une profondeur moindre pour réduire la charge en O₂.</div>
+</div>
+
+<div class="card danger-card">
+<div class="card-header"><div class="card-icon">🛑</div><div class="card-title-wrap"><div class="card-title">Palier de Déco Omis</div><span class="card-badge badge-danger">VIOLATION</span></div></div>
+<div class="card-body">Si remontée de plus de 0.3m au-dessus du palier obligatoire → alarme sonore + profondeur clignote + profondeur du palier manqué affiché. Passage automatique aux GF alternatifs si possible.</div>
+<div class="alert-strip as-warn">⚠️ Dépassement &lt;1m pendant &lt;3min (ou &lt;1min si &gt;1m) → GF ALTERNATIFS automatiques · ALT clignote</div>
+<div class="alert-strip as-danger">🚨 GF alternatifs incompatibles avec la profondeur → VIOLATION → symbole clignote → blocage 48h à la surface en profondimètre</div>
+<div class="tip tip-danger">Ne jamais monter au-dessus de la profondeur affichée du palier.</div>
+</div>
+
+<div class="card warn-card">
+<div class="card-header"><div class="card-icon">🔋</div><div class="card-title-wrap"><div class="card-title">Batterie Faible</div><span class="card-badge badge-warn">INFO</span></div></div>
+<div class="card-body">Le niveau de batterie est indiqué par un symbole sur l'affichage. Trois états possibles.</div>
+<div class="gauges">
+<div class="gauge g-ok"><div class="gauge-val">—</div><div class="gauge-lbl">Invisible = OK</div></div>
+<div class="gauge g-warn"><div class="gauge-val">▪</div><div class="gauge-lbl">Fixe = prévoir</div></div>
+<div class="gauge g-danger"><div class="gauge-val">▪▪</div><div class="gauge-lbl">Clignote = STOP</div></div>
+</div>
+<div class="tip">Si le symbole clignote en plongée : terminer et remplacer avant toute nouvelle immersion. CR2450 · 200–300 plongées.</div>
+</div>
+</div>
+
+<!-- PAGE CHECKLIST -->
+<div class="page" id="page-checklist">
+<div class="sec-label">SECTION 05</div>
+<div class="sec-title">CHECKLIST MONITEUR</div>
+<div class="check-progress">
+<div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);">AVANT MISE À L'EAU</div>
+<div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+<div class="progress-text" id="progress-text">0/9</div>
+</div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">O₂% vérifié = gaz analysé en bouteille</div><div class="check-sub">Raccourci : BR-SP depuis PRE-DIVE · erreur = risque mortel</div></div><div class="check-prio prio-h">CRITIQUE</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">ppO₂max configurée selon le profil</div><div class="check-sub">≤ 1.4 bar recommandé · 1.6 bar maximum absolu</div></div><div class="check-prio prio-h">CRITIQUE</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Algorithme GF vérifié (R0 par défaut)</div><div class="check-sub">Raccourci : TR-SP depuis PRE-DIVE · R0 (85/85) standard</div></div><div class="check-prio prio-h">CRITIQUE</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Type d'eau configuré (SALT / FRSH)</div><div class="check-sub">Erreur = ±3% sur la profondeur affichée</div></div><div class="check-prio prio-h">CRITIQUE</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Désaturation résiduelle consultée</div><div class="check-sub">DESAT &gt; 0 = plongée successive · NDL réduits automatiquement</div></div><div class="check-prio prio-m">IMPORTANT</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Intervalle de surface suffisant (S.I.)</div><div class="check-sub">Affiché sur PRE-DIVE · tenir compte du profil de la plongée précédente</div></div><div class="check-prio prio-m">IMPORTANT</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Heure et date correctes</div><div class="check-sub">Menu CLOCK (CLO) · ou sync Bluetooth app Mares / MySSI</div></div><div class="check-prio prio-m">IMPORTANT</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">Batterie OK — symbole non visible</div><div class="check-sub">Symbole fixe = prévoir remplacement · clignotant = ne pas plonger</div></div><div class="check-prio prio-m">IMPORTANT</div></div>
+<div class="check-item" onclick="toggleCheck(this)"><div class="check-box"></div><div style="flex:1"><div class="check-text">ASCNT VIOL configuré si formation</div><div class="check-sub">Instructeurs uniquement · désactive blocage 48h sur remontée rapide assistée</div></div><div class="check-prio prio-l">INSTRUCTEUR</div></div>
+<button class="reset-btn" onclick="resetChecklist()">↺ RÉINITIALISER LA CHECKLIST</button>
+</div>
+
+  </div>
+</div>
 
 <script>
-// ── BUBBLES ──────────────────────────────────────────────
-const bc = document.getElementById('bubbles');
-for(let i=0;i<14;i++){
-  const b=document.createElement('div');b.className='bd';
-  const s=Math.random()*16+5;
-  b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;`+
-    `animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*12}s;`+
-    `opacity:${Math.random()*.4+.1};`;
-  bc.appendChild(b);
-}
-
-// ── SPLASH ───────────────────────────────────────────────
-setTimeout(()=>{
-  document.getElementById('splash').classList.add('hide');
-  setTimeout(()=>document.getElementById('splash').remove(),600);
-}, 2000);
-
-// ── PAGES ────────────────────────────────────────────────
-function showPage(name, btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  btn.classList.add('active');
-  document.getElementById('content').scrollTo({top:0,behavior:'smooth'});
-}
-
-// ── CHECKLIST ────────────────────────────────────────────
-function toggleCheck(item){
-  item.classList.toggle('done');
-  const box=item.querySelector('.check-box');
-  box.textContent=item.classList.contains('done')?'✓':'';
-  updateProgress();
-  // haptic feedback on mobile
-  if(navigator.vibrate) navigator.vibrate(30);
-}
-function updateProgress(){
-  const all=document.querySelectorAll('.check-item');
-  const done=document.querySelectorAll('.check-item.done').length;
-  const pct=Math.round(done/all.length*100);
-  document.getElementById('progress-fill').style.width=pct+'%';
-  document.getElementById('progress-text').textContent=done+'/'+all.length;
-}
-function resetChecklist(){
-  document.querySelectorAll('.check-item').forEach(i=>{
-    i.classList.remove('done');
-    i.querySelector('.check-box').textContent='';
-  });
-  updateProgress();
-}
-
-// ── ÉCRANS MODE TABS ─────────────────────────────────────
-function showMode(name, btn){
-  document.querySelectorAll('.screen-view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.smt-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('mode-'+name).classList.add('active');
-  btn.classList.add('active');
-  // hide all tooltips
-  document.querySelectorAll('.zone-tooltip').forEach(t=>{t.classList.remove('show');t.textContent='';});
-}
-
-// ── ZONE DATA ────────────────────────────────────────────
-const ZONES = {
-  // AVANT
-  'avant-time': {
-    label:'HEURE & DATE',
-    val:'10:42  —  09/03/2026',
-    color:'#00d4ff',
-    desc:'Heure en temps réel. Vérifier avant chaque plongée pour valider les intervalles de surface et le logbook.'
-  },
-  'avant-env': {
-    label:'TEMP / PRESSION',
-    val:'22°C · 1013 hPa',
-    color:'#00d4ff',
-    desc:'Température de surface et pression atmosphérique. La pression sert de base pour les calculs d\'altitude.'
-  },
-  'avant-desat': {
-    label:'DÉSAT RÉSIDUELLE',
-    val:'0%',
-    color:'#00ff88',
-    desc:'0% = tu es désaturé, prêt à plonger. Si >0%, l\'ordi pénalise les NDL de la prochaine plongée.'
-  },
-  'avant-gaz': {
-    label:'GAZ + ALGORITHME',
-    val:'21% O₂ · R0',
-    color:'#00ff88',
-    desc:'Mélange actif et conservatisme. À VÉRIFIER avant chaque plongée. R0 = standard, R1 = enseignement.'
-  },
-  'avant-mod': {
-    label:'MOD (PROF MAX)',
-    val:'57 m',
-    color:'#ff6b35',
-    desc:'Profondeur Opérationnelle Max calculée selon % O₂ et ppO₂ max. Ne jamais dépasser cette valeur.'
-  },
-  // PENDANT
-  'p-depth': {
-    label:'PROFONDEUR',
-    val:'18.4 m',
-    color:'#00d4ff',
-    desc:'Valeur centrale, lisible d\'un coup d\'œil. Mise à jour chaque seconde. Base de tous les calculs.'
-  },
-  'p-time': {
-    label:'TEMPS PLONGÉE',
-    val:'24:30',
-    color:'#00ff88',
-    desc:'Chrono depuis l\'immersion. TL SP pour remettre à zéro. Enregistré dans le logbook.'
-  },
-  'p-ndl': {
-    label:'NDL RESTANT',
-    val:'12 min',
-    color:'#00d4ff',
-    desc:'Temps avant palier obligatoire. Diminue avec profondeur et temps. Rouge quand < 3 min → commence à remonter.'
-  },
-  'p-ppo2': {
-    label:'ppO2',
-    val:'1.14 bar',
-    color:'#ff6b35',
-    desc:'Pression partielle d\'oxygène. > 1.4 bar = alarme. > 1.6 bar = danger de toxicité O₂ (convulsions sous l\'eau).'
-  },
-  'p-vit': {
-    label:'VITESSE REMONTÉE',
-    val:'9 m/min',
-    color:'#00ff88',
-    desc:'Vert < 10. Orange > 10. Rouge > 12 → l\'ordi enregistre et peut se bloquer en profondimètre.'
-  },
-  'p-tts': {
-    label:'TIME TO SURFACE',
-    val:'03:20',
-    color:'#00d4ff',
-    desc:'Temps minimal pour remonter en sécurité incluant tous les paliers. Planifie ta remontée sur cette valeur.'
-  },
-  'p-maxd': {
-    label:'PROFONDEUR MAX',
-    val:'24.1 m',
-    color:'#ff2d55',
-    desc:'Point le plus profond atteint. Sert au calcul de déco résiduelle et au logbook. Non réinitialisable en plongée.'
-  },
-  // APRES
-  'a-dur': {
-    label:'DURÉE TOTALE',
-    val:'38:00',
-    color:'#00ff88',
-    desc:'Durée complète de la plongée. Enregistrée automatiquement dans le logbook avec heure, date et profondeurs.'
-  },
-  'a-profmax': {
-    label:'PROFONDEUR MAX',
-    val:'24.1 m',
-    color:'#ff2d55',
-    desc:'Profondeur maximale atteinte pendant la plongée. Utilisée pour calculer la saturation résiduelle et le no-fly timer.'
-  },
-  'a-profmoy': {
-    label:'PROFONDEUR MOY',
-    val:'16.8 m',
-    color:'#00d4ff',
-    desc:'Moyenne de toute la plongée. Bon indicateur de la charge azote globale. Plus utile que la profondeur max seule.'
-  },
-  'a-sat': {
-    label:'SATURATION N₂',
-    val:'42%',
-    color:'#ff6b35',
-    desc:'Azote résiduel dans les tissus. Diminue en surface. Pris en compte pour le calcul des NDL de la prochaine plongée.'
-  },
-  'a-interval': {
-    label:'INTERVALLE MIN',
-    val:'02:15 h',
-    color:'#ff6b35',
-    desc:'Temps MINIMUM en surface avant de replonger. Calculé pour toi. Ne jamais replonger avant ce délai.'
-  },
-  'a-temp': {
-    label:'TEMPÉRATURE EAU',
-    val:'19°C',
-    color:'#00d4ff',
-    desc:'Température mesurée pendant la plongée. Enregistrée dans le logbook. Utile pour le choix de la combinaison.'
-  },
-  'a-num': {
-    label:'N° PLONGÉE',
-    val:'#147',
-    color:'#00d4ff',
-    desc:'Numéro de la plongée dans l\'historique de l\'ordi. Incrémenté automatiquement à chaque immersion.'
-  },
-  // DESAT
-  'd-timer': {
-    label:'TIMER DÉSAT',
-    val:'14h 23min',
-    color:'#ff6b35',
-    desc:'Compte à rebours jusqu\'à désaturation complète. Calculé en continu même quand l\'ordi est en veille.'
-  },
-  'd-comp': {
-    label:'COMPARTIMENTS TISSULAIRES',
-    val:'Rapides 76%',
-    color:'#ff6b35',
-    desc:'16 compartiments (Bühlmann). Rapides = cerveau/sang désaturent vite. Lents = os/graisses prennent plus de temps. La barre max gouverne tout.'
-  },
-  'd-vol': {
-    label:'NO-FLY TIMER',
-    val:'18h restantes',
-    color:'#ff2d55',
-    desc:'Délai avant de prendre l\'avion. La pressurisation cabine (0.75 bar) = risque de bulles. FFESSM recommande 24h après plongées multiples.'
-  },
-  'd-sat-total': {
-    label:'DÉSAT GLOBALE',
-    val:'42%',
-    color:'#ff6b35',
-    desc:'Taux global de saturation restant. Non-linéaire dans le temps. 0% = désaturé complet. Gouverne les NDL de la prochaine plongée.'
-  },
-};
-
-function highlightZone(mode, zoneId){
-  const data = ZONES[zoneId];
-  if(!data) return;
-  const tt = document.getElementById('tt-'+mode);
-  if(!tt) return;
-  tt.innerHTML = `<strong>${data.label}</strong><span class="zt-val" style="color:${data.color}">${data.val}</span>${data.desc}`;
-  tt.classList.add('show');
-  if(navigator.vibrate) navigator.vibrate(20);
-  // auto-hide after 4s
-  clearTimeout(tt._timer);
-  tt._timer = setTimeout(()=>tt.classList.remove('show'), 4000);
-}
-
-// attach click on SVG hot zones
-document.querySelectorAll('.hotzone').forEach(el=>{
-  el.style.cursor='pointer';
-  el.addEventListener('click', e=>{
-    const zone = el.dataset.zone;
-    // find parent screen-view
-    let parent = el.closest('.screen-view');
-    if(!parent) return;
-    const modeId = parent.id.replace('mode-','');
-    // flash zone
-    el.style.fill='rgba(0,212,255,0.08)';
-    setTimeout(()=>el.style.fill='rgba(0,212,255,0)',300);
-    highlightZone(modeId, zone);
-  });
-});
-
-
+const bc=document.getElementById('bubbles');
+for(let i=0;i<14;i++){const b=document.createElement('div');b.className='bd';const s=Math.random()*16+5;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*12}s;opacity:${Math.random()*.4+.1};`;bc.appendChild(b);}
+setTimeout(()=>{document.getElementById('splash').classList.add('hide');setTimeout(()=>document.getElementById('splash').remove(),600);},2000);
+function showPage(name,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('page-'+name).classList.add('active');btn.classList.add('active');document.getElementById('content').scrollTo({top:0,behavior:'smooth'});}
+function showMode(name,btn){document.querySelectorAll('.screen-view').forEach(v=>v.classList.remove('active'));document.querySelectorAll('.smt-btn').forEach(b=>b.classList.remove('active'));document.getElementById('mode-'+name).classList.add('active');btn.classList.add('active');}
+function toggleCheck(item){item.classList.toggle('done');item.querySelector('.check-box').textContent=item.classList.contains('done')?'✓':'';updateProgress();if(navigator.vibrate)navigator.vibrate(30);}
+function updateProgress(){const all=document.querySelectorAll('.check-item');const done=document.querySelectorAll('.check-item.done').length;const pct=Math.round(done/all.length*100);document.getElementById('progress-fill').style.width=pct+'%';document.getElementById('progress-text').textContent=done+'/'+all.length;}
+function resetChecklist(){document.querySelectorAll('.check-item').forEach(i=>{i.classList.remove('done');i.querySelector('.check-box').textContent='';});updateProgress();}
 let deferredPrompt=null;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone=window.matchMedia('(display-mode:standalone)').matches||
-                   window.navigator.standalone===true;
-
-if(!isStandalone){
-  if(isIOS){
-    setTimeout(()=>document.getElementById('ios-hint').classList.add('show'),2500);
-  } else {
-    window.addEventListener('beforeinstallprompt',e=>{
-      e.preventDefault(); deferredPrompt=e;
-      setTimeout(()=>document.getElementById('install-banner').classList.add('show'),2500);
-    });
-  }
-}
-
-document.getElementById('install-btn')?.addEventListener('click',async()=>{
-  if(!deferredPrompt)return;
-  deferredPrompt.prompt();
-  const{outcome}=await deferredPrompt.userChoice;
-  if(outcome==='accepted') document.getElementById('install-banner').classList.remove('show');
-  deferredPrompt=null;
-});
-document.getElementById('install-close')?.addEventListener('click',()=>{
-  document.getElementById('install-banner').classList.remove('show');
-});
-
-// ── SERVICE WORKER ───────────────────────────────────────
-if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('./sw.js')
-    .then(()=>{
-      document.getElementById('offline-badge').style.display='block';
-    });
-}
-
-// ── PREVENT BOUNCE (iOS) ─────────────────────────────────
-document.getElementById('content').addEventListener('touchmove',e=>{
-  e.stopPropagation();},{passive:true});
+const isStandalone=window.matchMedia('(display-mode:standalone)').matches||window.navigator.standalone===true;
+if(!isStandalone){if(isIOS){setTimeout(()=>document.getElementById('ios-hint').classList.add('show'),2500);}else{window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;setTimeout(()=>document.getElementById('install-banner').classList.add('show'),2500);});}}
+document.getElementById('install-btn')?.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;if(outcome==='accepted')document.getElementById('install-banner').classList.remove('show');deferredPrompt=null;});
+document.getElementById('install-close')?.addEventListener('click',()=>document.getElementById('install-banner').classList.remove('show'));
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(()=>{document.getElementById('offline-badge').style.display='block';});}
+document.getElementById('content').addEventListener('touchmove',e=>e.stopPropagation(),{passive:true});
 </script>
 </body>
 </html>
